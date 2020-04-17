@@ -23,15 +23,17 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~assets/global.scss'],
+  css: ['~assets/scss/global.scss', 'video.js/dist/video-js.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '~plugins/nuxt-video-player-plugin.js', ssr: false }],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    // Doc: https://github.com/nuxt-community/style-resources-module
+    '@nuxtjs/style-resources',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
@@ -53,6 +55,12 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  /*
+   ** style-resources-module
+   */
+  styleResources: {
+    scss: ['~assets/scss/variables.scss']
+  },
   /*
    ** Build configuration
    */

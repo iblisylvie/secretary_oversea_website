@@ -1,0 +1,12 @@
+
+@include tablet-only {
+  html {
+    font-size: 14px;
+  }
+}
+
+@include mobile {
+  html {
+    font-size: 12px;
+  }
+}

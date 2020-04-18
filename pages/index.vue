@@ -189,6 +189,10 @@ p {
 .wrapper {
   width: 85%;
   margin: 0 auto;
+
+  @include touch {
+    width: 100%;
+  }
 }
 
 .hero {

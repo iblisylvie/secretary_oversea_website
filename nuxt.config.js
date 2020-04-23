@@ -27,7 +27,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~plugins/nuxt-video-player-plugin.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/nuxt-video-player-plugin', ssr: false },
+    { src: '~/plugins/axios' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

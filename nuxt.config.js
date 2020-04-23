@@ -1,3 +1,5 @@
+import { SVG_DIR_FOR_SPRITE_LOADER } from './constants/path'
+
 export default {
   mode: 'universal',
   /**
@@ -35,6 +37,7 @@ export default {
    */
   plugins: [
     { src: '~/plugins/nuxt-video-player-plugin', ssr: false },
+    { src: '~/plugins/svg-icon' },
     { src: '~/plugins/axios' }
   ],
   /*
@@ -77,6 +80,18 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      // set svg-sprite-loader
+      const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
+      svgRule.exclude = [SVG_DIR_FOR_SPRITE_LOADER]
+      config.module.rules.push({
+        test: /\.svg$/,
+        include: [SVG_DIR_FOR_SPRITE_LOADER],
+        loader: 'svg-sprite-loader',
+        options: {
+          symbolId: 'icon-[name]'
+        }
+      })
+    }
   }
 }

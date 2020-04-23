@@ -1,5 +1,20 @@
 <template>
-  <div></div>
+  <section>
+    <b-sidebar :fullheight="true" open>
+      <div class="aside">
+        <div class="aside-logo">
+          <svg-icon icon-class="logo" class-name="aside-logo-shape" />
+        </div>
+        <nuxt-link to="/about" class="aside-menu-item active"
+          >Call History</nuxt-link
+        >
+        <nuxt-link class="aside-menu-item" to="/about">Call History</nuxt-link>
+      </div>
+    </b-sidebar>
+    <section class="main-content">
+      <nuxt />
+    </section>
+  </section>
 </template>
 
 <script>
@@ -17,3 +32,33 @@ export default {
   methods: {}
 }
 </script>
+
+<style lang="scss" scoped>
+.aside {
+  padding: 20px 16px;
+  &-logo {
+    margin: 34px auto 50px;
+    width: 56px;
+    height: 56px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 14px;
+    text-align: center;
+    &-shape {
+      font-size: 36px;
+    }
+  }
+  &-menu-item {
+    display: block;
+    padding: 16px 32px 16px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #717d8b;
+    &.active {
+      border-radius: 8px;
+      background: $aside-menu-active-background;
+      color: #141b24;
+    }
+  }
+}
+</style>

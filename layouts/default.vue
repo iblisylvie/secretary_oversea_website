@@ -76,8 +76,8 @@ export default {
   layout: 'default',
   data() {
     return {
-      login: `${endpoint}/login?lang=en-us&from=secretary-oversea&redirect_url=${process.env.RETURN_URL}`,
-      signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.RETURN_URL}`
+      login: `${endpoint}/login?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}`,
+      signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}`
     }
   }
 }

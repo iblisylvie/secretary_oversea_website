@@ -1,5 +1,11 @@
 export default {
   mode: 'universal',
+  /**
+   * Environment Variable
+   */
+  env: {
+    returnUrl: process.env.RETURN_URL || 'http://test.mobvoi.com'
+  },
   /*
    ** Headers of the page
    */

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-sidebar :fullheight="true" open>
+    <b-sidebar :fullheight="true" open class="aside">
       <div class="aside">
         <div class="aside-logo">
           <svg-icon icon-class="logo" class-name="aside-logo-shape" />
@@ -11,9 +11,9 @@
         <nuxt-link class="aside-menu-item" to="/about">Call History</nuxt-link>
       </div>
     </b-sidebar>
-    <section class="main-content">
+    <main class="main-content">
       <nuxt />
-    </section>
+    </main>
   </section>
 </template>
 
@@ -35,7 +35,9 @@ export default {
 
 <style lang="scss" scoped>
 .aside {
+  height: 100%;
   padding: 20px 16px;
+  background: $sidebar-background;
   &-logo {
     margin: 34px auto 50px;
     width: 56px;
@@ -60,5 +62,14 @@ export default {
       color: #141b24;
     }
   }
+}
+.main-content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding-left: $sidebar-width;
+  background: $main-panel-background;
 }
 </style>

@@ -1,5 +1,5 @@
-@import "~bulma/sass/utilities/initial-variables.sass";
-@import "~bulma/sass/utilities/mixins.sass";
+@import '~bulma/sass/utilities/initial-variables.sass';
+@import '~bulma/sass/utilities/mixins.sass';
 
 /** Variables **/
 $primary: #02aefc;
@@ -7,17 +7,15 @@ $dark: #141b24;
 $light: #717d8b;
 $background: #f5f8fc;
 $body-color: $light;
-$family-sans-serif: 'Muli',
-'-apple-system',
-'Helvetica',
-'Arial',
-sans-serif;
+$family-sans-serif: 'Muli', '-apple-system', 'Helvetica', 'Arial', sans-serif;
 $title-size: 2.5rem;
 $subtitle-size: 1.5rem;
-$sidebar-background: #EFF3F4;
+$aside-menu-active-background: #fff;
+$main-panel-background: #f3f6f8;
+// Variables from buefy
+$sidebar-background: #eff3f4;
 $sidebar-box-shadow: none;
 $sidebar-width: 240px;
-$aside-menu-active-background: #fff;
 
 /** Spacing Helpers **/
 $spaceamounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100);

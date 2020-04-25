@@ -2,6 +2,12 @@ import { SVG_DIR_FOR_SPRITE_LOADER } from './constants/path'
 
 export default {
   mode: 'universal',
+  /**
+   * Environment Variable
+   */
+  env: {
+    returnUrl: process.env.RETURN_URL || 'http://test.mobvoi.com'
+  },
   /*
    ** Headers of the page
    */

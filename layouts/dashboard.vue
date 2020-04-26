@@ -29,7 +29,8 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {},
+  middleware: 'auth'
 }
 </script>
 

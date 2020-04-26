@@ -52,15 +52,21 @@ export default {
     '@nuxtjs/stylelint-module'
   ],
   /*
+   ** Nuxt.js middleware
+   */
+  middleware: ['auth'],
+  /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy',
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    // Doc: https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal-nuxt#readme
+    'cookie-universal-nuxt',
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios'
   ],
   /*
    ** Axios module configuration

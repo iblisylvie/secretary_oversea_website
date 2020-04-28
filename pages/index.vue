@@ -100,23 +100,7 @@
           Everyone Can Have a Personal Assistant
         </h2>
         <div class="wrapper m-b-60">
-          <Testimonial
-            avatar="avatar.png"
-            name="Darlene Flores"
-            content="Unlike your regular voicemail that only has one answer for all, TicMeet has answers for all your callers."
-          />
-          <Testimonial
-            avatar="avatar.png"
-            name="Darlene Flores"
-            color="#dcf0f9"
-            content="Unlike your regular voicemail that only has one answer for all, TicMeet has answers for all your callers."
-          />
-          <Testimonial
-            avatar="avatar.png"
-            name="Darlene Flores"
-            color="#02aefc"
-            content="Unlike your regular voicemail that only has one answer for all, TicMeet has answers for all your callers."
-          />
+          <Testimonials />
         </div>
       </div>
     </section>
@@ -160,12 +144,12 @@
 import Button from '~/components/utils/Button.vue'
 import TextImage from '~/components/landingPage/TextImage.vue'
 import Video from '~/components/landingPage/Video.vue'
-import Testimonial from '~/components/landingPage/Testimonial.vue'
+import Testimonials from '~/components/landingPage/Testimonials.vue'
 import Plans from '~/components/landingPage/Plans.vue'
 
 export default {
   name: 'HomePage',
-  components: { Button, TextImage, Video, Testimonial, Plans }
+  components: { Button, TextImage, Video, Testimonials, Plans }
 }
 </script>
 

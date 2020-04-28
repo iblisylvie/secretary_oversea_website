@@ -28,9 +28,11 @@ export default {
         headers: { ww_token: this.cert }
       })
         .then((response) => {
+          // eslint-disable-next-line
           console.log(response)
         })
         .catch((error) => {
+          // eslint-disable-next-line
           console.log(error)
         })
     }

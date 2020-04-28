@@ -1,4 +1,4 @@
-import { SVG_DIR_FOR_SPRITE_LOADER } from './constants/path'
+import path from 'path'
 
 export default {
   mode: 'universal',
@@ -102,6 +102,7 @@ export default {
      */
     extend(config, ctx) {
       // set svg-sprite-loader
+      const SVG_DIR_FOR_SPRITE_LOADER = path.join(__dirname, 'assets/icons/svg')
       const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
       svgRule.exclude = [SVG_DIR_FOR_SPRITE_LOADER]
       config.module.rules.push({

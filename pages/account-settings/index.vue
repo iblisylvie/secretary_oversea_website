@@ -32,7 +32,7 @@
             <span class="acc-settings-row-value">
               Regina Jones
             </span>
-            <b-input v-model="name" class="acc-settings-row-edit"></b-input>
+            <b-input class="acc-settings-row-edit"></b-input>
           </div>
           <button class="acc-settings-btn">Edit</button>
         </div>
@@ -44,7 +44,7 @@
             <span class="acc-settings-row-value">
               elijah.grant@example.com
             </span>
-            <b-input v-model="name" class="acc-settings-row-edit"></b-input>
+            <b-input class="acc-settings-row-edit"></b-input>
           </div>
           <button class="acc-settings-btn">Change</button>
         </div>

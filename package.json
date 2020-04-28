@@ -40,7 +40,7 @@
     "jest": "^24.1.0",
     "prettier": "^1.19.1",
     "stylelint": "^10.1.0",
-    "svg-sprite-loader": "^4.2.5",
+    "svg-sprite-loader": "^4.2.7",
     "vue-jest": "^4.0.0-0"
   }
 }

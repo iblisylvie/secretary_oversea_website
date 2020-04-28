@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .testimonial {
-  width: 75%;
+  width: 100%;
   background: #f5f8fc;
   border-radius: 2rem;
   margin: 0 auto 2rem;

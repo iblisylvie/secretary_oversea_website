@@ -49,7 +49,7 @@
         </div>
       </template>
       <!-- Bind Number  -->
-      <template v-if="0">
+      <template v-if="false">
         <svg-icon icon-class="phone" class-name="bind-number-icon" />
         <p class="bind-number-ISPS">
           <button class="bind-number-ISPS-btn">
@@ -78,7 +78,7 @@
         </p>
       </template>
       <!-- All Set! -->
-      <template v-if="0">
+      <template v-if="false">
         <svg-icon icon-class="all-set" class-name="all-set-icon" />
         <p class="all-set-congrats">
           You Are Ready to Go!

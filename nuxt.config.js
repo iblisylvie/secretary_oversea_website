@@ -72,7 +72,19 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    proxy: true,
+    credentials: true
+  },
+  proxy: {
+    '/overseas': {
+      target:
+        process.env.NODE_ENV === 'development'
+          ? 'http://106.75.81.82:8434'
+          : 'https://durian.ticwear.com',
+      changeOrigin: true
+    }
+  },
   /*
    ** style-resources-module
    */

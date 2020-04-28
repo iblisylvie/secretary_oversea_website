@@ -1,5 +1,4 @@
-import { get } from 'lodash-es'
-import { BASE_URL } from '~/constants/services'
+import { get, set } from 'lodash-es'
 
 const codeMessage = {
   401: '您的登录信息已过期(401)，请重新登录',
@@ -22,9 +21,18 @@ export default function({ $axios, store, redirect }, inject) {
       }
     }
   })
-  //   axios.onRequest((config) => {
-  //     console.log(config.url)
-  //   })
+  axios.interceptors.request.use(
+    (config) => {
+      const loginCert = get(store, 'state.auth.loginCert', '')
+      if (loginCert) {
+        set(config, 'headers.common.ww_token', loginCert)
+      }
+      return config
+    },
+    (error) => {
+      return Promise.reject(error)
+    }
+  )
   axios.interceptors.response.use(
     (response) => {
       const { data } = response
@@ -43,11 +51,6 @@ export default function({ $axios, store, redirect }, inject) {
       return Promise.reject(get(err, 'response'))
     }
   )
-
-  axios.setBaseURL(BASE_URL)
-
-  // Set baseURL to something different
-  //   axios.setBaseURL('https://my_api.com')
 
   // Inject to context as $api
   inject('axios', axios)

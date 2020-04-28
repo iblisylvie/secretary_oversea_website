@@ -36,7 +36,10 @@
           <span class="acc-setup-form-label">Phone Number</span>
           <div class="acc-setup-form-group">
             <b-input rounded class="acc-setup-form-input"></b-input>
-            <b-button rounded class="acc-setup-form-btn send-code"
+            <b-button
+              rounded
+              class="acc-setup-form-btn send-code"
+              @click="sendCode"
               >Send Code</b-button
             >
           </div>
@@ -100,7 +103,18 @@
 <script>
 export default {
   name: 'GetStart',
-  layout: 'dashboard'
+  layout: 'dashboard',
+  methods: {
+    sendCode() {
+      this.$axios({
+        url: '/overseas/captcha',
+        method: 'GET',
+        params: {
+          phone: '18070260521'
+        }
+      })
+    }
+  }
 }
 </script>
 

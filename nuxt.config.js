@@ -1,4 +1,4 @@
-import { SVG_DIR_FOR_SPRITE_LOADER } from './constants/path'
+import path from 'path'
 
 export default {
   mode: 'universal',
@@ -72,7 +72,19 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    proxy: true,
+    credentials: true
+  },
+  proxy: {
+    '/overseas': {
+      target:
+        process.env.NODE_ENV === 'development'
+          ? 'http://106.75.81.82:8434'
+          : 'https://durian.ticwear.com',
+      changeOrigin: true
+    }
+  },
   /*
    ** style-resources-module
    */
@@ -90,6 +102,7 @@ export default {
      */
     extend(config, ctx) {
       // set svg-sprite-loader
+      const SVG_DIR_FOR_SPRITE_LOADER = path.join(__dirname, 'assets/icons/svg')
       const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
       svgRule.exclude = [SVG_DIR_FOR_SPRITE_LOADER]
       config.module.rules.push({

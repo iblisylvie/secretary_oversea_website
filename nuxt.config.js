@@ -83,6 +83,8 @@ export default {
    ** Build configuration
    */
   build: {
+    // Transpile using babel
+    transpile: ['lodash-es'],
     /*
      ** You can extend webpack config here
      */

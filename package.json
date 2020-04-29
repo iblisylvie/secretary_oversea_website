@@ -1,7 +1,7 @@
 {
-  "name": "TicMeet",
+  "name": "HeyTico",
   "version": "1.0.0",
-  "description": "Frontend for TicMeet",
+  "description": "Frontend for HeyTico",
   "author": "Moozy Studio",
   "private": true,
   "scripts": {

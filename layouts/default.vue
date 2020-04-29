@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div :class="{ variant: variant }">
     <!-- Nav Bar -->
     <b-navbar spaced transparent wrapper-class="container" class="nav-bar">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img src="~assets/images/logo.svg" alt="TicMeet Brand Logo" />
-          <span class="level is-size-4 m-l-10">TicMeet</span>
+          <img src="~assets/images/logo.svg" alt="HeyTico Brand Logo" />
+          <span class="level is-size-4 m-l-10">HeyTico</span>
         </b-navbar-item>
       </template>
 
@@ -22,8 +22,12 @@
         <b-navbar-item tag="router-link" :to="{ path: '/', hash: 'pricing' }">
           Pricing
         </b-navbar-item>
-        <b-navbar-item href="#">FAQ</b-navbar-item>
-        <b-navbar-item href="#">Contact Us</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/faq' }">
+          FAQ
+        </b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/contact' }">
+          Contact Us
+        </b-navbar-item>
         <b-navbar-item v-if="!user" :href="signup">Sign Up</b-navbar-item>
         <b-navbar-item v-if="!user" @click="login">Login</b-navbar-item>
         <b-navbar-item
@@ -66,10 +70,8 @@
               </div>
               <div class="column is-one-half">
                 <h5>Support</h5>
-                <router-link :to="{ path: '/support' }">FAQ</router-link>
-                <router-link :to="{ path: '/support', hash: 'contact' }">
-                  Contact Us
-                </router-link>
+                <router-link :to="{ path: '/faq' }">FAQ</router-link>
+                <router-link :to="{ path: '/contact' }">Contact Us</router-link>
               </div>
             </div>
           </div>
@@ -105,6 +107,15 @@ export default {
     return {
       user: this.$store.getters['auth/loggedIn'],
       signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
+    }
+  },
+  computed: {
+    variant() {
+      return this.$route.matched.map((r) => {
+        return r.components.default.options
+          ? r.components.default.options.layoutVariant
+          : r.components.default.layoutVariant
+      })[0]
     }
   },
   methods: {
@@ -242,6 +253,16 @@ footer {
     @include mobile {
       text-align: left;
     }
+  }
+}
+
+/** for layout with white header and colored background */
+.variant {
+  background: $colored-bg;
+
+  .navbar {
+    background: white;
+    padding: 0;
   }
 }
 </style>

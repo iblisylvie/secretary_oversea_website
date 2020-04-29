@@ -52,20 +52,20 @@ export default {
           avatar: 'avatar.png',
           name: 'Darlene Flores',
           content:
-            'Unlike your regular voicemail that only has one answer for all, TicMeet has answers for all your callers.'
+            'Unlike your regular voicemail that only has one answer for all, HeyTico has answers for all your callers.'
         },
         {
           avatar: 'avatar.png',
           name: 'Darlene Flores',
           content:
-            'TicMeet has answers for all your callers,Unlike your regular voicemail that only has one answer for all,',
+            'HeyTico has answers for all your callers,Unlike your regular voicemail that only has one answer for all,',
           color: '#02aefc'
         },
         {
           avatar: 'avatar.png',
           name: 'Darlene Flores',
           content:
-            'Unlike your regular voicemail that only has one answer for all, TicMeet has answers for all your callers.',
+            'Unlike your regular voicemail that only has one answer for all, HeyTico has answers for all your callers.',
           color: '#ffc658'
         }
       ],

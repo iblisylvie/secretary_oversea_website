@@ -1,6 +1,6 @@
-# TicMeet
+# HeyTico
 
-> Frontend for TicMeet
+> Frontend for HeyTico
 
 ## Build Setup
 

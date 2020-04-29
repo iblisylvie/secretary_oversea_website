@@ -65,7 +65,7 @@
           <TextImage
             title="Different Scenarios, Different Answers"
             sub-title="Unlike your regular voicemail that only has one answer for all,
-                TicMeet has answers for all your callers."
+                HeyTico has answers for all your callers."
             image="icon1.png"
           />
           <TextImage
@@ -76,7 +76,7 @@
           />
           <TextImage
             title="Beyond an Answering Machine"
-            sub-title="From answering with appropriate answers to taking down messages, TicMeet helps you eliminate spam calls and focus more on the calls and messages that matter"
+            sub-title="From answering with appropriate answers to taking down messages, HeyTico helps you eliminate spam calls and focus more on the calls and messages that matter"
             image="icon3.png"
           />
         </div>
@@ -87,7 +87,7 @@
     <section id="how-it-works" class="section video-section">
       <div class="container">
         <h2 class="title m-b-60 has-text-centered">
-          How Does TicMeet Work?
+          How Does HeyTico Work?
         </h2>
         <div class="wrapper m-b-60">
           <div class="video">

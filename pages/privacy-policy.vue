@@ -2,7 +2,7 @@
   <section class="container content">
     <h1 class="title">Privacy Policy</h1>
     <p>
-      Mobvoi built the TicMeet app as a Commercial app. This SERVICE is provided
+      Mobvoi built the HeyTico app as a Commercial app. This SERVICE is provided
       by Mobvoi and is intended for use as is.
     </p>
     <p>
@@ -19,7 +19,7 @@
     </p>
     <p>
       The terms used in this Privacy Policy have the same meanings as in our
-      Terms and Conditions, which is accessible at TicMeet unless otherwise
+      Terms and Conditions, which is accessible at HeyTico unless otherwise
       defined in this Privacy Policy.
     </p>
     <h3>Information Collection and Use</h3>
@@ -131,7 +131,7 @@
     <h3>Contact Us</h3>
     <p>
       If you have any questions or suggestions about our Privacy Policy, do not
-      hesitate to contact us at help@ticmeet.com.
+      hesitate to contact us at help@HeyTico.com.
     </p>
   </section>
 </template>

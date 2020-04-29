@@ -8,7 +8,8 @@
 </template>
 
 <style lang="scss" scoped>
-a {
+a,
+button {
   background-color: $secondary;
   color: $white;
   min-height: 4.5rem;

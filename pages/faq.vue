@@ -5,11 +5,10 @@
 </template>
 
 <script>
-import issues from '~/static/specific-faq.json'
+import issues from '~/static/landing-page-faq.json'
 import Faq from '~/components/app/Faq.vue'
 export default {
-  name: 'Account',
-  layout: 'dashboard',
+  layoutVariant: true,
   components: { Faq },
   asyncData({ params }) {
     return { issues }
@@ -19,8 +18,13 @@ export default {
 
 <style lang="scss" scoped>
 .faqs {
-  padding: 4rem 3rem 0 3rem;
+  padding: 8rem 3rem 4rem;
   width: 80%;
   margin: 0 auto;
+
+  @include mobile {
+    width: 100%;
+    padding: 8rem 1rem 0;
+  }
 }
 </style>

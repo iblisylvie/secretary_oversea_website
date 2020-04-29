@@ -1,4 +1,4 @@
-import { isObject } from 'lodash-es'
+import { isObject, get, remove } from 'lodash-es'
 export default {
   state: () => ({
     // See doc https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
@@ -43,7 +43,7 @@ export default {
     POST_LOGIN_CERT: (state, { loginCert }) => {
       state.loginCert = loginCert
     },
-    POST_USER_INFO: (state, userInfo) => {
+    PUT_USER_INFO: (state, userInfo) => {
       if (!isObject(userInfo)) return
       for (const [prop, value] of Object.entries(userInfo)) {
         if (Object.prototype.hasOwnProperty.call(state, prop)) {
@@ -62,21 +62,34 @@ export default {
         commit('POST_LOGIN_CERT', { loginCert })
         // Fetch user info immediately after login
         await dispatch('FETCH_USER')
+        await dispatch('FETCH_AVAILABLE_ROUTES')
         return
       }
+      // Lead to dashboard call-list route if login after landing page
+      const redirectRoutePath = route.path === '/' ? '/call-list' : route.path
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${env.RETURN_URL}${route.path}`
+        redirect_url: `${env.RETURN_URL}${redirectRoutePath}`
       })
       redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
     },
-    async LOGOUT({ commit }) {
+    async LOGOUT({ commit }, payload) {
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
+      const { env } = payload
       commit('POST_LOGIN_CERT', '')
-      commit('POST_USER_INFO', { wwid: '' })
-      await this.$axios.$get('https://passport.mobvoi.com/pages/logout')
+      commit('PUT_USER_INFO', { wwid: '' })
+      const params = new URLSearchParams({
+        lang: 'en-us',
+        from: 'secretary-oversea',
+        redirect_url: `${env.RETURN_URL}/`
+      })
+      await this.$axios({
+        url: 'https://passport.mobvoi.com/pages/logout',
+        method: 'GET',
+        params
+      })
     },
     async FETCH_USER({ getters, commit }) {
       const hasFetchedUser = getters.hasFetchedUser
@@ -85,9 +98,66 @@ export default {
       }
       const { base_info: baseInfo } = await this.$axios({
         url: 'https://passport.mobvoi.com/v1/api/users/me/info',
-        method: 'get'
+        method: 'GET'
       })
-      commit('POST_USER_INFO', baseInfo)
+      commit('PUT_USER_INFO', baseInfo)
+    },
+    async FETCH_AVAILABLE_ROUTES(store) {
+      const { state, commit, dispatch } = store
+      const routes = [
+        {
+          path: '/get-started',
+          mapToAsideMenu: {
+            order: 1,
+            name: 'Get Started',
+            icon: 'logo'
+          }
+        },
+        {
+          path: '/call-list',
+          mapToAsideMenu: {
+            order: 2,
+            name: 'Call History',
+            icon: 'phone'
+          }
+        },
+        {
+          path: '/customization',
+          mapToAsideMenu: {
+            order: 3,
+            name: 'Customization',
+            icon: 'customization'
+          }
+        },
+        {
+          path: '/premium',
+          mapToAsideMenu: {
+            order: 4,
+            name: 'Premium',
+            icon: 'premium'
+          }
+        },
+        {
+          path: '/mbr-faq',
+          mapToAsideMenu: {
+            order: 5,
+            name: 'MBRFAQ',
+            icon: 'mbr-faq'
+          }
+        },
+        {
+          path: '/account-settings'
+        },
+        {
+          path: '/call-list/:id?'
+        }
+      ]
+      await dispatch('relation/FETCH_RELATION', null, { root: true })
+      const activated = get(state, 'relation.activated')
+      if (activated) {
+        remove(routes, (route) => route.path === '/get-started')
+      }
+      commit('PUT_USER_INFO', { availableRoutes: routes })
     }
   }
 }

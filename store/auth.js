@@ -29,6 +29,13 @@ export default {
      * See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
      */
     loginCert: '',
+
+    /**
+     * {
+     *    path: <String>,
+     *    mapToAsideMenu:? <Object>
+     * }
+     */
     availableRoutes: []
   }),
   getters: {
@@ -56,7 +63,8 @@ export default {
     async LOGIN({ commit, dispatch }, payload) {
       // Lead to Mobvoi login page
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-      const { redirect, env, route } = payload
+      const context = get(this, 'app.context', {})
+      const { redirect, env, route } = context
       const loginCert = this.$cookies.get('ww_token')
       if (loginCert) {
         commit('POST_LOGIN_CERT', { loginCert })
@@ -74,22 +82,19 @@ export default {
       })
       redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
     },
-    async LOGOUT({ commit }, payload) {
+    LOGOUT({ commit }) {
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-      const { env } = payload
       commit('POST_LOGIN_CERT', '')
       commit('PUT_USER_INFO', { wwid: '' })
+      const context = get(this, 'app.context', {})
+      const { redirect, env } = context
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
         redirect_url: `${env.RETURN_URL}/`
       })
-      await this.$axios({
-        url: 'https://passport.mobvoi.com/pages/logout',
-        method: 'GET',
-        params
-      })
+      redirect(`https://passport.mobvoi.com/pages/logout?${params.toString()}`)
     },
     async FETCH_USER({ getters, commit }) {
       const hasFetchedUser = getters.hasFetchedUser
@@ -110,7 +115,7 @@ export default {
           mapToAsideMenu: {
             order: 1,
             name: 'Get Started',
-            icon: 'logo'
+            icon: 'aside-logo'
           }
         },
         {

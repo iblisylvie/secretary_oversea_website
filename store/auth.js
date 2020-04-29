@@ -73,8 +73,9 @@ export default {
         await dispatch('FETCH_AVAILABLE_ROUTES')
         return
       }
-      // Lead to dashboard call-list route if login after landing page
-      const redirectRoutePath = route.path === '/' ? '/call-list' : route.path
+      // Lead to dashboard call-history route if login after landing page
+      const redirectRoutePath =
+        route.path === '/' ? '/call-history' : route.path
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
@@ -118,7 +119,7 @@ export default {
           }
         },
         {
-          path: '/call-list',
+          path: '/call-history',
           mapToAsideMenu: {
             order: 2,
             name: 'Call History',
@@ -153,7 +154,7 @@ export default {
           path: '/account-settings'
         },
         {
-          path: '/call-list/:id?'
+          path: '/call-history/:id?'
         }
       ]
       await dispatch('relation/FETCH_RELATION', null, { root: true })

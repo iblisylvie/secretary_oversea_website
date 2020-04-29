@@ -21,7 +21,7 @@ export default {
     async FETCH_RELATION({ commit }) {
       const relationInfo = await this.$axios({
         url: '/overseas/relation',
-        method: 'get'
+        method: 'GET'
       })
       commit('PUT_RELATION_INFO', relationInfo)
     }

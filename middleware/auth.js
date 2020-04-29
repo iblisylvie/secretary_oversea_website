@@ -1,7 +1,6 @@
-export default async function(context) {
-  const { store } = context
+export default async function({ store }) {
   const loggedIn = store.getters['auth/loggedIn']
   if (!loggedIn) {
-    await store.dispatch('auth/LOGIN', context)
+    await store.dispatch('auth/LOGIN')
   }
 }

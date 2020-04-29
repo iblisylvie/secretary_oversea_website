@@ -56,8 +56,12 @@
                   <router-link :to="{ path: '/', hash: 'pricing' }">
                     Plans
                   </router-link>
-                  <span>Terms of Services</span>
-                  <span>Privacy Policy</span>
+                  <router-link :to="{ path: '/terms-of-services' }">
+                    Terms of Services
+                  </router-link>
+                  <router-link :to="{ path: '/privacy-policy' }">
+                    Privacy Policy
+                  </router-link>
                 </div>
               </div>
               <div class="column is-one-half">

@@ -6,33 +6,71 @@
         <span
           v-for="column in THEAD_COLUMNS"
           :key="column.label"
-          :style="{ flex: column.flexGrow }"
+          :style="{ width: column.flexGrow }"
+          class="call-history-thead-cell"
           >{{ column.label }}</span
         >
       </div>
     </header>
     <section>
       <div class="call-record-card">
-        <button class="call-record-card-ctrl-btn play">
+        <button
+          class="call-record-card-ctrl-btn play"
+          @click="onControlFullVoice"
+        >
           <svg-icon
             icon-class="play"
             class-name="call-record-card-ctrl-btn-shape play"
           />
         </button>
-        <span
-          v-for="column in THEAD_COLUMNS"
-          :key="column.label"
-          :style="{ flex: column.flexGrow }"
-          >{{ column.label }}</span
-        >
+        <div class="call-record-row-card-fields">
+          <span
+            class="call-record-row-card-field"
+            :style="{ width: THEAD_COLUMNS[0].flexGrow }"
+            >{{ detail.phone }}</span
+          >
+          <span
+            class="call-record-row-card-field"
+            :style="{ width: THEAD_COLUMNS[1].flexGrow }"
+            >{{ detail.tags.toString() }}</span
+          >
+          <span
+            class="call-record-row-card-field"
+            :style="{ width: THEAD_COLUMNS[2].flexGrow }"
+            >{{ detail.called_no }}</span
+          >
+          <span
+            class="call-record-row-card-field"
+            :style="{ width: THEAD_COLUMNS[3].flexGrow }"
+            >{{ detail.timestamp | parseToDate }}</span
+          >
+          <span
+            class="call-record-row-card-field"
+            :style="{ width: THEAD_COLUMNS[4].flexGrow }"
+            >{{ detail.timestamp | parseToTime }}</span
+          >
+        </div>
+        <audio
+          ref="fullVoiceAudio"
+          :src="detail.full_voice_url"
+          style="display: none"
+        ></audio>
+        <b-progress type="is-info" :value="80"></b-progress>
       </div>
       <div class="call-record-history">
-        <div class="call-record-history-bubble caller">
-          <svg-icon icon-class="speak" class-name="" />
-          Loren ipsum
-        </div>
-        <div class="call-record-history-bubble callee">
-          Loren ipsum
+        <div>
+          <div
+            v-for="(msg, index) in detail.call_detail"
+            :key="index"
+            class="call-record-history-bubble caller"
+          >
+            <svg-icon icon-class="speak" class-name="" />
+            <audio :src="msg.user_voice_url" style="display:none"></audio>
+            {{ msg.user_query }}
+          </div>
+          <div class="call-record-history-bubble callee">
+            {{ msg.dm_resp }}
+          </div>
         </div>
       </div>
     </section>
@@ -40,33 +78,79 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
   layout: 'dashboard',
   name: 'CallRecord',
+  filters: {
+    parseToDate(val) {
+      return dayjs(val).format('MMM D')
+    },
+    parseToTime(val) {
+      return dayjs(val).format('hh:mm')
+    }
+  },
+  async asyncData({ $axios, params }) {
+    const detail = await $axios({
+      method: 'GET',
+      url: '/overseas/call-detail',
+      params: {
+        id: params.id
+      }
+    })
+    return detail
+  },
   data() {
     return {
       THEAD_COLUMNS: [
         {
-          flexGrow: 13,
+          flexGrow: '13%',
           label: 'Caller'
         },
         {
-          flexGrow: 48,
+          flexGrow: '48%',
           label: 'Type'
         },
         {
-          flexGrow: 15,
+          flexGrow: '15%',
           label: 'My number'
         },
         {
-          flexGrow: 9,
+          flexGrow: '9%',
           label: 'Date'
         },
         {
-          flexGrow: 7,
+          flexGrow: '7%',
           label: 'Time'
         }
-      ]
+      ],
+
+      playFullVoice: false,
+      fullVoiceProgressModel: 0
+    }
+  },
+  created() {
+    this.calcFullVoiceProgress()
+  },
+  methods: {
+    onControlFullVoice() {
+      this.playFullVoice
+        ? this.$refs.fullVoiceAudio.pause()
+        : this.$refs.fullVoiceAudio.play()
+    },
+    calcFullVoiceProgress() {
+      const audio = this.$refs.fullVoiceAudio
+      // let timer = null
+      audio.addEventListener('progress ', () => {
+        // const timer = setInterval(() => {
+        const currentTime = audio.currentTime || 0
+        const duration = audio.duration
+        this.fullVoiceProgressModel = (currentTime / duration) * 100
+        // }, 1000)
+      })
+
+      audio.addEventListener('ended', () => {})
     }
   }
 }
@@ -125,6 +209,16 @@ $table-sticky-header-height: 700px;
       &.pause {
         background: #edf9ff;
       }
+    }
+    &-fields {
+      margin-bottom: 24px;
+      display: flex;
+      flex: 1;
+    }
+    &-field {
+      color: #141b24;
+      font-size: 14px;
+      font-weight: bold;
     }
   }
   &-history {

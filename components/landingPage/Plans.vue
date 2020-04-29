@@ -4,14 +4,10 @@
       <img src="~assets/images/free-plan.png" alt="Free Plan" />
       <h4>Free Plan</h4>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam fringilla
-        tempus.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam fringilla
-        tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam
-        fringilla tempus. Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit. Diam fringilla tempus.
+        Satisfy the basic needs of answering calls. From letting your callers
+        know that you are busy to where to put packages and to refusing spam
+        calls. Accurate, reliable, and always on duty. Ready even when you are
+        not.
       </p>
       <Button tag="router-link" to="/login" text="Start" />
     </article>
@@ -20,19 +16,10 @@
       <img src="~assets/images/premium-plan.png" alt="Premium Plan" />
       <h4>Premium Plan</h4>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam fringilla
-        tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam
-        fringilla tempus.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam fringilla
-        tempus.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam fringilla
-        tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam
-        fringilla tempus. Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit. Diam fringilla tempus.
+        Enjoy all the customizable features you need while reluctantly missing
+        calls. From customizing replies for your contacts and unknown callers to
+        setting your assistant’s voice. Your personal assistant should be this
+        personalized and flexible.
       </p>
       <p class="coming">Coming Soon</p>
     </article>
@@ -59,7 +46,7 @@ export default {
 }
 
 .plan {
-  width: 560px;
+  width: 480px;
   padding: 3.8rem;
   display: flex;
   flex-direction: column;
@@ -110,6 +97,7 @@ export default {
 
   &.free {
     margin-right: -3.6rem;
+    transform: scale(0.9);
 
     h4 {
       color: $primary;
@@ -122,10 +110,13 @@ export default {
     @include mobile {
       margin-right: 0px;
       margin-bottom: 16px;
+      transform: none;
     }
   }
 
   &.premium {
+    z-index: 1;
+
     h4 {
       color: $secondary;
     }

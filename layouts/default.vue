@@ -24,8 +24,15 @@
         </b-navbar-item>
         <b-navbar-item href="#">FAQ</b-navbar-item>
         <b-navbar-item href="#">Contact Us</b-navbar-item>
-        <b-navbar-item :href="signup">Sign Up</b-navbar-item>
-        <b-navbar-item :href="login">Login</b-navbar-item>
+        <b-navbar-item v-if="!user" :href="signup">Sign Up</b-navbar-item>
+        <b-navbar-item v-if="!user" @click="login">Login</b-navbar-item>
+        <b-navbar-item
+          v-if="user"
+          tag="router-link"
+          :to="{ path: '/call-list' }"
+        >
+          Dashboard
+        </b-navbar-item>
       </template>
     </b-navbar>
 
@@ -90,8 +97,13 @@ export default {
   layout: 'default',
   data() {
     return {
-      login: `${endpoint}/login?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}`,
-      signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}`
+      user: this.$store.getters['auth/loggedIn'],
+      signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch('auth/LOGIN')
     }
   }
 }

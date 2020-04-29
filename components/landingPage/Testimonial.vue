@@ -28,7 +28,7 @@ export default {
     },
     color: {
       type: String,
-      default: ''
+      default: 'white'
     }
   }
 }
@@ -45,6 +45,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   color: $dark;
+
+  @include mobile {
+    flex-direction: column;
+    padding: 15px 25px;
+  }
 }
 
 .profile {
@@ -54,10 +59,28 @@ export default {
   justify-content: center;
   align-items: center;
 
+  @include mobile {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 8px;
+
+    figure {
+      width: 48px;
+      height: 48px;
+      margin-right: 20px;
+    }
+  }
+
   span {
     font-size: 0.9rem;
     line-height: 2.2;
     margin-top: 0.75rem;
+
+    @include mobile {
+      margin-top: 0px;
+      font-size: 16px;
+    }
   }
 }
 
@@ -65,5 +88,10 @@ export default {
   width: 75%;
   font-size: 1.375rem;
   line-height: 1.8;
+
+  @include mobile {
+    font-size: 13px;
+    width: 100%;
+  }
 }
 </style>

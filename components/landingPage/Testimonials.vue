@@ -1,8 +1,8 @@
 <template>
-  <div class="testimonial-wrapper">
+  <div v-touch:swipe="goLeft" class="testimonial-wrapper">
     <img
       src="~assets/images/left-arrow.svg"
-      class="arrow left-arrow"
+      class="arrow left-arrow desktop-only"
       alt="Left Arrow"
       @click="goLeft"
     />
@@ -33,7 +33,7 @@
 
     <img
       src="~assets/images/right-arrow.svg"
-      class="arrow right-arrow"
+      class="arrow right-arrow desktop-only"
       alt="Left Arrow"
       @click="goRight"
     />
@@ -57,14 +57,16 @@ export default {
         {
           avatar: 'avatar.png',
           name: 'Darlene Flores',
-          content: 'testimonial No.2',
-          color: '#dcf0f9'
+          content:
+            'TicMeet has answers for all your callers,Unlike your regular voicemail that only has one answer for all,',
+          color: '#02aefc'
         },
         {
           avatar: 'avatar.png',
           name: 'Darlene Flores',
-          content: 'testimonial No.3',
-          color: '#02aefc'
+          content:
+            'Unlike your regular voicemail that only has one answer for all, TicMeet has answers for all your callers.',
+          color: '#ffc658'
         }
       ],
       order: [0, 1, 2]
@@ -103,6 +105,10 @@ export default {
   margin: 0 auto;
   position: relative;
   left: 4%;
+
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .testimonial {

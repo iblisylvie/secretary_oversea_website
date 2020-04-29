@@ -8,15 +8,23 @@
           <span class="level is-size-4 m-l-10">TicMeet</span>
         </b-navbar-item>
       </template>
-      <template slot="start"></template>
 
       <template slot="end">
-        <b-navbar-item href="#">Product</b-navbar-item>
-        <b-navbar-item href="#">How it works</b-navbar-item>
-        <b-navbar-item href="#">Price</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/', hash: 'product' }">
+          Product
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          :to="{ path: '/', hash: 'how-it-works' }"
+        >
+          How it works
+        </b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/', hash: 'pricing' }">
+          Pricing
+        </b-navbar-item>
         <b-navbar-item href="#">FAQ</b-navbar-item>
         <b-navbar-item href="#">Contact Us</b-navbar-item>
-        <b-navbar-item :href="signup" class="gradient">Sign Up</b-navbar-item>
+        <b-navbar-item :href="signup">Sign Up</b-navbar-item>
         <b-navbar-item :href="login">Login</b-navbar-item>
       </template>
     </b-navbar>
@@ -28,44 +36,50 @@
 
     <!-- Footer -->
     <footer class="footer">
+      <div class="bg-shape">
+        <img src="~assets/images/shape-2.png" alt="Footer Shape" />
+      </div>
       <div class="container">
         <div class="wrapper columns">
-          <div class="column is-2">
-            <img src="~assets/images/logo.svg" alt="TicMeet Brand Logo" />
-          </div>
-          <div class="column is-offset-6 is-4">
-            <p>Copyright © 2020 Mobvoi, Inc. <br />All Rights Reserved.</p>
-          </div>
-          <!-- <div class="column is-three-fifths">
-            <div class="columns">
-              <div class="column is-one-third">
+          <div class="column is-three-fifths">
+            <div class="columns mobile-flex">
+              <div class="column is-one-half">
                 <div class="category">
-                  <h5>Product</h5>
-                  <span>How It Works</span>
-                  <span>Plans</span>
+                  <h5>Product & Services</h5>
+                  <router-link :to="{ path: '/', hash: 'pricing' }">
+                    Plans
+                  </router-link>
+                  <span>Terms of Services</span>
+                  <span>Privacy Policy</span>
                 </div>
               </div>
-              <div class="column is-one-third">2</div>
-              <div class="column is-one-third">3</div>
+              <div class="column is-one-half">
+                <h5>Support</h5>
+                <span>FAQ</span>
+                <span>Contact Us</span>
+              </div>
             </div>
           </div>
-          <div class="column is-offset-one-fifth is-one-fifths">
-            <p>Follow Us</p>
-            <a href="facebook.com">
-              <b-icon icon="facebook"></b-icon>
-            </a>
-            <a href="facebook.com">
-              <b-icon icon="twitter"></b-icon>
-            </a>
-            <a href="facebook.com">
+          <div class="column is-offset-one-fifth is-one-fifths community">
+            <h5>Community</h5>
+            <a href="https://www.instagram.com/mobvoi/" target="__blank">
               <b-icon icon="instagram"></b-icon>
             </a>
-            <a href="facebook.com">
-              <b-icon icon="youtube"></b-icon>
+            <a href="https://www.facebook.com/MobvoiTicWatch/" target="__blank">
+              <b-icon icon="facebook"></b-icon>
             </a>
-          </div> -->
+            <a href="https://twitter.com/Mobvoi_Official" target="__blank">
+              <b-icon icon="twitter"></b-icon>
+            </a>
+            <a href="https://www.linkedin.com/company/mobvoi/" target="__blank">
+              <b-icon icon="linkedin"></b-icon>
+            </a>
+          </div>
         </div>
       </div>
+      <p class="copyright">
+        {{ new Date().getFullYear() }} Made with love from © Mobvoi Inc. ♥
+      </p>
     </footer>
   </div>
 </template>
@@ -90,20 +104,126 @@ export default {
   left: 0;
   width: 100%;
   background-color: transparent;
+
+  @include mobile {
+    .navbar-brand {
+      padding: 2rem;
+    }
+  }
 }
 
-.gradient {
-  background: -webkit-linear-gradient(0deg, #0084ff, #34ddff);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/deep/ .navbar-brand {
+  padding: 1rem;
+}
+
+@include mobile {
+  /deep/ .navbar-end {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: scroll;
+    width: 100vw;
+    height: 100vh;
+    background: $colored-bg;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      font-size: 18px;
+      line-height: 48px;
+      color: #141b24;
+    }
+  }
+
+  /deep/ .is-active.navbar-burger {
+    z-index: 999;
+    position: fixed;
+    right: 1rem;
+  }
 }
 
 footer {
-  background: $background;
+  position: relative;
+  background: $colored-bg;
+  padding-bottom: 16px;
+  padding-top: 0;
+  margin-top: 3rem;
+
+  @include mobile {
+    margin-top: 8rem;
+
+    .mobile-flex {
+      display: flex;
+    }
+  }
+
+  .bg-shape {
+    position: absolute;
+    z-index: -2;
+    left: 0;
+    top: -220px;
+
+    @include mobile {
+      top: -80px;
+    }
+  }
 
   .wrapper {
     width: 85%;
     margin: 0 auto;
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  h5 {
+    font-size: 16px;
+    color: $dark;
+    margin-bottom: 25px;
+
+    @include mobile {
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+  }
+
+  a,
+  span {
+    font-size: 14px;
+    color: #59687a;
+    display: block;
+    margin-bottom: 21px;
+
+    @include mobile {
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .community {
+    span.icon {
+      display: inline;
+      color: $dark;
+      margin-right: 12px;
+    }
+
+    a {
+      display: inline;
+    }
+  }
+
+  p.copyright {
+    text-align: center;
+    margin-top: 32px;
+
+    @include mobile {
+      text-align: left;
+    }
   }
 }
 </style>

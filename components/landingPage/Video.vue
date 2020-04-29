@@ -44,6 +44,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .video-js:hover {
+  .vjs-big-play-button {
+    background: $secondary;
+  }
+}
+
 /deep/ .vjs-big-play-button {
   width: 5rem;
   height: 5rem;
@@ -53,12 +59,18 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  background: $secondary;
+  border: none;
 
   .vjs-icon-placeholder {
     font-size: 4rem;
 
     &::before {
       top: 1rem;
+
+      @include mobile {
+        top: 0.7rem;
+      }
     }
   }
 }

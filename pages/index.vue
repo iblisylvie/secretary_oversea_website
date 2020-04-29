@@ -1,15 +1,19 @@
 <template>
   <div class="landing-page">
     <!-- HERO HEADING -->
-    <section class="hero is-fullheight">
-      <div class="hero-body container">
+    <section class="top-banner">
+      <div class="banner-shape desktop-only">
+        <img src="~assets/images/banner_shape.png" alt="shape" />
+      </div>
+      <div class="banner-image mobile-only">
+        <img src="~assets/images/mobile-bg.png" alt="Illustrations" />
+      </div>
+      <div class="banner-body container">
         <div class="columns is-centered wrapper">
           <div class="column is-three-fifths">
-            <h1 class="title is-spaced m-b-35">
-              Your personal assistant for answering unwanted calls
-            </h1>
+            <Slogan />
             <h2 class="subtitle m-b-70">
-              The future of call forwarding with TicMeet’s AI-powered phone
+              The future of call forwarding with HeyTico’s AI-powered phone
               assistant.
             </h2>
             <Button
@@ -19,7 +23,7 @@
               sub-text="It's free"
             />
           </div>
-          <div class="column messager">
+          <div class="column is-two-fifths messager">
             <img src="~assets/images/messager.png" alt="Illustrations" />
           </div>
         </div>
@@ -27,21 +31,21 @@
     </section>
 
     <!-- PRODUCT SECTION -->
-    <section class="section is-medium">
+    <section id="product" class="section is-medium">
       <div class="container">
         <div class="columns wrapper">
           <div class="column is-two-fifths">
             <img
-              src="~assets/images/logo_grey.png"
+              src="~assets/images/logo_shadow.png"
               alt="Logo"
-              style="width: 256px;"
+              class="product-logo"
             />
           </div>
           <div class="column">
-            <h2 class="title m-b-25 is-spaced">
+            <h2 class="title m-b-25 is-spaced has-text-centered-mobile">
               Is voicemail the only place for missed calls?
             </h2>
-            <h5 class="subtitle">
+            <h5 class="subtitle has-text-centered-mobile">
               Whether you are busy or do not want to answer a call, your
               personal assistant can help you answer your call anywhere,
               anytime, with the appropriate answer.
@@ -80,7 +84,7 @@
     </section>
 
     <!-- HOW IT WORKS SECTION -->
-    <section class="section">
+    <section id="how-it-works" class="section video-section">
       <div class="container">
         <h2 class="title m-b-60 has-text-centered">
           How Does TicMeet Work?
@@ -90,6 +94,9 @@
             <Video />
           </div>
         </div>
+      </div>
+      <div class="shape-1">
+        <img src="~assets/images/shape-1.png" alt="shape" />
       </div>
     </section>
 
@@ -106,7 +113,7 @@
     </section>
 
     <!-- PRICE SECTION -->
-    <section class="section">
+    <section id="pricing" class="section pricing-section">
       <div class="container">
         <h2 class="title m-b-60 has-text-centered">
           Plans and Pricing
@@ -142,6 +149,7 @@
 
 <script>
 import Button from '~/components/utils/Button.vue'
+import Slogan from '~/components/landingPage/Slogan.vue'
 import TextImage from '~/components/landingPage/TextImage.vue'
 import Video from '~/components/landingPage/Video.vue'
 import Testimonials from '~/components/landingPage/Testimonials.vue'
@@ -149,11 +157,12 @@ import Plans from '~/components/landingPage/Plans.vue'
 
 export default {
   name: 'HomePage',
-  components: { Button, TextImage, Video, Testimonials, Plans }
+  components: { Button, Slogan, TextImage, Video, Testimonials, Plans }
 }
 </script>
 
 <style lang="scss" scoped>
+/* Reset Style for Landing Page only */
 .subtitle,
 h1,
 h2,
@@ -164,6 +173,40 @@ h6,
 span,
 p {
   line-height: 1.6;
+}
+
+@include mobile {
+  h1 {
+    font-size: 19px;
+    line-height: 32px;
+  }
+
+  h2 {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  h4,
+  h5,
+  p,
+  span {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .column {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  section {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .title.m-b-60 {
+    margin-bottom: 20px !important;
+  }
 }
 
 .landing-page {
@@ -179,16 +222,60 @@ p {
   }
 }
 
-.hero {
-  background: $background;
+.top-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: $white;
 
-  h1 {
-    line-height: 1.3;
+  @include mobile {
+    min-height: inherit;
+    flex-direction: column;
+
+    .subtitle {
+      margin-bottom: 1.5rem !important;
+    }
+  }
+
+  .banner-shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .banner-body {
+    width: 85%;
+    @include mobile {
+      width: 80%;
+
+      .wrapper {
+        margin-top: -3rem;
+      }
+    }
   }
 
   .messager {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    transform: scale(1.2);
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+.product-logo {
+  width: 325px;
+
+  @include mobile {
+    width: 88px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: -1rem;
   }
 }
 
@@ -198,13 +285,40 @@ p {
   margin-right: auto;
 }
 
+.video-section {
+  position: relative;
+
+  .shape-1 {
+    position: absolute;
+    z-index: -2;
+    bottom: -30rem;
+    left: 0;
+  }
+
+  @include mobile {
+    margin-top: -3rem;
+
+    .shape-1 {
+      bottom: -15rem;
+    }
+  }
+}
+
 .video {
   width: 70%;
   margin: 0 auto;
 
+  @include mobile {
+    width: 100%;
+  }
+
   video {
     width: 100%;
   }
+}
+
+.pricing-section {
+  margin-top: -8rem;
 }
 
 .CTA {

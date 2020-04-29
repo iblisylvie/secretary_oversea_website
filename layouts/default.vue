@@ -66,8 +66,10 @@
               </div>
               <div class="column is-one-half">
                 <h5>Support</h5>
-                <span>FAQ</span>
-                <span>Contact Us</span>
+                <router-link :to="{ path: '/support' }">FAQ</router-link>
+                <router-link :to="{ path: '/support', hash: 'contact' }">
+                  Contact Us
+                </router-link>
               </div>
             </div>
           </div>

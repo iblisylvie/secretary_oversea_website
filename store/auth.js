@@ -107,8 +107,7 @@ export default {
       })
       commit('PUT_USER_INFO', baseInfo)
     },
-    async FETCH_AVAILABLE_ROUTES(store) {
-      const { state, commit, dispatch } = store
+    async FETCH_AVAILABLE_ROUTES({ state, commit, dispatch, rootState }) {
       const routes = [
         {
           path: '/get-started',
@@ -146,7 +145,7 @@ export default {
           path: '/mbr-faq',
           mapToAsideMenu: {
             order: 5,
-            name: 'MBRFAQ',
+            name: 'FAQ',
             icon: 'mbr-faq'
           }
         },
@@ -158,7 +157,7 @@ export default {
         }
       ]
       await dispatch('relation/FETCH_RELATION', null, { root: true })
-      const activated = get(state, 'relation.activated')
+      const activated = get(rootState, 'relation.activated')
       if (activated) {
         remove(routes, (route) => route.path === '/get-started')
       }

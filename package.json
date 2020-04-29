@@ -23,7 +23,8 @@
     "nuxt": "^2.0.0",
     "nuxt-buefy": "^0.3.2",
     "sass-loader": "^8.0.2",
-    "vue-video-player": "^5.0.2"
+    "vue-video-player": "^5.0.2",
+    "vue2-touch-events": "^2.2.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",

@@ -38,7 +38,8 @@ export default {
   plugins: [
     { src: '~/plugins/nuxt-video-player-plugin', ssr: false },
     { src: '~/plugins/svg-icon' },
-    { src: '~/plugins/axios' }
+    { src: '~/plugins/axios' },
+    { src: '~/plugins/vue-touch', ssr: false }
   ],
   /*
    ** Nuxt.js dev-modules

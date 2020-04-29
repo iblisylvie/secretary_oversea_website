@@ -1,3 +1,6 @@
+.mobile-only {
+  display: none;
+}
 
 @include tablet-only {
   html {
@@ -8,5 +11,13 @@
 @include mobile {
   html {
     font-size: 12px;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
   }
 }

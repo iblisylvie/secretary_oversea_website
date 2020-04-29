@@ -9,18 +9,27 @@
 
 <style lang="scss" scoped>
 a {
-  background-color: $primary;
+  background-color: $secondary;
   color: $white;
+  min-height: 4.5rem;
   font-size: 1.5rem;
   font-weight: bold;
   line-height: 3.7rem;
   padding: 0.5rem 2.5rem;
   border-radius: 2.2rem;
 
+  @include mobile {
+    min-height: 4rem;
+  }
+
   small {
     font-size: 1.12rem;
-    color: #dcf0f9;
+    color: rgba(255, 255, 255, 0.65);
     margin-left: 0.5rem;
+  }
+
+  &:hover {
+    color: $white;
   }
 }
 </style>

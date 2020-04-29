@@ -3,9 +3,11 @@
 
 /** Variables **/
 $primary: #02aefc;
+$secondary: #ffc658;
 $dark: #141b24;
 $light: #717d8b;
 $background: #f5f8fc;
+$colored-bg: #eff5fc;
 $body-color: $light;
 $family-sans-serif: 'Muli', '-apple-system', 'Helvetica', 'Arial', sans-serif;
 $title-size: 2.5rem;
@@ -24,11 +26,11 @@ $sides: (top, bottom, left, right);
 @each $space in $spaceamounts {
   @each $side in $sides {
     .m-#{str-slice($side, 0, 1)}-#{$space} {
-      margin-#{$side}: #{$space}px !important;
+      margin-#{$side}: #{$space}px;
     }
 
     .p-#{str-slice($side, 0, 1)}-#{$space} {
-      padding-#{$side}: #{$space}px !important;
+      padding-#{$side}: #{$space}px;
     }
   }
 }

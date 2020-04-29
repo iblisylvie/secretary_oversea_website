@@ -40,7 +40,7 @@ export default {
   }),
   getters: {
     loggedIn: (state) => {
-      return Boolean(state.loginCert)
+      return Boolean(state.loginCert || this.$cookies.get('ww_token'))
     },
     hasFetchedUser: (state) => {
       return Boolean(state.wwid)
@@ -60,7 +60,7 @@ export default {
     }
   },
   actions: {
-    async LOGIN({ commit, dispatch }, payload) {
+    async LOGIN({ commit, dispatch }) {
       // Lead to Mobvoi login page
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       const context = get(this, 'app.context', {})

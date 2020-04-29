@@ -317,8 +317,10 @@ p {
   }
 }
 
-.pricing-section {
-  margin-top: -8rem;
+@include mobile {
+  .pricing-section {
+    margin-top: -8rem;
+  }
 }
 
 .CTA {

@@ -1,41 +1,37 @@
 <template>
   <section class="get-start">
     <div class="steps">
-      <div class="step">
-        <div class="step-head is-process">
+      <div
+        v-for="(step, index) of steps"
+        :key="index"
+        class="step"
+        :class="[activeStep === index ? 'is-process' : '']"
+      >
+        <div class="step-head">
           <div class="step-line"></div>
           <div class="step-text">
-            <div class="step-text-inner">1</div>
+            <div class="step-text-inner">{{ index + 1 }}</div>
           </div>
         </div>
         <div class="step-main">
-          <div class="step-title is-process">Account Setup</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-head is-process">
-          <div class="step-line" style="margin-right: 0px;"></div>
-          <div class="step-text">
-            <div class="step-text-inner">2</div>
-          </div>
-        </div>
-        <div class="step-main">
-          <div class="step-title is-process" data-text="Account Setup">
-            Account Setup
-          </div>
+          <div class="step-title">{{ step }}</div>
         </div>
       </div>
     </div>
 
     <main class="get-start-main">
       <!-- Account Setup  -->
-      <template>
+      <template v-if="activeStep === 0">
         <svg-icon icon-class="acc-setup" class-name="acc-setup-icon" />
         <p class="acc-setup-tip">No Registed Phone</p>
         <div class="acc-setup-form-row">
           <span class="acc-setup-form-label">Phone Number</span>
           <div class="acc-setup-form-group">
-            <b-input rounded class="acc-setup-form-input"></b-input>
+            <b-input
+              v-model="phoneModel"
+              rounded
+              class="acc-setup-form-input"
+            ></b-input>
             <b-button
               rounded
               class="acc-setup-form-btn send-code"
@@ -47,12 +43,16 @@
         <div class="acc-setup-form-row">
           <span class="acc-setup-form-label">Verification Code</span>
           <div class="acc-setup-form-group">
-            <b-input rounded class="acc-setup-form-input"></b-input>
+            <b-input
+              v-model="captchaModel"
+              rounded
+              class="acc-setup-form-input"
+            ></b-input>
           </div>
         </div>
       </template>
       <!-- Bind Number  -->
-      <template v-if="false">
+      <template v-if="activeStep === 1">
         <svg-icon icon-class="phone" class-name="bind-number-icon" />
         <p class="bind-number-ISPS">
           <button class="bind-number-ISPS-btn">
@@ -81,7 +81,7 @@
         </p>
       </template>
       <!-- All Set! -->
-      <template v-if="false">
+      <template v-if="activeStep === 2">
         <svg-icon icon-class="all-set" class-name="all-set-icon" />
         <p class="all-set-congrats">
           You Are Ready to Go!
@@ -95,7 +95,9 @@
           please refer to FAQ or contact us.
         </p>
       </template>
-      <b-button rounded class="acc-setup-nav-btn">Continue</b-button>
+      <b-button rounded class="acc-setup-nav-btn" @click="onContinue"
+        >Continue</b-button
+      >
     </main>
   </section>
 </template>
@@ -104,6 +106,12 @@
 export default {
   name: 'GetStart',
   layout: 'dashboard',
+  data: () => ({
+    steps: ['Account Setup', 'Bind Number', 'All Set!'],
+    activeStep: 0,
+    phoneModel: '',
+    captchaModel: ''
+  }),
   methods: {
     sendCode() {
       this.$axios({
@@ -113,6 +121,23 @@ export default {
           phone: '18070260521'
         }
       })
+    },
+    async onContinue() {
+      if (this.activeStep === 2) return
+      if (this.activeStep === 0) {
+        await this.$axios({
+          method: 'POST',
+          url: '/overseas/relation/phone',
+          data: {
+            phone: this.phoneModel,
+            captcha: this.captchaModel
+          }
+        })
+      }
+      if (this.activeStep === 1) {
+        // @TODO
+      }
+      this.activeStep++
     }
   }
 }
@@ -246,13 +271,22 @@ export default {
   flex-shrink: 1;
   flex-basis: 50%;
   margin-right: 0px;
+  &.is-process {
+    & .step-text {
+      background: linear-gradient(90deg, #00a3ff 3.65%, #335ffe 85.2%);
+    }
+    & .step-title {
+      background-image: linear-gradient(90deg, #00a3ff 3.65%, #335ffe 85.2%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
   &-head {
     position: relative;
     width: 100%;
     text-align: center;
     color: #fff;
-    &.is-process {
-    }
   }
   &-line {
     margin: 0 30px;
@@ -278,7 +312,7 @@ export default {
     height: 24px;
     font-size: 14px;
     box-sizing: border-box;
-    background: linear-gradient(90deg, #00a3ff 3.65%, #335ffe 85.2%);
+    background: #59687a;
     transition: 0.15s ease-out;
     border-radius: 50%;
     border-color: inherit;
@@ -298,10 +332,7 @@ export default {
     font-weight: 600;
   }
   &-title {
-    background-image: linear-gradient(90deg, #00a3ff 3.65%, #335ffe 85.2%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #59687a;
   }
 }
 </style>

@@ -31,7 +31,7 @@
     </section>
 
     <!-- PRODUCT SECTION -->
-    <section id="product" class="section is-medium">
+    <section id="product" class="section">
       <div class="container">
         <div class="columns wrapper">
           <div class="column is-two-fifths">
@@ -103,7 +103,7 @@
     <!-- TESTIMONIAL SECTION -->
     <section class="section">
       <div class="container">
-        <h2 class="title m-b-60 has-text-centered">
+        <h2 class="title m-b-60 has-text-centered inverse-color">
           Everyone Can Have a Personal Assistant
         </h2>
         <div class="wrapper m-b-60">
@@ -214,10 +214,11 @@ p {
 }
 
 .wrapper {
-  width: 85%;
+  width: 80%;
   margin: 0 auto;
 
   @include touch {
+    width: 85%;
     width: 100%;
   }
 }
@@ -230,11 +231,16 @@ p {
   width: 100%;
   background: $white;
 
+  .subtitle {
+    color: $colored-bg;
+  }
+
   @include mobile {
     min-height: inherit;
     flex-direction: column;
 
     .subtitle {
+      color: #59687a;
       margin-bottom: 1.5rem !important;
     }
   }
@@ -247,6 +253,7 @@ p {
 
   .banner-body {
     width: 85%;
+
     @include mobile {
       width: 80%;
 
@@ -299,7 +306,7 @@ p {
     margin-top: -3rem;
 
     .shape-1 {
-      bottom: -15rem;
+      bottom: -13rem;
     }
   }
 }
@@ -321,6 +328,10 @@ p {
   .pricing-section {
     margin-top: -8rem;
   }
+}
+
+.inverse-color {
+  color: $white;
 }
 
 .CTA {

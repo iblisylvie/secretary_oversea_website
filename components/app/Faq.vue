@@ -47,6 +47,8 @@ article {
   align-items: center;
   cursor: pointer;
   margin-bottom: 2rem;
+  z-index: 2;
+  position: relative;
 
   @include mobile {
     padding: 2rem 1.5rem;

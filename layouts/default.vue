@@ -48,7 +48,16 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="bg-shape">
-        <img src="~assets/images/shape-2.png" alt="Footer Shape" />
+        <img
+          src="~assets/images/shape-2.png"
+          alt="Footer Shape"
+          class="desktop-only"
+        />
+        <img
+          src="~assets/images/shape-2-mobile.png"
+          alt="Footer Shape"
+          class="mobile-only"
+        />
       </div>
       <div class="container">
         <div class="wrapper columns">
@@ -141,6 +150,14 @@ export default {
   }
 }
 
+/deep/ .navbar-item {
+  color: $colored-bg;
+
+  &:hover {
+    color: $colored-bg;
+  }
+}
+
 /deep/ .navbar-brand {
   padding: 1rem;
 }
@@ -168,22 +185,34 @@ export default {
     }
   }
 
+  /deep/ .navbar-burger span {
+    background-color: $colored-bg;
+    transition: background-color 0.5s;
+  }
+
   /deep/ .is-active.navbar-burger {
     z-index: 999;
     position: fixed;
     right: 1rem;
+
+    span {
+      background-color: $dark;
+    }
   }
 }
 
 footer {
+  background: transparent;
   position: relative;
-  background: $colored-bg;
   padding-bottom: 16px;
-  padding-top: 0;
-  margin-top: 3rem;
+  overflow: hidden;
+  padding-top: 16rem;
+  margin-top: -3rem;
+  z-index: 1;
 
   @include mobile {
-    margin-top: 8rem;
+    margin-top: 0rem;
+    padding-top: 8rem;
 
     .mobile-flex {
       display: flex;
@@ -194,10 +223,11 @@ footer {
     position: absolute;
     z-index: -2;
     left: 0;
-    top: -220px;
+    top: -180px;
 
     @include mobile {
-      top: -80px;
+      top: 0;
+      bottom: 0;
     }
   }
 
@@ -212,7 +242,7 @@ footer {
 
   h5 {
     font-size: 16px;
-    color: $dark;
+    color: $white;
     margin-bottom: 25px;
 
     @include mobile {
@@ -224,7 +254,7 @@ footer {
   a,
   span {
     font-size: 14px;
-    color: #59687a;
+    color: $colored-bg;
     display: block;
     margin-bottom: 21px;
 
@@ -237,7 +267,7 @@ footer {
   .community {
     span.icon {
       display: inline;
-      color: $dark;
+      color: $colored-bg;
       margin-right: 12px;
     }
 
@@ -249,6 +279,7 @@ footer {
   p.copyright {
     text-align: center;
     margin-top: 32px;
+    color: $colored-bg;
 
     @include mobile {
       text-align: left;
@@ -263,6 +294,22 @@ footer {
   .navbar {
     background: white;
     padding: 0;
+
+    /deep/ .navbar-item {
+      color: $dark;
+    }
+
+    /deep/ .nuxt-link-exact-active {
+      color: $primary;
+    }
+
+    /deep/ .navbar-burger span {
+      background-color: $dark;
+    }
+  }
+
+  footer {
+    margin-top: -5rem;
   }
 }
 </style>

@@ -41,20 +41,23 @@ export default {
 <style lang="scss" scoped>
 h1 {
   line-height: 1.3;
+  color: $white;
 }
 
 .hightlight {
-  background: $white;
+  background: #1465db;
+  border-radius: 4px;
   padding: 0 5px;
-
-  @include mobile {
-    background: $colored-bg;
-  }
 }
 
 @include mobile {
   .title {
     margin-bottom: 1rem !important;
+    color: $dark;
+  }
+
+  .hightlight {
+    background: $colored-bg;
   }
 }
 

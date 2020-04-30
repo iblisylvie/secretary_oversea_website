@@ -47,6 +47,8 @@ export default {
   top: 8rem;
   margin-bottom: 15rem;
   border-radius: 8px;
+  position: relative;
+  z-index: 2;
 
   @include mobile {
     min-width: 0px;

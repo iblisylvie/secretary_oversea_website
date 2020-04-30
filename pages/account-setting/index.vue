@@ -10,7 +10,7 @@
       >
         {{ nav }}
       </nav>
-      <nuxt-link to="/" class="acc-settings-nav">Support </nuxt-link>
+      <nuxt-link to="/mbr-faq" class="acc-settings-nav">Support</nuxt-link>
     </header>
     <section class="acc-settings-card">
       <!-- Profile  -->

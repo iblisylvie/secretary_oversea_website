@@ -22,5 +22,7 @@ export default {
   padding: 4rem 3rem 0 3rem;
   width: 80%;
   margin: 0 auto;
+  max-height: 95vh;
+  overflow: scroll;
 }
 </style>

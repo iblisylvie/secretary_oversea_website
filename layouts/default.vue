@@ -33,7 +33,7 @@
         <b-navbar-item
           v-if="user"
           tag="router-link"
-          :to="{ path: '/call-list' }"
+          :to="{ path: '/call-history' }"
         >
           Dashboard
         </b-navbar-item>
@@ -105,7 +105,7 @@ export default {
   layout: 'default',
   data() {
     return {
-      user: false,
+      user: this.$store.getters['auth/loggedIn'],
       signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
     }
   },

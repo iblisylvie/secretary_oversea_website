@@ -2,33 +2,40 @@
   <div class="plans">
     <div class="plan content">
       <img src="~assets/images/free-plan.png" alt="Free Plan" />
-      <h4>Free Plan</h4>
-      <p>
-        Enjoy all the customizable features you need while reluctantly missing
-        calls. From customizing replies for your contacts and unknown callers to
-        setting your assistant’s voice. Your personal assistant should be this
-        personalized and flexible.
-      </p>
+      <h5>Free Plan</h5>
+      <div class="content">
+        <DotText text="Call Answering" />
+        <DotText text="Choose Your Voice - 4 voices" />
+        <DotText text="Service 1 Number" />
+      </div>
     </div>
 
     <div class="plan content">
       <img src="~assets/images/premium-plan.png" alt="Premium Plan" />
-      <h4>Premium Plan</h4>
-      <p>
-        Enjoy all the customizable features you need while reluctantly missing
-        calls. From customizing replies for your contacts and unknown callers to
-        setting your assistant’s voice. Your personal assistant should be this
-        personalized and flexible.
-      </p>
+      <h5>Premium Plan</h5>
+      <div class="content">
+        <DotText premium text="Call Answering" />
+        <DotText premium text="Choose Your Voice - 6 voices" />
+        <DotText premium text="Change Your Name" />
+        <DotText premium text="Change Your HeyTico Assistant’s Name" />
+        <DotText premium text="Set You Opening Remarks" />
+        <DotText premium text="Set Replies For Your Contacts" />
+        <DotText premium text="Set Specific Replies" />
+        <DotText premium text="Set Your Refusal Replies" />
+        <DotText premium text="Servicing Multiple Numbers" />
+      </div>
       <p class="coming">Coming Soon</p>
     </div>
   </div>
 </template>
 
 <script>
+import DotText from '~/components/app/DotText.vue'
+
 export default {
   name: 'Premium',
-  layout: 'dashboard'
+  layout: 'dashboard',
+  components: { DotText }
 }
 </script>
 
@@ -36,13 +43,14 @@ export default {
 .plans {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 100%;
+  align-items: flex-start;
   width: 100%;
+  margin-top: 3rem;
   padding: 0 5rem;
 
   @include mobile {
     flex-direction: column;
+    padding: 0 1.5rem;
   }
 }
 
@@ -59,7 +67,7 @@ export default {
   border-radius: 1rem;
 
   @include mobile {
-    width: 90%;
+    width: 100%;
     padding: 24px 30px;
     border-radius: 1rem;
   }
@@ -73,50 +81,26 @@ export default {
     }
   }
 
-  h4 {
-    font-size: 2.2rem;
-    line-height: 1.5;
+  h5 {
+    font-size: 1.5rem;
+    line-height: 2;
     font-weight: bold;
-    margin-bottom: 1.5rem;
-  }
-
-  p {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    opacity: 0.7;
-    text-align: left;
-  }
-
-  &.free {
-    h4 {
-      color: $primary;
-    }
-
-    a {
-      background: $primary;
-    }
+    margin-bottom: 2rem;
 
     @include mobile {
-      margin-bottom: 16px;
+      font-size: 2rem;
+      line-height: 2.5;
     }
   }
 
-  &.premium {
-    z-index: 1;
+  .content {
+    width: 80%;
+  }
 
-    h4 {
-      color: $secondary;
-    }
-
-    p {
-      opacity: 0.7;
-    }
-
-    .coming {
-      color: $secondary;
-      margin-top: 3rem;
-      text-align: center;
-    }
+  .coming {
+    color: $secondary;
+    font-weight: bold;
+    text-align: center;
   }
 }
 </style>

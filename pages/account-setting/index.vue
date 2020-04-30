@@ -1,52 +1,63 @@
 <template>
   <section class="acc-settings">
     <header class="acc-settings-navs">
-      <nav class="acc-settings-nav active">
-        Profile
+      <nav
+        v-for="(nav, index) of navs"
+        :key="index"
+        class="acc-settings-nav"
+        :class="{ active: index === activeNav }"
+        @click="activeNav = index"
+      >
+        {{ nav }}
       </nav>
-      <nav class="acc-settings-nav">
-        subs
-      </nav>
-      <nav class="acc-settings-nav">
-        Servicing Number
-      </nav>
-      <nav class="acc-settings-nav">
-        Got Any Feedback?
-      </nav>
-      <nav class="acc-settings-nav">
-        Support
-      </nav>
+      <nuxt-link to="/" class="acc-settings-nav">Support </nuxt-link>
     </header>
     <section class="acc-settings-card">
       <!-- Profile  -->
-      <template>
+      <template v-if="activeNav === 0">
         <div class="acc-settings-row">
           <img src="" class="acc-settings-row-avatar" alt="avatar" />
           <button class="acc-settings-btn">Upload</button>
+          <input type="file" style="display: none;" />
         </div>
         <div class="acc-settings-row">
           <div class="acc-settings-row-prop">
             <span class="acc-settings-row-label">
               Name
             </span>
-            <span class="acc-settings-row-value">
+            <span v-show="!editingName" class="acc-settings-row-value">
               Regina Jones
             </span>
-            <b-input class="acc-settings-row-edit"></b-input>
+            <b-input
+              v-show="editingName"
+              :value="nameModel"
+              class="acc-settings-row-edit"
+            ></b-input>
           </div>
-          <button class="acc-settings-btn">Edit</button>
+          <button class="acc-settings-btn" @click="editingName = !editingName">
+            {{ editingName ? 'Done' : 'Edit' }}
+          </button>
         </div>
         <div class="acc-settings-row">
           <div class="acc-settings-row-prop">
             <span class="acc-settings-row-label">
               Email
             </span>
-            <span class="acc-settings-row-value">
+            <span v-show="!editingEmail" class="acc-settings-row-value">
               elijah.grant@example.com
             </span>
-            <b-input class="acc-settings-row-edit"></b-input>
+            <b-input
+              v-show="editingEmail"
+              :value="emailModel"
+              class="acc-settings-row-edit"
+            ></b-input>
           </div>
-          <button class="acc-settings-btn">Change</button>
+          <button
+            class="acc-settings-btn"
+            @click="editingEmail = !editingEmail"
+          >
+            {{ editingEmail ? 'Done' : 'Change' }}
+          </button>
         </div>
         <div class="acc-settings-row">
           <div class="acc-settings-row-prop">
@@ -58,7 +69,7 @@
         <div class="acc-settings-row">
           <div class="acc-settings-row-prop">
             <b-checkbox
-              :value="true"
+              :value="emailPreferenceModel"
               type="is-info"
               class="acc-settings-row-checkbox"
             >
@@ -74,7 +85,7 @@
         </div>
       </template>
       <!-- Subscription  -->
-      <template>
+      <template v-if="activeNav === 1">
         <p class="acc-settings-subs-row plan">Free Plan</p>
         <div class="acc-settings-subs-row">
           <button class="acc-settings-btn">Downgrade</button>
@@ -92,7 +103,7 @@
         </p>
       </template>
       <!-- Servicing Number  -->
-      <template>
+      <template v-if="activeNav === 2">
         <p class="acc-settings-svc-num">
           (907) 555-0101
         </p>
@@ -101,16 +112,19 @@
         </p>
       </template>
       <!-- Got any feedback ? -->
-      <template>
+      <template v-if="activeNav === 3">
         <b-input
+          :value="emailModel"
           class="acc-settings-got-feedback"
           type="textarea"
           placeholder="write your feedback here"
         ></b-input>
-        <b-button class="acc-settings-update" rounded>Send</b-button>
+        <b-button class="acc-settings-update" rounded @click="sendFeedback"
+          >Send</b-button
+        >
       </template>
       <!-- Support  -->
-      <template> </template>
+      <!-- <template> </template> -->
     </section>
   </section>
 </template>
@@ -118,7 +132,31 @@
 <script>
 export default {
   name: 'AccountSettings',
-  layout: 'dashboard'
+  layout: 'dashboard',
+  data: () => ({
+    navs: ['Profile', 'Subscription', 'Servicing Number', 'Got Any Feedback?'],
+    activeNav: 0,
+
+    emailPreferenceModel: true,
+    editingName: false,
+    editingEmail: false,
+    feedbackModel: '',
+    nameModel: '',
+    emailModel: ''
+  }),
+  methods: {
+    async sendFeedback() {
+      await this.$axios({
+        method: 'POST',
+        url: '/overseas/feedback',
+        data: {
+          id: `source: feedback form
+${this.feedbackModel}`
+        }
+      })
+      this.feedbackModel = ''
+    }
+  }
 }
 </script>
 
@@ -155,6 +193,7 @@ export default {
     &-avatar {
       width: 64px;
       height: 64px;
+      border-radius: 100%;
     }
     &-prop {
       display: flex;
@@ -175,6 +214,9 @@ export default {
       font-size: 18px;
       font-weight: bold;
     }
+    &-edit {
+      height: 27px;
+    }
   }
   &-btn {
     padding: 0;
@@ -185,6 +227,7 @@ export default {
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+    outline: none;
     &.secondary {
       font-size: 14px;
     }

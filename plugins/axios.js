@@ -10,7 +10,7 @@ const codeMessage = {
   504: '网关超时'
 }
 
-export default function({ $axios, store, redirect }, inject) {
+export default function({ $axios, store }, inject) {
   // Create a custom axios instance
   const axios = $axios.create({
     withCredentials: true,
@@ -40,9 +40,9 @@ export default function({ $axios, store, redirect }, inject) {
     },
     (err) => {
       const status = get(err, 'response.status')
-      //   console.log(`err:${status}`)
       if (codeMessage[status]) {
         // Message
+        // console.log(context)
       }
       // Logout under `401`
       if (status === 401) {

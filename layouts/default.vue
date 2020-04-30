@@ -105,7 +105,7 @@ export default {
   layout: 'default',
   data() {
     return {
-      user: this.$store.getters['auth/loggedIn'],
+      user: false,
       signup: `${endpoint}/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
     }
   },

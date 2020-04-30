@@ -40,7 +40,7 @@ export default {
   }),
   getters: {
     loggedIn: (state) => {
-      return Boolean(state.loginCert)
+      return Boolean(state.loginCert || this.$cookies.get('ww_token'))
     },
     hasFetchedUser: (state) => {
       return Boolean(state.wwid)
@@ -60,7 +60,7 @@ export default {
     }
   },
   actions: {
-    async LOGIN({ commit, dispatch }, payload) {
+    async LOGIN({ commit, dispatch }) {
       // Lead to Mobvoi login page
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       const context = get(this, 'app.context', {})
@@ -73,8 +73,9 @@ export default {
         await dispatch('FETCH_AVAILABLE_ROUTES')
         return
       }
-      // Lead to dashboard call-list route if login after landing page
-      const redirectRoutePath = route.path === '/' ? '/call-list' : route.path
+      // Lead to dashboard call-history route if login after landing page
+      const redirectRoutePath =
+        route.path === '/' ? '/call-history' : route.path
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
@@ -107,8 +108,7 @@ export default {
       })
       commit('PUT_USER_INFO', baseInfo)
     },
-    async FETCH_AVAILABLE_ROUTES(store) {
-      const { state, commit, dispatch } = store
+    async FETCH_AVAILABLE_ROUTES({ state, commit, dispatch, rootState }) {
       const routes = [
         {
           path: '/get-started',
@@ -119,7 +119,7 @@ export default {
           }
         },
         {
-          path: '/call-list',
+          path: '/call-history',
           mapToAsideMenu: {
             order: 2,
             name: 'Call History',
@@ -146,7 +146,7 @@ export default {
           path: '/mbr-faq',
           mapToAsideMenu: {
             order: 5,
-            name: 'MBRFAQ',
+            name: 'FAQ',
             icon: 'mbr-faq'
           }
         },
@@ -154,11 +154,11 @@ export default {
           path: '/account-settings'
         },
         {
-          path: '/call-list/:id?'
+          path: '/call-history/:id?'
         }
       ]
       await dispatch('relation/FETCH_RELATION', null, { root: true })
-      const activated = get(state, 'relation.activated')
+      const activated = get(rootState, 'relation.activated')
       if (activated) {
         remove(routes, (route) => route.path === '/get-started')
       }

@@ -1,6 +1,12 @@
 <template>
   <div v-if="issues" class="faqs">
     <Faq v-for="issue in issues" :key="issue.question" :issue="issue" />
+    <div class="content">
+      <h5>
+        Can’t find your answer?
+        <nuxt-link :to="{ path: '/contact' }"> Contact Us</nuxt-link>
+      </h5>
+    </div>
   </div>
 </template>
 
@@ -25,6 +31,10 @@ export default {
   @include mobile {
     width: 100%;
     padding: 8rem 1rem 0;
+  }
+
+  .content {
+    margin-top: 3rem;
   }
 }
 </style>

@@ -2,8 +2,9 @@
   <div class="contact content">
     <h1>Contact Us</h1>
     <p>
-      Consectetur quis elementum faucibus purus tellus hendrerit sodales.
-      Ultrices elit nulla interdum
+      Got any questions for us? Or have any feedback, feel free to fill out down
+      below and let us know! Our customer service team will be right there with
+      you. :D
     </p>
     <div class="form-row">
       <b-field label="Name *" class="field">
@@ -14,9 +15,15 @@
       </b-field>
     </div>
     <b-field label="Message *">
-      <b-input maxlength="400" type="textarea" required></b-input>
+      <b-input
+        v-model="content"
+        maxlength="400"
+        type="textarea"
+        required
+      ></b-input>
     </b-field>
-    <Button text="Submit" />
+    <Button text="Submit" @click.native="submit" />
+    <span v-if="success || fail">{{ message }}</span>
   </div>
 </template>
 
@@ -30,7 +37,47 @@ export default {
     return {
       name: '',
       email: '',
-      content: ''
+      content: '',
+      message: '',
+      success: false,
+      fail: false
+    }
+  },
+  methods: {
+    submit() {
+      if (this.email && this.name && this.content) {
+        this.$axios({
+          method: 'post',
+          data: {
+            email: this.email,
+            name: this.name,
+            content: this.content
+          },
+          url: `overseas/feedback`
+        })
+          .then((response) => {
+            if (response.err_msg === 'success') {
+              this.throwSuccess('Thanks, we will contact you soon.')
+            } else {
+              this.throwError(response.err_msg)
+            }
+          })
+          .catch((error) => {
+            this.throwError(error.toString())
+          })
+      } else {
+        this.throwError('Please put valid info.')
+      }
+    },
+    throwError(message) {
+      this.success = false
+      this.fail = true
+      this.message = message
+    },
+    throwSuccess(message) {
+      this.success = true
+      this.fail = false
+      this.message = message
     }
   }
 }

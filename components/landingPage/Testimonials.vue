@@ -135,7 +135,7 @@ export default {
 .arrow {
   position: absolute;
   top: 50%;
-  transform: translateY(-45%);
+  transform: translateY(-25%);
   cursor: pointer;
 }
 

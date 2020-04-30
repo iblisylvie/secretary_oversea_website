@@ -23,29 +23,29 @@
             class-name="call-record-card-ctrl-btn-shape play"
           />
         </button>
-        <div class="call-record-row-card-fields">
+        <div class="call-record-card-fields">
           <span
-            class="call-record-row-card-field"
+            class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[0].flexGrow }"
-            >{{ detail.phone }}</span
+            >{{ detail.call_phone }}</span
           >
           <span
-            class="call-record-row-card-field"
+            class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[1].flexGrow }"
-            >{{ detail.tags.toString() }}</span
+            >{{ detail.tags && detail.tags.toString() }}</span
           >
           <span
-            class="call-record-row-card-field"
+            class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[2].flexGrow }"
             >{{ detail.called_no }}</span
           >
           <span
-            class="call-record-row-card-field"
+            class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[3].flexGrow }"
             >{{ detail.timestamp | parseToDate }}</span
           >
           <span
-            class="call-record-row-card-field"
+            class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[4].flexGrow }"
             >{{ detail.timestamp | parseToTime }}</span
           >
@@ -55,20 +55,25 @@
           :src="detail.full_voice_url"
           style="display: none"
         ></audio>
-        <b-progress type="is-info" :value="80"></b-progress>
+        <b-progress type="is-info" :value="fullVoiceProgressModel"></b-progress>
       </div>
       <div class="call-record-history">
-        <div>
+        <div
+          v-for="(msg, index) in callDetail"
+          :key="index"
+          class="call-record-history-wrap"
+        >
           <div
-            v-for="(msg, index) in detail.call_detail"
-            :key="index"
+            v-if="msg.user_voice_url && msg.user_query"
             class="call-record-history-bubble caller"
           >
-            <svg-icon icon-class="speak" class-name="" />
+            <span @click="onSessionAudioCtrol">
+              <svg-icon icon-class="speak" />
+            </span>
             <audio :src="msg.user_voice_url" style="display:none"></audio>
             {{ msg.user_query }}
           </div>
-          <div class="call-record-history-bubble callee">
+          <div v-if="msg.dm_resp" class="call-record-history-bubble callee">
             {{ msg.dm_resp }}
           </div>
         </div>
@@ -78,6 +83,7 @@
 </template>
 
 <script>
+import { get } from 'lodash-es'
 import dayjs from 'dayjs'
 
 export default {
@@ -90,16 +96,6 @@ export default {
     parseToTime(val) {
       return dayjs(val).format('hh:mm')
     }
-  },
-  async asyncData({ $axios, params }) {
-    const detail = await $axios({
-      method: 'GET',
-      url: '/overseas/call-detail',
-      params: {
-        id: params.id
-      }
-    })
-    return detail
   },
   data() {
     return {
@@ -127,30 +123,63 @@ export default {
       ],
 
       playFullVoice: false,
-      fullVoiceProgressModel: 0
+      fullVoiceProgressModel: 0,
+      fullVoiceAvailable: false,
+
+      // Detail from Server
+      detail: {}
     }
   },
-  created() {
+  computed: {
+    callDetail() {
+      return get(this, 'detail.call_detail', [])
+    }
+  },
+  async created() {
+    await this.fetchCallDetail()
+  },
+  mounted() {
     this.calcFullVoiceProgress()
   },
   methods: {
+    async fetchCallDetail() {
+      const result = await this.$axios({
+        method: 'GET',
+        url: '/overseas/call-detail',
+        params: {
+          id: get(this, '$route.params.id')
+        }
+      })
+      this.detail = result
+    },
     onControlFullVoice() {
       this.playFullVoice
         ? this.$refs.fullVoiceAudio.pause()
         : this.$refs.fullVoiceAudio.play()
+      this.playFullVoice = !this.playFullVoice
+    },
+    onSessionAudioCtrol($event) {
+      const { currentTarget } = $event
+      const audio = currentTarget.nextElementSibling
+      audio && audio.play()
     },
     calcFullVoiceProgress() {
       const audio = this.$refs.fullVoiceAudio
       // let timer = null
-      audio.addEventListener('progress ', () => {
-        // const timer = setInterval(() => {
+      audio.addEventListener('timeupdate ', () => {
+        // timer = setInterval(() => {
         const currentTime = audio.currentTime || 0
         const duration = audio.duration
         this.fullVoiceProgressModel = (currentTime / duration) * 100
         // }, 1000)
       })
+      audio.addEventListener('canplay ', () => {
+        this.fullVoiceAvailable = true
+      })
 
-      audio.addEventListener('ended', () => {})
+      // audio.addEventListener('ended', () => {
+      //   timer && clearInterval(timer)
+      // })
     }
   }
 }
@@ -163,6 +192,7 @@ $table-sticky-header-height: 700px;
   height: 100%;
   &-thead {
     display: flex;
+    padding-right: 32px;
     width: 100%;
     color: #484848;
     &-go-back {
@@ -177,13 +207,12 @@ $table-sticky-header-height: 700px;
     }
   }
   &-card {
-    display: flex;
-    align-items: center;
     margin-top: 16px;
     position: relative;
-    flex: 1;
     display: flex;
-    padding: 52px 0 52px 48px;
+    flex-flow: column;
+    flex: 1;
+    padding: 52px 32px 52px 48px;
     background: #fff;
     border-radius: 8px;
     &-ctrl-btn {
@@ -200,11 +229,17 @@ $table-sticky-header-height: 700px;
       border-radius: 100%;
       font-size: 64px;
       cursor: pointer;
+      outline: none;
+      background: #02aefc;
+      &[disabled] {
+        background: gray;
+        cursor: not-allowed;
+      }
       &-shape {
         font-size: 24px;
       }
       &.play {
-        background: #02aefc;
+        // background: #02aefc;
       }
       &.pause {
         background: #edf9ff;
@@ -222,11 +257,13 @@ $table-sticky-header-height: 700px;
     }
   }
   &-history {
-    display: flex;
-    flex-flow: column;
     margin-top: 24px;
     padding: 40px 32px;
     background: #fff;
+    &-wrap {
+      display: flex;
+      flex-flow: column;
+    }
     &-bubble {
       flex-flow: column;
       margin-bottom: 12px;

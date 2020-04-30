@@ -88,8 +88,7 @@
         :rounded="false"
         :per-page="perPage"
         @change="fetchCallHistory"
-      >
-      </b-pagination>
+      ></b-pagination>
     </footer>
 
     <!-- Delete tool tip -->
@@ -99,9 +98,9 @@
           icon-class="phone"
           class-name="call-history-tool-tip-state-icon"
         ></svg-icon>
-        <span class="call-history-tool-tip-state-desc">{{
-          `${callSelection.length} Call Selected`
-        }}</span>
+        <span class="call-history-tool-tip-state-desc">
+          {{ `${callSelection.length} Call Selected` }}
+        </span>
         <button
           v-show="callSelection.length"
           class="call-history-tool-tip-delete"
@@ -226,8 +225,8 @@ export default {
       await this.$axios({
         method: 'DELETE',
         url: '/overseas/call-history',
-        data: {
-          id: this.callHistory.map((record) => record.id).join(',')
+        params: {
+          id: this.callSelection.map((record) => record.id).join(',')
         }
       })
       this.$buefy.toast.open({

@@ -1,12 +1,12 @@
 <template>
-  <article @click="toggle">
+  <article :class="{ 'is-active': active }" @click="toggle">
     <div class="content">
       <h4>{{ issue.question }}</h4>
-      <p :class="{ 'is-active': active }">
+      <p>
         {{ issue.answer }}
       </p>
     </div>
-    <i :class="{ arrow: true, 'is-active': active }"></i>
+    <i class="arrow"></i>
   </article>
 </template>
 
@@ -48,6 +48,10 @@ article {
   cursor: pointer;
   margin-bottom: 2rem;
 
+  @include mobile {
+    padding: 2rem 1.5rem;
+  }
+
   .content {
     margin: 0;
     width: 80%;
@@ -57,8 +61,15 @@ article {
       max-height: 24px;
       overflow: hidden;
 
-      &.is-active {
-        max-height: 1000rem;
+      @include mobile {
+        max-height: 0px;
+      }
+    }
+
+    @include mobile {
+      h4 {
+        margin-bottom: 0;
+        line-height: 20px;
       }
     }
   }
@@ -72,8 +83,25 @@ article {
     padding: 3px;
     transform: rotate(45deg);
 
-    &.is-active {
+    @include mobile {
+      margin-top: 0px;
+    }
+  }
+
+  /** expand state */
+  &.is-active {
+    p {
+      max-height: 1000rem;
+    }
+
+    .arrow {
       transform: rotate(-135deg);
+    }
+
+    @include mobile {
+      h4 {
+        margin-bottom: 1rem;
+      }
     }
   }
 }

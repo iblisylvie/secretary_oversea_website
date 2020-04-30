@@ -46,10 +46,12 @@ export default {
   position: relative;
   top: 8rem;
   margin-bottom: 15rem;
+  border-radius: 8px;
 
   @include mobile {
+    min-width: 0px;
     width: 90%;
-    padding: 8rem 1rem 0;
+    padding: 2rem;
   }
 
   /deep/ .label {
@@ -82,8 +84,16 @@ export default {
     margin-top: 2rem;
     margin-bottom: 1rem;
 
+    @include mobile {
+      flex-direction: column;
+    }
+
     .field {
       width: 45%;
+
+      @include mobile {
+        width: 100%;
+      }
     }
   }
 }

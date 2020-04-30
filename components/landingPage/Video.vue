@@ -37,9 +37,6 @@ export default {
       }
     }
   }
-  // mounted() {
-  //   console.log('this is current player instance object', this.myVideoPlayer)
-  // }
 }
 </script>
 

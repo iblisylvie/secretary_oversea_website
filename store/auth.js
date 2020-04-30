@@ -61,7 +61,7 @@ export default {
       // Lead to Mobvoi login page
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       const context = get(this, 'app.context', {})
-      const { redirect, env, route } = context
+      const { redirect, route } = context
       const loginCert = this.$cookies.get('ww_token')
       if (loginCert) {
         commit('POST_LOGIN_CERT', { loginCert })
@@ -75,7 +75,7 @@ export default {
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${env.RETURN_URL}${redirectRoutePath}`
+        redirect_url: `${process.env.returnUrl}${redirectRoutePath}`
       })
       redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
     },
@@ -85,11 +85,11 @@ export default {
       commit('POST_LOGIN_CERT', '')
       commit('PUT_USER_INFO', { wwid: '' })
       const context = get(this, 'app.context', {})
-      const { redirect, env } = context
+      const { redirect } = context
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${env.RETURN_URL}/`
+        redirect_url: `${process.env.returnUrl}/`
       })
       redirect(`https://passport.mobvoi.com/pages/logout?${params.toString()}`)
     },

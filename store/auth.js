@@ -31,19 +31,16 @@ export default {
     loginCert: '',
 
     /**
-     * {
+     * [{
      *    path: <String>,
      *    mapToAsideMenu:? <Object>
-     * }
+     * }]
      */
-    availableRoutes: []
+    availableRoutes: null
   }),
   getters: {
     loggedIn: (state) => {
       return Boolean(state.loginCert)
-    },
-    hasFetchedUser: (state) => {
-      return Boolean(state.wwid)
     }
   },
   mutations: {
@@ -69,8 +66,7 @@ export default {
       if (loginCert) {
         commit('POST_LOGIN_CERT', { loginCert })
         // Fetch user info immediately after login
-        await dispatch('FETCH_USER')
-        await dispatch('FETCH_AVAILABLE_ROUTES')
+        await dispatch('INIT_PREQ_INFO')
         return
       }
       // Lead to dashboard call-history route if login after landing page
@@ -97,18 +93,26 @@ export default {
       })
       redirect(`https://passport.mobvoi.com/pages/logout?${params.toString()}`)
     },
-    async FETCH_USER({ getters, commit }) {
-      const hasFetchedUser = getters.hasFetchedUser
-      if (hasFetchedUser) {
-        return
+    /**
+     * Initialize prerequisite info
+     * @param {*} param0
+     */
+    async INIT_PREQ_INFO({ dispatch, state }) {
+      if (!state.wwid) {
+        await dispatch('FETCH_USER')
       }
+      if (!state.availableRoutes) {
+        await dispatch('FETCH_AVAILABLE_ROUTES')
+      }
+    },
+    async FETCH_USER({ commit }) {
       const { base_info: baseInfo } = await this.$axios({
         url: 'https://passport.mobvoi.com/v1/api/users/me/info',
         method: 'GET'
       })
       commit('PUT_USER_INFO', baseInfo)
     },
-    async FETCH_AVAILABLE_ROUTES({ state, commit, dispatch, rootState }) {
+    async FETCH_AVAILABLE_ROUTES({ commit, dispatch, rootState }) {
       const routes = [
         {
           path: '/get-started',

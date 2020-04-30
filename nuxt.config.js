@@ -79,10 +79,10 @@ export default {
   },
   proxy: {
     '/overseas': {
-      target:
-        process.env.NODE_ENV === 'development'
-          ? 'http://106.75.81.82:8434'
-          : 'https://durian.ticwear.com',
+      target: 'http://106.75.81.82:8434',
+      // process.env.NODE_ENV === 'development'
+      //   ? 'http://106.75.81.82:8434'
+      //   : 'https://durian.ticwear.com',
       changeOrigin: true
     }
   },

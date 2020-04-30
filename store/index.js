@@ -5,10 +5,13 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    nuxtServerInit({ commit, state }, { app }) {
+    async nuxtServerInit({ dispatch, commit, state }, { app }) {
       const loginCert =
         get(state, 'auth.loginCert', '') || app.$cookies.get('ww_token')
-      loginCert && commit('auth/POST_LOGIN_CERT', { loginCert })
+      if (loginCert) {
+        commit('auth/POST_LOGIN_CERT', { loginCert })
+        await dispatch('auth/INIT_PREQ_INFO')
+      }
     }
   }
 }

@@ -40,7 +40,7 @@ export default {
   }),
   getters: {
     loggedIn: (state) => {
-      return Boolean(state.loginCert || this.$cookies.get('ww_token'))
+      return Boolean(state.loginCert)
     },
     hasFetchedUser: (state) => {
       return Boolean(state.wwid)

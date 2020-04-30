@@ -27,6 +27,7 @@ export default function({ $axios, store }, inject) {
       if (loginCert) {
         set(config, 'headers.common.ww_token', loginCert)
       }
+      // console.log(config)
       return config
     },
     (error) => {
@@ -38,8 +39,8 @@ export default function({ $axios, store }, inject) {
       const { data } = response
       return data
     },
-    (err) => {
-      const status = get(err, 'response.status')
+    (error) => {
+      const status = get(error, 'response.status')
       if (codeMessage[status]) {
         // Message
         // console.log(context)
@@ -48,7 +49,7 @@ export default function({ $axios, store }, inject) {
       if (status === 401) {
         store.dispatch('auth/LOGOUT')
       }
-      return Promise.reject(get(err, 'response'))
+      return Promise.reject(get(error, 'response'))
     }
   )
 

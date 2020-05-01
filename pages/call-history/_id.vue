@@ -143,9 +143,6 @@ export default {
     await this.fetchCallDetail()
     this.intializeFullVoiceAudio()
   },
-  mounted() {
-    // this.intializeFullVoiceAudio()
-  },
   methods: {
     async fetchCallDetail() {
       const result = await this.$axios({
@@ -184,20 +181,14 @@ export default {
           timer && clearInterval(timer)
         },
         onloaderror: (_, error) => {
-          const toast = get(this, '$buefy.toast')
-          toast &&
-            toast.open({
-              message: `Audio resouce load Failed. ${error}`,
-              type: 'is-warning'
-            })
+          // eslint-disable-next-line
+          console.log(error)
         },
         onplayerror: (_, error) => {
-          const toast = get(this, '$buefy.toast')
-          toast &&
-            toast.open({
-              message: `Audio play Failed. ${error}`,
-              type: 'is-warning'
-            })
+          this.$buefy.toast.open({
+            message: `Audio play Failed. ${error}`,
+            type: 'is-warning'
+          })
         },
         onend: () => {
           this.fullVoiceProgressRate = 100

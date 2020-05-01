@@ -57,7 +57,7 @@ export default {
     }
   },
   actions: {
-    async LOGIN({ commit, dispatch }) {
+    async LOGIN({ commit, dispatch, rootState }) {
       // Lead to Mobvoi login page
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       const context = get(this, 'app.context', {})
@@ -72,24 +72,26 @@ export default {
       // Lead to dashboard call-history route if login after landing page
       const redirectRoutePath =
         route.path === '/' ? '/call-history' : route.path
+      const redirectDomain = get(rootState, 'app.host') || process.env.returnUrl
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${process.env.returnUrl}${redirectRoutePath}`
+        redirect_url: `${redirectDomain}${redirectRoutePath}`
       })
       redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
     },
-    LOGOUT({ commit }) {
+    LOGOUT({ commit, rootState }) {
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       commit('POST_LOGIN_CERT', '')
       commit('PUT_USER_INFO', { wwid: '' })
       const context = get(this, 'app.context', {})
       const { redirect } = context
+      const redirectDomain = get(rootState, 'app.host') || process.env.returnUrl
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${process.env.returnUrl}/`
+        redirect_url: `${redirectDomain}/`
       })
       redirect(`https://passport.mobvoi.com/pages/logout?${params.toString()}`)
     },

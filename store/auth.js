@@ -69,9 +69,12 @@ export default {
         await dispatch('INIT_PREQ_INFO')
         return
       }
-      // Lead to dashboard call-history route if login after landing page
-      const redirectRoutePath =
-        route.path === '/' ? '/call-history' : route.path
+      // Lead to dashboard route if login after landing page
+      const activated = get(rootState, 'relation.activated')
+      let redirectRoutePath = route.path
+      if (route.path !== '/') {
+        redirectRoutePath = activated ? '/call-history' : '/get-started'
+      }
       const redirectDomain = get(rootState, 'app.host') || process.env.returnUrl
       const params = new URLSearchParams({
         lang: 'en-us',

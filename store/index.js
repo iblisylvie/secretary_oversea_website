@@ -5,7 +5,7 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    async nuxtServerInit({ dispatch, commit, state, req }, { app }) {
+    async nuxtServerInit({ dispatch, commit, state }, { app, req }) {
       const loginCert =
         get(state, 'auth.loginCert', '') || app.$cookies.get('ww_token')
       const host = req.headers.host

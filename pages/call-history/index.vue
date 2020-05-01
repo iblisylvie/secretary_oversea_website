@@ -98,9 +98,9 @@
           icon-class="phone"
           class-name="call-history-tool-tip-state-icon"
         ></svg-icon>
-        <span class="call-history-tool-tip-state-desc">{{
-          `${callSelection.length} Call Selected`
-        }}</span>
+        <span class="call-history-tool-tip-state-desc">
+          {{ `${callSelection.length} Call Selected` }}
+        </span>
         <button
           v-show="callSelection.length"
           class="call-history-tool-tip-delete"

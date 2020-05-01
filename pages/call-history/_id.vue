@@ -1,7 +1,9 @@
 <template>
   <section class="call-record">
     <header class="call-record-thead">
-      <svg-icon icon-class="go-back" class-name="call-record-thead-go-back" />
+      <nuxt-link to="/call-history">
+        <svg-icon icon-class="go-back" class-name="call-record-thead-go-back" />
+      </nuxt-link>
       <div class="call-record-thead-cells">
         <span
           v-for="column in THEAD_COLUMNS"
@@ -16,7 +18,8 @@
       <div class="call-record-card">
         <button
           class="call-record-card-ctrl-btn play"
-          @click="onControlFullVoice"
+          :disabled="!fullVoiceAvailable"
+          @click="onCtrlFullViocePlay"
         >
           <svg-icon
             icon-class="play"
@@ -50,16 +53,11 @@
             >{{ detail.timestamp | parseToTime }}</span
           >
         </div>
-        <audio
-          ref="fullVoiceAudio"
-          :src="detail.full_voice_url"
-          style="display: none"
-        ></audio>
-        <b-progress type="is-info" :value="fullVoiceProgressModel"></b-progress>
+        <b-progress type="is-info" :value="fullVoiceProgressRate"></b-progress>
       </div>
       <div class="call-record-history">
         <div
-          v-for="(msg, index) in callDetail"
+          v-for="(msg, index) in bubbleSession"
           :key="index"
           class="call-record-history-wrap"
         >
@@ -84,6 +82,7 @@
 
 <script>
 import { get } from 'lodash-es'
+import { Howl } from 'howler'
 import dayjs from 'dayjs'
 
 export default {
@@ -122,8 +121,13 @@ export default {
         }
       ],
 
-      playFullVoice: false,
-      fullVoiceProgressModel: 0,
+      /**
+       * See https://github.com/goldfire/howler.j
+       */
+      fullVoiceHowler: null, // Howler instance
+      fullVoiceHowlerId: null, // sound Id return by play()
+      playFullVoice: false, // Audio play state
+      fullVoiceProgressRate: 0,
       fullVoiceAvailable: false,
 
       // Detail from Server
@@ -131,15 +135,16 @@ export default {
     }
   },
   computed: {
-    callDetail() {
+    bubbleSession() {
       return get(this, 'detail.call_detail', [])
     }
   },
   async created() {
     await this.fetchCallDetail()
+    this.intializeFullVoiceAudio()
   },
   mounted() {
-    this.calcFullVoiceProgress()
+    // this.intializeFullVoiceAudio()
   },
   methods: {
     async fetchCallDetail() {
@@ -152,34 +157,75 @@ export default {
       })
       this.detail = result
     },
-    onControlFullVoice() {
-      this.playFullVoice
-        ? this.$refs.fullVoiceAudio.pause()
-        : this.$refs.fullVoiceAudio.play()
-      this.playFullVoice = !this.playFullVoice
+    intializeFullVoiceAudio() {
+      const url = this.detail.full_voice_url
+      let timer = null
+      if (!url) {
+        return
+      }
+      const sound = (this.fullVoiceHowler = new Howl({
+        src: [url],
+        onload: () => {
+          this.fullVoiceAvailable = true
+        },
+        onplay: () => {
+          this.playFullVoice = true
+          const duration = sound.duration(this.fullVoiceHowlerId)
+          timer && clearInterval(timer)
+          timer = setInterval(() => {
+            const currentTime = sound.seek(this.fullVoiceHowlerId) || 0
+            this.fullVoiceProgressRate = parseInt(
+              (currentTime / duration) * 100
+            )
+          }, 1000)
+        },
+        onpause: () => {
+          this.playFullVoice = false
+          timer && clearInterval(timer)
+        },
+        onloaderror: (_, error) => {
+          const toast = get(this, '$buefy.toast')
+          toast &&
+            toast.open({
+              message: `Audio resouce load Failed. ${error}`,
+              type: 'is-warning'
+            })
+        },
+        onplayerror: (_, error) => {
+          const toast = get(this, '$buefy.toast')
+          toast &&
+            toast.open({
+              message: `Audio play Failed. ${error}`,
+              type: 'is-warning'
+            })
+        },
+        onend: () => {
+          this.fullVoiceProgressRate = 100
+          setTimeout(() => {
+            this.fullVoiceProgressRate = 0
+          }, 1000)
+          timer && clearInterval(timer)
+        }
+      }))
+    },
+    onCtrlFullViocePlay() {
+      if (this.playFullVoice) {
+        this.fullVoiceHowler.pause()
+      } else if (this.fullVoiceHowlerId) {
+        this.fullVoiceHowler.play(this.fullVoiceHowlerId)
+      } else {
+        // First play audio no sound Id exist
+        this.fullVoiceHowler.play()
+      }
     },
     onSessionAudioCtrol($event) {
       const { currentTarget } = $event
       const audio = currentTarget.nextElementSibling
-      audio && audio.play()
-    },
-    calcFullVoiceProgress() {
-      const audio = this.$refs.fullVoiceAudio
-      // let timer = null
-      audio.addEventListener('timeupdate ', () => {
-        // timer = setInterval(() => {
-        const currentTime = audio.currentTime || 0
-        const duration = audio.duration
-        this.fullVoiceProgressModel = (currentTime / duration) * 100
-        // }, 1000)
-      })
-      audio.addEventListener('canplay ', () => {
-        this.fullVoiceAvailable = true
-      })
-
-      // audio.addEventListener('ended', () => {
-      //   timer && clearInterval(timer)
-      // })
+      if (audio.paused) {
+        audio.play()
+      } else {
+        audio.pause()
+      }
     }
   }
 }

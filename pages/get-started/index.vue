@@ -95,7 +95,11 @@
           please refer to FAQ or contact us.
         </p>
       </template>
-      <b-button rounded class="acc-setup-nav-btn" @click="onContinue"
+      <b-button
+        rounded
+        class="acc-setup-nav-btn"
+        :loading="activatePolling"
+        @click="onContinue"
         >Continue</b-button
       >
     </main>
@@ -104,6 +108,7 @@
 
 <script>
 import { get } from 'lodash-es'
+import { mapState } from 'vuex'
 
 export default {
   name: 'GetStart',
@@ -111,16 +116,23 @@ export default {
   async asyncData({ redirect, store }) {
     await store.dispatch('relation/FETCH_RELATION')
     const activated = get(store, 'state.relation.activated')
-    if (activated) {
-      redirect(301, '/call-history')
+    if (!activated) {
+      return {}
     }
+    redirect(301, '/call-history')
   },
   data: () => ({
     steps: ['Account Setup', 'Bind Number', 'All Set!'],
     activeStep: 0,
     phoneModel: '',
-    captchaModel: ''
+    captchaModel: '',
+    activatePolling: true
   }),
+  computed: {
+    ...mapState({
+      activated: (state) => get(state, 'relation.activated', false)
+    })
+  },
   methods: {
     sendCode() {
       this.$axios({
@@ -132,9 +144,12 @@ export default {
       })
     },
     async onContinue() {
-      if (this.activeStep === 2) return
+      if (this.activeStep === 2) {
+        this.$router.redirect(301, '/call-history')
+        return
+      }
       if (this.activeStep === 0) {
-        await this.$axios({
+        const { activated } = await this.$axios({
           method: 'POST',
           url: '/overseas/relation/phone',
           data: {
@@ -142,9 +157,17 @@ export default {
             captcha: this.captchaModel
           }
         })
-      }
-      if (this.activeStep === 1) {
-        // @TODO
+        if (activated) {
+          this.activatePolling = false
+        } else {
+          const timer = setInterval(async () => {
+            await this.$store.dispatch('relation/FETCH_RELATION')
+            if (this.activated) {
+              this.activatePolling = false
+              timer && clearInterval(timer)
+            }
+          }, 5000)
+        }
       }
       this.activeStep++
     }

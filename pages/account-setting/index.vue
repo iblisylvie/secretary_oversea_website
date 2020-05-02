@@ -26,7 +26,7 @@
               Name
             </span>
             <span v-show="!editingName" class="acc-settings-row-value">
-              Regina Jones
+              {{ nickname }}
             </span>
             <b-input
               v-show="editingName"
@@ -44,7 +44,7 @@
               Email
             </span>
             <span v-show="!editingEmail" class="acc-settings-row-value">
-              elijah.grant@example.com
+              {{ email }}
             </span>
             <b-input
               v-show="editingEmail"
@@ -81,7 +81,9 @@
           <div class="acc-settings-row-prop">
             <button class="acc-settings-btn">DELETE ACCOUNT</button>
           </div>
-          <b-button class="acc-settings-update" rounded>Update</b-button>
+          <a href="https://passport.mobvoi.com/pages/user-info" target="_blank"
+            ><b-button class="acc-settings-update" rounded>Update</b-button></a
+          >
         </div>
       </template>
       <!-- Subscription  -->
@@ -130,6 +132,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'AccountSettings',
   layout: 'dashboard',
@@ -144,6 +148,9 @@ export default {
     nameModel: '',
     emailModel: ''
   }),
+  computed: {
+    ...mapState('auth', ['nickname', 'email'])
+  },
   methods: {
     async sendFeedback() {
       await this.$axios({

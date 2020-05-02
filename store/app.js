@@ -2,8 +2,8 @@ import { isObject } from 'lodash-es'
 
 export default {
   state: () => ({
-    // Host where app deployed.
-    host: ''
+    // Domain where app deployed.
+    domain: ''
   }),
   getters: {},
   mutations: {

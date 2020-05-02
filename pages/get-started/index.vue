@@ -103,9 +103,18 @@
 </template>
 
 <script>
+import { get } from 'lodash-es'
+
 export default {
   name: 'GetStart',
   layout: 'dashboard',
+  async asyncData({ redirect, store }) {
+    await store.dispatch('relation/FETCH_RELATION')
+    const activated = get(store, 'state.relation.activated')
+    if (activated) {
+      redirect(301, '/call-history')
+    }
+  },
   data: () => ({
     steps: ['Account Setup', 'Bind Number', 'All Set!'],
     activeStep: 0,

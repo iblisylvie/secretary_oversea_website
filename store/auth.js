@@ -92,7 +92,8 @@ export default {
       commit('PUT_USER_INFO', { wwid: '' })
       const context = get(this, 'app.context', {})
       const { redirect } = context
-      const redirectDomain = get(rootState, 'app.host') || process.env.returnUrl
+      const redirectDomain =
+        get(rootState, 'app.domain') || process.env.returnUrl
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',

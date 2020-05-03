@@ -103,13 +103,11 @@ export default {
     }
   }
   &-main {
-    text-align: center;
     margin-top: 24px;
-    font-size: 18px;
-    font-weight: 600;
+    text-align: center;
   }
   &-title {
-    color: #59687a;
+    @include secondary-text;
   }
 }
 </style>

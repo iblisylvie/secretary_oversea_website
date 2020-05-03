@@ -6,7 +6,10 @@
       <!-- Account Setup  -->
       <template v-if="activeStep === 0">
         <svg-icon icon-class="acc-setup" class-name="acc-setup-icon" />
-        <p class="acc-setup-tip">No Registed Phone</p>
+        <p class="acc-setup-title">Account Setup</p>
+        <p class="acc-setup-tip">
+          Get a phone number equipped with TciMeet by setting up below.
+        </p>
         <div class="acc-setup-form-row">
           <span class="acc-setup-form-label">Phone Number</span>
           <div class="acc-setup-form-group">
@@ -81,7 +84,7 @@
       <b-button
         rounded
         class="acc-setup-nav-btn"
-        :loading="activatePolling"
+        :loading="activeStep === 1 && activatePolling"
         @click="onContinue"
         >Continue</b-button
       >
@@ -119,7 +122,7 @@ export default {
     activeStep: 0,
     phoneModel: '',
     captchaModel: '',
-    activatePolling: true
+    activatePolling: false
   }),
   computed: {
     ...mapState({
@@ -153,6 +156,7 @@ export default {
         if (activated) {
           this.activatePolling = false
         } else {
+          this.activatePolling = true
           const timer = setInterval(async () => {
             await this.$store.dispatch('relation/FETCH_RELATION')
             if (this.activated) {
@@ -169,6 +173,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~/assets/scss/mixins.scss';
 .get-start {
   padding-top: 84px;
   &-main {
@@ -189,11 +194,12 @@ export default {
   &-icon {
     font-size: 48px;
   }
-  &-tip {
+  &-title {
     margin-top: 16px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #141b24;
+    @include primary-text;
+  }
+  &-tip {
+    @include secondary-text;
   }
   &-form {
     &-row {

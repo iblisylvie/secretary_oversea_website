@@ -1,23 +1,6 @@
 <template>
   <section class="get-start">
-    <div class="steps">
-      <div
-        v-for="(step, index) of steps"
-        :key="index"
-        class="step"
-        :class="[activeStep === index ? 'is-process' : '']"
-      >
-        <div class="step-head">
-          <div class="step-line"></div>
-          <div class="step-text">
-            <div class="step-text-inner">{{ index + 1 }}</div>
-          </div>
-        </div>
-        <div class="step-main">
-          <div class="step-title">{{ step }}</div>
-        </div>
-      </div>
-    </div>
+    <Steps class="get-start-steps" :active="activeStep" :steps="steps"></Steps>
 
     <main class="get-start-main">
       <!-- Account Setup  -->
@@ -110,9 +93,14 @@
 import { get } from 'lodash-es'
 import { mapState } from 'vuex'
 
+import Steps from '~/components/utils/steps/Steps'
+
 export default {
   name: 'GetStart',
   layout: 'dashboard',
+  components: {
+    Steps
+  },
   async asyncData({ redirect, store }) {
     await store.dispatch('relation/FETCH_RELATION')
     const activated = get(store, 'state.relation.activated')
@@ -121,8 +109,13 @@ export default {
     }
     redirect(301, '/call-history')
   },
+
   data: () => ({
-    steps: ['Account Setup', 'Bind Number', 'All Set!'],
+    steps: [
+      { title: 'Account Setup' },
+      { title: 'Bind Number' },
+      { title: 'All Set!' }
+    ],
     activeStep: 0,
     phoneModel: '',
     captchaModel: '',
@@ -187,6 +180,9 @@ export default {
     background: #fff;
     padding: 48px 72px;
     text-align: center;
+  }
+  &-steps {
+    width: 50%;
   }
 }
 .acc-setup {
@@ -288,83 +284,6 @@ export default {
     color: #141b24;
     font-size: 18px;
     font-weight: bold;
-  }
-}
-.steps {
-  display: flex;
-  margin: 0 auto;
-  width: 50%;
-  white-space: nowrap;
-}
-.step {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-  flex-shrink: 1;
-  flex-basis: 50%;
-  margin-right: 0px;
-  &.is-process {
-    & .step-text {
-      background: linear-gradient(90deg, #00a3ff 3.65%, #335ffe 85.2%);
-    }
-    & .step-title {
-      background-image: linear-gradient(90deg, #00a3ff 3.65%, #335ffe 85.2%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-  }
-  &-head {
-    position: relative;
-    width: 100%;
-    text-align: center;
-    color: #fff;
-  }
-  &-line {
-    margin: 0 30px;
-    position: absolute;
-    border-color: #d7dfe8;
-    height: 2px;
-    top: 11px;
-    left: 50%;
-    right: -50%;
-    white-space: nowrap;
-    border-top-style: dotted;
-  }
-  &:last-of-type &-line {
-    display: none;
-  }
-  &-text {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    box-sizing: border-box;
-    background: #59687a;
-    transition: 0.15s ease-out;
-    border-radius: 50%;
-    border-color: inherit;
-    &-inner {
-      display: inline-block;
-      user-select: none;
-      text-align: center;
-      font-weight: 700;
-      line-height: 1;
-      color: inherit;
-    }
-  }
-  &-main {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 18px;
-    font-weight: 600;
-  }
-  &-title {
-    color: #59687a;
   }
 }
 </style>

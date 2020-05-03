@@ -1,0 +1,10 @@
+@mixin gradient-background {
+    background: $linear-gradient
+}
+
+@mixin gradient-text {
+    background-image: $linear-gradient;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

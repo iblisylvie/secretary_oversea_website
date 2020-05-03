@@ -9,13 +9,13 @@
     -webkit-text-fill-color: transparent;
 }
 
-@mixin primary-text ($color: $primary-text-color, $font-size:$primary-text-size, $font-weight: $primary-text-weight) {
+@mixin primary-text ($color: $primary-text-color, $font-size: $primary-text-size, $font-weight: $primary-text-weight) {
     color: $color;
     font-size: $font-size;
     font-weight: $font-weight
 }
 
-@mixin secondary-text ($color: $secondary-text-color, $font-size:$secondary-text-size, $font-weight: $secondary-text-weight) {
+@mixin secondary-text ($color: $secondary-text-color, $font-size: $secondary-text-size, $font-weight: $secondary-text-weight) {
     color: $color;
     font-size: $font-size;
     font-weight: $font-weight

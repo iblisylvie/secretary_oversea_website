@@ -106,6 +106,7 @@ $message-is-info-color: #9f6e34;
 $message-is-warning-opt: rgba(197, 63, 63, 0.2);
 $message-is-success-opt: #cbebfa;
 $message-is-info-opt: #ecd7be;
+$message-opt-hover-color: #fff;
 .message {
   display: flex;
   justify-content: space-between;
@@ -143,18 +144,32 @@ $message-is-info-opt: #ecd7be;
     outline: none;
     cursor: pointer;
     pointer-events: all;
+    &:hover {
+      .close:before {
+        color: $message-opt-hover-color;
+      }
+    }
   }
   &.is-info .opt {
     background: $message-is-info-opt;
     color: $message-is-info-background;
+    &:hover {
+      background: $message-is-info-color;
+    }
   }
   &.is-warning .opt {
     background: $message-is-warning-opt;
     color: $message-is-warning-background;
+    &:hover {
+      background: $message-is-warning-color;
+    }
   }
   &.is-success .opt {
     background: $message-is-success-opt;
     color: $message-is-success-background;
+    &:hover {
+      background: $message-is-success-color;
+    }
   }
   .close {
     line-height: 8px;

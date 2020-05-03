@@ -39,7 +39,7 @@
       </template>
       <!-- Bind Number  -->
       <template v-if="activeStep === 1">
-        <svg-icon icon-class="phone" class-name="bind-number-icon" />
+        <svg-icon icon-class="active-phone" class-name="bind-number-icon" />
         <p class="bind-number-ISPS">
           <button class="bind-number-ISPS-btn">
             Verizion
@@ -54,22 +54,62 @@
             Sprint
           </button>
         </p>
-        <p class="bind-number-ISP-desc">
-          Lacus, et malesuada enim amet, amet. Mi hac suspendisse erat mauris
-          mattis urna, ac. Mauris luctus felis, egestas pellentesque diam semper
-          duis tellus. Cursus diam sit senectus sit vitae tincidunt mi. Lacus,
-          et malesuada enim amet, amet. Mi hac suspendisse erat mauris mattis
-          urna, ac. Mauris luctus felis, egestas pellentesque diam semper duis
-          tellus. Cursus diam sit senectus sit vitae tincidunt mi.Lacus, et
-          malesuada enim amet, amet. Mi hac suspendisse erat mauris mattis urna,
-          ac. Mauris luctus felis, egestas pellentesque diam semper duis tellus.
-          Cursus diam sit senectus sit vitae tincidunt mi.
-        </p>
+        <div class="bind-number-ISP-desc">
+          <p class="bind-number-ISP-desc-title">
+            From Your Mobile Device
+          </p>
+          <ul class="bind-number-ISP-desc-content">
+            <li>Enter *72.</li>
+            <li>
+              {{
+                'Enter +1(938) 253-2388 Tap the Call button and wait for confirmation.'
+              }}
+            </li>
+            <li>You should hear a confirmation tone or message.</li>
+            <li>End your call.</li>
+          </ul>
+          <p class="bind-number-ISP-desc-title">
+            From Your Computer
+          </p>
+          <ul class="bind-number-ISP-desc-content">
+            <li>
+              In My Business Account, click the number for which you wish to
+              activate call forwarding. This brings you to the Wireless Number
+              Center page.
+            </li>
+            <li>
+              In the User Information section, click Manage Call Forwarding next
+              to the mobile number.
+            </li>
+            <li>
+              Enter +1(938) 253-2388 in the Forward Mobile Number To field.
+            </li>
+            <li>
+              Select your preferred option in the Options section:
+              <ul>
+                <li>Forward all calls</li>
+                <li>
+                  {{
+                    'Forward calls when my line is busy or there is no answer'
+                  }}
+                </li>
+              </ul>
+            </li>
+            <li>Click Submit.</li>
+          </ul>
+          <p class="bind-number-ISP-desc-note">
+            *Please note that airtime charges may apply to all forwarded calls
+            according to your current calling plan from your service provider
+          </p>
+        </div>
       </template>
       <!-- All Set! -->
       <template v-if="activeStep === 2">
-        <svg-icon icon-class="all-set" class-name="all-set-icon" />
-        <p class="all-set-congrats">
+        <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
+        <p class="all-set-title">
+          All Set!
+        </p>
+        <p class="all-set-sub-title">
           You Are Ready to Go!
         </p>
         <p class="all-set-tip">
@@ -84,9 +124,10 @@
       <b-button
         rounded
         class="acc-setup-nav-btn"
+        :disabled="continueDisabled"
         :loading="activeStep === 1 && activatePolling"
         @click="onContinue"
-        >Continue</b-button
+        >{{ activeStep === 2 ? 'Done' : 'Continue' }}</b-button
       >
     </main>
   </section>
@@ -127,7 +168,13 @@ export default {
   computed: {
     ...mapState({
       activated: (state) => get(state, 'relation.activated', false)
-    })
+    }),
+    continueDisabled() {
+      if (this.activeStep === 0) {
+        return !this.phoneModel || !this.captchaModel
+      }
+      return false
+    }
   },
   methods: {
     sendCode() {
@@ -247,7 +294,7 @@ export default {
 }
 .bind-number {
   &-icon {
-    font-size: 32px;
+    font-size: 48px;
   }
   &-ISPS {
     margin: 32px auto 0;
@@ -257,39 +304,78 @@ export default {
     &-btn {
       background: inherit;
       border: none;
-      color: #59687a;
-      font-size: 24px;
-      font-weight: bold;
+      // color: #59687a;
+      // font-size: 24px;
+      // font-weight: bold;
       cursor: pointer;
+      @include primary-text;
       &.active {
-        color: #02aefc;
+        @include gradient-text;
       }
     }
   }
   &-ISP-desc {
     margin-top: 32px;
+    height: 300px;
+    overflow-y: scroll;
     color: #141b24;
     font-size: 18px;
     font-weight: bold;
     text-align: left;
+
+    &:first-child {
+      margin-top: 0;
+    }
+    &-title {
+      margin-top: 24px;
+      @include primary-text($font-size: 18px);
+    }
+    &-content {
+      margin-top: 24px;
+      list-style: none;
+      & li {
+        margin-bottom: 10px;
+
+        & ul {
+          margin: 10px 0 0 17px;
+        }
+      }
+      & :last-child {
+        margin-bottom: 0;
+      }
+      & li:before {
+        content: '\2022'; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+        color: #02aefc; /* Change the color */
+        font-weight: bold; /* If you want it to be bold */
+        display: inline-block; /* Needed to add space between the bullet and the text */
+        width: 1em; /* Also needed for space (tweak if needed) */
+      }
+      @include primary-text($font-size: 14px, $font-weight: normal);
+    }
+    &-note {
+      margin-top: 24px;
+      @include secondary-text($font-size: 14px, $font-weight: normal);
+    }
   }
 }
 .all-set {
   &-icon {
     font-size: 48px;
   }
-  &-congrats {
-    margin: 32px auto 0;
-    color: #141b24;
-    font-size: 24px;
-    font-weight: bold;
+  &-title {
+    margin-top: 16px;
+    text-align: center;
+    @include primary-text;
+  }
+  &-sub-title {
+    margin-top: 24px;
+    text-align: left;
+    @include primary-text($font-size: 18px);
   }
   &-tip {
     margin-top: 24px;
     text-align: left;
-    color: #141b24;
-    font-size: 18px;
-    font-weight: bold;
+    @include primary-text($font-size: 16px, $font-weight: normal);
   }
 }
 </style>

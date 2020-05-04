@@ -51,23 +51,23 @@ export default {
   }
 
   @include mobile {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 1rem 0;
 
     div.content {
-      width: 70%;
+      width: 66%;
 
       h4 {
-        font-size: 16px;
+        font-size: 14px;
+        line-height: 1.4;
       }
 
       p {
-        font-size: 13px;
+        font-size: 12px;
       }
     }
 
     img {
-      width: 80px;
+      width: 30%;
     }
   }
 }

@@ -18,7 +18,7 @@
             </h2>
             <Button
               tag="router-link"
-              to="/login"
+              to="/call-history"
               text="Try Now"
               sub-text="It's free"
             />
@@ -31,9 +31,9 @@
     </section>
 
     <!-- PRODUCT SECTION -->
-    <section id="product" class="section">
+    <section id="product" class="section product-section">
       <div class="container">
-        <div class="columns wrapper">
+        <div class="columns is-mobile wrapper">
           <div class="column is-two-fifths">
             <img
               src="~assets/images/logo_shadow.png"
@@ -137,7 +137,7 @@
           </p>
           <Button
             tag="router-link"
-            to="/login"
+            to="/call-history"
             text="Try Now"
             sub-text="It's free"
           />
@@ -182,7 +182,7 @@ p {
   }
 
   h2 {
-    font-size: 16px;
+    font-size: 17px;
     line-height: 26px;
   }
 
@@ -275,14 +275,25 @@ p {
   }
 }
 
-.product-logo {
-  width: 325px;
+.product-section {
+  .product-logo {
+    width: 325px;
+
+    @include mobile {
+      width: 100%;
+    }
+  }
 
   @include mobile {
-    width: 88px;
-    margin: 0 auto;
-    display: block;
-    margin-bottom: -1rem;
+    h2 {
+      text-align: left !important;
+      margin-bottom: 1rem;
+    }
+
+    h5 {
+      color: #59687a;
+      text-align: left !important;
+    }
   }
 }
 
@@ -300,13 +311,9 @@ p {
     z-index: -2;
     bottom: -30rem;
     left: 0;
-  }
 
-  @include mobile {
-    margin-top: -3rem;
-
-    .shape-1 {
-      bottom: -13rem;
+    @include mobile {
+      bottom: -12rem;
     }
   }
 }
@@ -340,5 +347,11 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  @include mobile {
+    p {
+      margin-bottom: 2rem;
+    }
+  }
 }
 </style>

@@ -35,6 +35,10 @@ export default {
 
   .content {
     margin-top: 3rem;
+
+    @include mobile {
+      margin-bottom: 8rem;
+    }
   }
 }
 </style>

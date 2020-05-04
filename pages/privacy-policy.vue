@@ -136,19 +136,45 @@
   </section>
 </template>
 
+<script>
+export default {
+  layoutVariant: true
+}
+</script>
+
 <style lang="scss" scoped>
 .container {
   width: 80%;
-  margin-top: 8rem;
-  margin-bottom: 15rem;
+  position: relative;
+  top: 8rem;
+  padding: 1rem 3rem 3rem;
+  margin-bottom: 8rem;
+  background-color: $white;
+  z-index: 2;
+  border-radius: 8px;
 
   @include mobile {
+    width: 90%;
+    padding: 1rem 2rem 3rem;
     margin-bottom: 10rem;
   }
 
   h1 {
     text-align: center;
     margin: 4rem 0;
+
+    @include mobile {
+      text-align: left;
+      margin: 1.5rem 0;
+    }
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  a {
+    color: $primary;
   }
 }
 </style>

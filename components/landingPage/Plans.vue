@@ -80,6 +80,9 @@ export default {
     font-weight: bold;
     margin-bottom: 1.5rem;
     color: #59687a;
+    @include mobile {
+      font-size: 16px;
+    }
   }
 
   p {

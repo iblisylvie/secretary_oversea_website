@@ -176,11 +176,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-left: 3rem;
 
     a {
       font-size: 18px;
-      line-height: 48px;
+      line-height: 60px;
       color: #141b24;
     }
   }
@@ -223,7 +224,7 @@ footer {
     position: absolute;
     z-index: -2;
     left: 0;
-    top: -180px;
+    bottom: -10px;
 
     @include mobile {
       top: 0;
@@ -248,6 +249,7 @@ footer {
     @include mobile {
       font-size: 14px;
       margin-bottom: 14px;
+      font-weight: bold;
     }
   }
 

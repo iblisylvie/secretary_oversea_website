@@ -48,7 +48,8 @@ export default {
 
   @include mobile {
     flex-direction: column;
-    padding: 15px 25px;
+    padding: 2rem;
+    box-shadow: 0px 5px 25px -10px rgba(54, 54, 54, 0.5);
   }
 }
 
@@ -63,11 +64,11 @@ export default {
     width: 100%;
     flex-direction: row;
     justify-content: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 
     figure {
-      width: 48px;
-      height: 48px;
+      width: 32px;
+      height: 32px;
       margin-right: 20px;
     }
   }
@@ -76,10 +77,14 @@ export default {
     font-size: 0.9rem;
     line-height: 2.2;
     margin-top: 0.75rem;
+    font-weight: bold;
+    width: 150%;
+    text-align: center;
 
     @include mobile {
+      width: auto;
       margin-top: 0px;
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 }

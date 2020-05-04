@@ -18,6 +18,7 @@ button {
   line-height: 3.7rem;
   padding: 0.5rem 2.5rem;
   border-radius: 2.2rem;
+  border-color: transparent;
 
   @include mobile {
     min-height: 4rem;
@@ -31,6 +32,7 @@ button {
 
   &:hover {
     color: $white;
+    border-color: transparent;
   }
 }
 </style>

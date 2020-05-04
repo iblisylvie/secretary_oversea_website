@@ -46,19 +46,25 @@
     </section>
 
     <!-- Footer -->
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path
+        fill="#0099ff"
+        fill-opacity="1"
+        d="M0,160L80,138.7C160,117,320,75,480,69.3C640,64,800,96,960,96C1120,96,1280,64,1360,48L1440,32L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
+      ></path>
+    </svg> -->
+
     <footer class="footer">
-      <div class="bg-shape">
-        <img
-          src="~assets/images/shape-2.png"
-          alt="Footer Shape"
-          class="desktop-only"
+      <svg
+        class="shape"
+        viewBox="0 0 1440 187"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          :fill="variant ? '#eff5fc' : 'white'"
+          d="M1440 31.4676C1303.69 13.442 1184.9 53.2617 1053.9 97.1755C906.948 146.433 744.634 200.841 524.999 184.543C326.115 169.785 157.821 91.991 0 0.81748V0H1440V31.4676Z"
         />
-        <img
-          src="~assets/images/shape-2-mobile.png"
-          alt="Footer Shape"
-          class="mobile-only"
-        />
-      </div>
+      </svg>
       <div class="container">
         <div class="wrapper columns">
           <div class="column is-three-fifths">
@@ -203,13 +209,13 @@ export default {
 }
 
 footer {
-  background: transparent;
   position: relative;
   padding-bottom: 16px;
   overflow: hidden;
   padding-top: 16rem;
-  margin-top: -3rem;
-  z-index: 1;
+  margin-top: -5rem;
+  z-index: -1;
+  background-image: linear-gradient(90deg, #00a3ff 20.21%, #335ffe 83.61%);
 
   @include mobile {
     margin-top: 0rem;
@@ -220,16 +226,11 @@ footer {
     }
   }
 
-  .bg-shape {
+  .shape {
+    width: 105%;
     position: absolute;
-    z-index: -2;
-    left: 0;
-    bottom: -10px;
-
-    @include mobile {
-      top: 0;
-      bottom: 0;
-    }
+    top: 0;
+    left: -1.5rem;
   }
 
   .wrapper {
@@ -310,8 +311,8 @@ footer {
     }
   }
 
-  footer {
-    margin-top: -5rem;
+  .footer {
+    z-index: 0;
   }
 }
 </style>

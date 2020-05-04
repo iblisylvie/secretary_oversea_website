@@ -66,6 +66,7 @@ export default {
             this.throwError(error.toString())
           })
       } else {
+        // this.$message.open('Please put valid info.')
         this.throwError('Please put valid info.')
       }
     },

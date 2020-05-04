@@ -188,10 +188,17 @@ export default {
     callSelection() {
       return this.callHistoryTableData.filter((record) => record.selectedModel)
     },
-    selectAllModel() {
-      return Boolean(
-        this.callSelection.length === this.callHistoryTableData.length
-      )
+    selectAllModel: {
+      get() {
+        return Boolean(
+          this.callSelection.length === this.callHistoryTableData.length
+        )
+      },
+      set(val) {
+        this.callHistoryTableData.forEach(
+          (record) => (record.selectedModel = val)
+        )
+      }
     },
     selectAllIndeterminate() {
       return Boolean(

@@ -1,6 +1,7 @@
 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="24" cy="24" r="24" fill="url(#paint0_linear)"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M24.0001 24C28.9707 24 33.0001 19.9706 33.0001 15C33.0001 10.0294 28.9707 6 24.0001 6C19.0296 6 15.0001 10.0294 15.0001 15C15.0001 19.9706 19.0296 24 24.0001 24ZM23.9998 28.5C16.0891 28.5 8.97292 31.9021 4.03467 37.323C8.33913 43.7607 15.6745 48 24.0001 48C32.3255 48 39.6608 43.7609 43.9653 37.3234C39.027 31.9023 31.9107 28.5 23.9998 28.5Z" fill="white"/>
+<ellipse cx="24" cy="15" rx="9" ry="9" fill="#DCF0F9"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4.03418 37.323C8.97243 31.9021 16.0886 28.5 23.9993 28.5C31.9103 28.5 39.0266 31.9023 43.9648 37.3234C39.6603 43.7609 32.325 48 23.9996 48C15.6741 48 8.33864 43.7607 4.03418 37.323Z" fill="#DCF0F9"/>
 <defs>
 <linearGradient id="paint0_linear" x1="1.75374" y1="14.703" x2="40.8944" y2="14.703" gradientUnits="userSpaceOnUse">
 <stop stop-color="#00A3FF"/>

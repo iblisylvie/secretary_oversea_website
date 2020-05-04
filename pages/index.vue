@@ -231,6 +231,10 @@ p {
   width: 100%;
   background: $white;
 
+  .wrapper {
+    overflow: hidden;
+  }
+
   .subtitle {
     color: $colored-bg;
   }

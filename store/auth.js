@@ -57,7 +57,7 @@ export default {
     }
   },
   actions: {
-    async LOGIN({ commit, dispatch }) {
+    async LOGIN({ commit, dispatch, rootState }) {
       // Lead to Mobvoi login page
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       const context = get(this, 'app.context', {})
@@ -69,29 +69,41 @@ export default {
         await dispatch('INIT_PREQ_INFO')
         return
       }
-      // Lead to dashboard call-history route if login after landing page
-      const redirectRoutePath =
-        route.path === '/' ? '/call-history' : route.path
+      // Lead to dashboard route if login after landing page
+      let redirectRoutePath = route.path
+      if (route.path === '/') {
+        redirectRoutePath = '/get-started'
+      }
+      const redirectDomain =
+        get(rootState, 'app.domain') || process.env.returnUrl
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${process.env.returnUrl}${redirectRoutePath}`
+        redirect_url: `${redirectDomain}${redirectRoutePath}`
       })
-      redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
+      try {
+        redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
+      } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
     },
-    LOGOUT({ commit }) {
+    LOGOUT({ commit, rootState }) {
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       commit('POST_LOGIN_CERT', '')
       commit('PUT_USER_INFO', { wwid: '' })
       const context = get(this, 'app.context', {})
       const { redirect } = context
+      const redirectDomain =
+        get(rootState, 'app.domain') || process.env.returnUrl
       const params = new URLSearchParams({
         lang: 'en-us',
         from: 'secretary-oversea',
-        redirect_url: `${process.env.returnUrl}/`
+        redirect_url: `${redirectDomain}/`
       })
-      redirect(`https://passport.mobvoi.com/pages/logout?${params.toString()}`)
+      try {
+        redirect(
+          `https://passport.mobvoi.com/pages/logout?${params.toString()}`
+        )
+      } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
     },
     /**
      * Initialize prerequisite info

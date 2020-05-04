@@ -1,9 +1,9 @@
 <template>
   <section class="call-record">
     <header class="call-record-thead">
-      <nuxt-link to="/call-history">
+      <div @click="$router.back()">
         <svg-icon icon-class="go-back" class-name="call-record-thead-go-back" />
-      </nuxt-link>
+      </div>
       <div class="call-record-thead-cells">
         <span
           v-for="column in THEAD_COLUMNS"
@@ -22,7 +22,7 @@
           @click="onCtrlFullViocePlay"
         >
           <svg-icon
-            icon-class="play"
+            :icon-class="computedPlaySvgIconClass"
             class-name="call-record-card-ctrl-btn-shape play"
           />
         </button>
@@ -63,16 +63,31 @@
         >
           <div
             v-if="msg.user_voice_url && msg.user_query"
-            class="call-record-history-bubble caller"
+            class="call-record-history-session caller"
           >
-            <span @click="onSessionAudioCtrol">
-              <svg-icon icon-class="speak" />
-            </span>
-            <audio :src="msg.user_voice_url" style="display:none"></audio>
-            {{ msg.user_query }}
+            <img
+              class="call-record-history-avatar caller"
+              :src="userAvatar"
+              alt="avatar"
+            />
+            <div class="call-record-history-bubble caller">
+              <span
+                class="call-record-history-bubble-speak"
+                @click="onSessionAudioCtrol"
+              >
+                <svg-icon icon-class="speak" />
+              </span>
+              <audio :src="msg.user_voice_url" style="display:none"></audio>
+              {{ msg.user_query }}
+            </div>
           </div>
-          <div v-if="msg.dm_resp" class="call-record-history-bubble callee">
-            {{ msg.dm_resp }}
+          <div v-if="msg.dm_resp" class="call-record-history-session callee">
+            <div class="call-record-history-bubble callee">
+              {{ msg.dm_resp }}
+            </div>
+            <div class="call-record-history-avatar callee">
+              <svg-icon icon-class="logo" class-name="shape"></svg-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -81,6 +96,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { get } from 'lodash-es'
 import { Howl } from 'howler'
 import dayjs from 'dayjs'
@@ -135,8 +151,21 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      userAvatar: (state) => get(state, 'auth.head_image_url')
+    }),
     bubbleSession() {
       return get(this, 'detail.call_detail', [])
+    },
+    computedPlaySvgIconClass() {
+      if (!this.fullVoiceAvailable) {
+        return 'play-disabled'
+      }
+      if (this.playFullVoice) {
+        return 'pause'
+      } else {
+        return 'play'
+      }
     }
   },
   async created() {
@@ -194,6 +223,7 @@ export default {
           this.fullVoiceProgressRate = 100
           setTimeout(() => {
             this.fullVoiceProgressRate = 0
+            this.playFullVoice = false
           }, 1000)
           timer && clearInterval(timer)
         }
@@ -223,18 +253,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$table-sticky-header-height: 700px;
+@import '~/assets/scss/mixins.scss';
 .call-record {
   padding: 40px 32px 84px 48px;
   height: 100%;
   &-thead {
     display: flex;
+    align-items: center;
     padding-right: 32px;
     width: 100%;
     color: #484848;
     &-go-back {
-      font-size: 16px;
       margin-right: 32px;
+      font-size: 16px;
+      cursor: pointer;
     }
     &-cells {
       flex: 1;
@@ -267,19 +299,13 @@ $table-sticky-header-height: 700px;
       font-size: 64px;
       cursor: pointer;
       outline: none;
-      background: #02aefc;
+      @include gradient-background;
       &[disabled] {
-        background: gray;
+        // background: gray;
         cursor: not-allowed;
       }
       &-shape {
         font-size: 24px;
-      }
-      &.play {
-        // background: #02aefc;
-      }
-      &.pause {
-        background: #edf9ff;
       }
     }
     &-fields {
@@ -301,23 +327,58 @@ $table-sticky-header-height: 700px;
       display: flex;
       flex-flow: column;
     }
-    &-bubble {
-      flex-flow: column;
+    &-session {
       margin-bottom: 12px;
-      padding: 16px;
-      border-radius: 25px;
-      font-size: 14px;
+      display: flex;
+      align-items: center;
       &.caller {
         align-self: flex-start;
-        border-top-left-radius: 0;
-        background: #eff5fc;
-        color: #141b24;
       }
       &.callee {
         align-self: flex-end;
+      }
+    }
+    &-avatar {
+      border-radius: 100%;
+      &.caller {
+        margin-right: 10px;
+      }
+      &.callee {
+        margin-left: 10px;
+        padding: 12px;
+        background: #eff5fc;
+        & .shape {
+          font-size: 24px;
+        }
+      }
+    }
+    &.caller &-avatar {
+      margin-right: 10px;
+    }
+    &.callee &-avatar {
+      margin-left: 10px;
+    }
+    &-bubble {
+      flex-flow: column;
+      padding: 16px;
+      border-radius: 25px;
+      &-speak {
+        margin-right: 10px;
+      }
+      &.caller {
+        border-top-left-radius: 0;
+        @include gradient-background;
+        @include primary-text(
+          $color: #fff,
+          $font-size: 14px,
+          $font-weight: normal
+        );
+      }
+      &.callee {
         border-top-right-radius: 0;
-        background: #02aefc;
+        background: #eff5fc;
         color: #f3f6f8;
+        @include primary-text($font-size: 14px, $font-weight: normal);
       }
     }
   }

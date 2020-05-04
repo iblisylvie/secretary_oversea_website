@@ -20,3 +20,16 @@
     font-size: $font-size;
     font-weight: $font-weight
 }
+
+@mixin text-button () {
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+@mixin primary-button () {
+    background: #02aefc;
+    color: #fff;
+}

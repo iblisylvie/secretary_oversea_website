@@ -19,16 +19,10 @@ export default {
   },
   actions: {
     async FETCH_RELATION({ commit }) {
-      let relationInfo
-      try {
-        relationInfo = await this.$axios({
-          url: '/overseas/relation',
-          method: 'GET'
-        })
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log('/overseas/relation Fail ', err)
-      }
+      const relationInfo = await this.$axios({
+        url: '/overseas/relation',
+        method: 'GET'
+      })
 
       if (relationInfo) {
         commit('PUT_RELATION_INFO', relationInfo)

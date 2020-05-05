@@ -22,8 +22,7 @@ export default function({ $axios, store }, inject) {
     (error) => {
       // eslint-disable-next-line
       console.log(`
-[request error]:
-${error}`)
+[request error]: ${error}`)
       return Promise.reject(error)
     }
   )
@@ -33,16 +32,17 @@ ${error}`)
       return data
     },
     (error) => {
+      // Handle error over here.
+
+      // @TODO using message or other under client side
       // eslint-disable-next-line
       console.log(`
-[response error]:
-${error}`)
+[response error]: ${error}`)
       const status = get(error, 'response.status')
       // Logout under `401`
       if (status === 401) {
         store.dispatch('auth/LOGOUT')
       }
-      return Promise.reject(get(error, 'response'))
     }
   )
 

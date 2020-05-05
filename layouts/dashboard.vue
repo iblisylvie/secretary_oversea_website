@@ -72,7 +72,7 @@
             </div>
           </div>
           <div class="aside-account-plate">
-            <div class="aside-account-user" v-show="!asideAccountActive">
+            <div v-show="!asideAccountActive" class="aside-account-user">
               <avatar :src="userInfo.head_image_url" />
               <!-- <img
                 class="aside-account-avatar"
@@ -107,9 +107,7 @@ export default {
   filters: {},
   props: {},
   data: () => ({
-    asideAccountActive: false,
-    defaultImg:
-      'this.src="' + require('~/assets/icons/svg/default-avatar.svg') + '"'
+    asideAccountActive: false
   }),
   computed: {
     ...mapState({

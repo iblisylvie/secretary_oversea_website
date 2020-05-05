@@ -5,7 +5,7 @@ import Vue from 'vue'
  */
 import SvgIcon from '~/components/utils/svg-icon'
 import Steps from '~/components/utils/steps'
-import Avatar from '~/components/utils/Avatar'
+import Avatar from '~/components/utils/avatar'
 import Message from '~/components/utils/message'
 
 Vue.use(SvgIcon)

@@ -1,95 +1,66 @@
 <template>
-  <section class="container-wrap">
-    <div class="top">
-      <div class="aside-logo">
-        <svg-icon icon-class="logo" class-name="aside-logo-shape" />
-      </div>
-      <div>{{ 'Call History' }}</div>
-      <div class="breadcrumb">
-        <svg-icon
-          icon-class="breadcrumb"
-          class-name="breadcrumb-shape"
-        ></svg-icon>
+  <section class="wrap">
+    <!-- Mobile top bar  -->
+    <div class="top-bar">
+      <svg-icon icon-class="logo" class-name="logo" />
+      <span>{{ 'xxxxxxx' }}</span>
+      <div @click="asideExpanded = true">
+        <svg-icon icon-class="breadcrumb" class-name="breadcrumb" />
       </div>
     </div>
-    <b-sidebar :fullheight="true" open class="aside">
-      <div class="aside">
-        <div>
-          <div class="aside-logo">
-            <svg-icon icon-class="logo" class-name="aside-logo-shape" />
+    <!-- Aside bar  -->
+    <aside class="aside" :class="{ expand: asideExpanded }">
+      <div>
+        <svg-icon icon-class="logo" class-name="logo" />
+        <nuxt-link
+          v-for="(menu, index) in asideMenu"
+          :key="index"
+          :to="menu.path"
+          :class="{
+            active: menu.path === $route.path,
+            disabled: menuDisabled(menu.path)
+          }"
+          class="menu-item"
+        >
+          <svg-icon
+            :icon-class="menu.mapToAsideMenu.icon"
+            class-name="figure"
+          ></svg-icon>
+          <span>{{ menu.mapToAsideMenu.name }}</span>
+        </nuxt-link>
+      </div>
+      <!-- Account  -->
+      <div
+        class="account"
+        :class="{ expand: accountExpanded }"
+        @mouseenter="accountExpanded = true"
+        @mouseleave="accountExpanded = false"
+      >
+        <div class="options">
+          <div class="option plain">
+            <avatar :src="userInfo.head_image_url" class="avatar" />
+            <span>{{ userInfo.nickname }}</span>
           </div>
           <nuxt-link
-            v-for="(menu, index) in asideMenu"
-            :key="index"
-            :to="menu.path"
-            :class="{ active: menu.path === $route.path }"
-            class="aside-menu-item"
+            v-show="accountExpanded"
+            to="/account-setting"
+            class="option"
           >
-            <svg-icon
-              :icon-class="menu.mapToAsideMenu.icon"
-              class-name="aside-menu-icon"
-            ></svg-icon>
-            <span>{{ menu.mapToAsideMenu.name }}</span>
+            <svg-icon icon-class="aside-acc-setting" class-name="figure" />
+            <span class="name">Account Setting</span>
           </nuxt-link>
-        </div>
-        <div
-          class="aside-account"
-          :class="{ active: asideAccountActive }"
-          @mouseenter="asideAccountActive = true"
-          @mouseleave="asideAccountActive = false"
-        >
-          <div class="aside-account-popup">
-            <div class="aside-account-user">
-              <avatar :src="userInfo.head_image_url" />
-              <!-- <img
-                class="aside-account-avatar"
-                :src="userInfo.head_image_url"
-                :onerror="defaultImg"
-                alt="avatar"
-              /> -->
-              <span class="aside-account-user-name">{{
-                userInfo.nickname
-              }}</span>
-            </div>
-            <div class="aside-account-menu">
-              <nuxt-link to="/account-setting" class="aside-account-menu-item">
-                <svg-icon
-                  icon-class="aside-acc-setting"
-                  class-name="aside-account-menu-icon"
-                ></svg-icon>
-                <span class="aside-account-menu-name">Account Setting</span>
-              </nuxt-link>
-              <div
-                class="aside-account-menu-item"
-                @click="$store.dispatch('auth/LOGOUT')"
-              >
-                <svg-icon
-                  icon-class="power-off"
-                  class-name="aside-account-menu-icon"
-                ></svg-icon>
-                <span class="aside-account-menu-name">Log Out</span>
-              </div>
-            </div>
-          </div>
-          <div class="aside-account-plate">
-            <div v-show="!asideAccountActive" class="aside-account-user">
-              <avatar :src="userInfo.head_image_url" />
-              <!-- <img
-                class="aside-account-avatar"
-                :src="userInfo.head_image_url"
-                :onerror="defaultImg"
-                alt="avatar"
-              /> -->
-              <span class="aside-account-user-name">{{
-                userInfo.nickname
-              }}</span>
-            </div>
-            <svg-icon icon-class="fold" class-name="aside-account-folder">
-            </svg-icon>
+          <div
+            v-show="accountExpanded"
+            class="option"
+            @click="$store.dispatch('auth/LOGOUT')"
+          >
+            <svg-icon icon-class="power-off" class-name="figure" />
+            <span class="name">Log Out</span>
           </div>
         </div>
+        <svg-icon icon-class="fold" class-name="folder" />
       </div>
-    </b-sidebar>
+    </aside>
     <main class="main-content">
       <nuxt />
     </main>
@@ -101,13 +72,14 @@ import { mapState } from 'vuex'
 import { get, pick } from 'lodash-es'
 
 export default {
-  name: '',
+  name: 'Dashboard',
   directives: {},
   components: {},
   filters: {},
   props: {},
   data: () => ({
-    asideAccountActive: false
+    accountExpanded: false,
+    asideExpanded: false
   }),
   computed: {
     ...mapState({
@@ -123,8 +95,18 @@ export default {
               get(nextMenu, 'meta.mapToAsideMenu.order')
           )
       },
-      userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url'])
-    })
+      userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url']),
+      activated: (state) => get(state, 'relation.activated')
+    }),
+    menuDisabled() {
+      const activated = this.activated
+      return (route) => {
+        if (!activated && ['/call-history', '/customization'].includes(route)) {
+          return true
+        }
+        return false
+      }
+    }
   },
   watch: {},
   created() {},
@@ -136,9 +118,137 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/mixins.scss';
-.top {
+.wrap {
+  background: $main-panel-background;
+}
+.top-bar {
   display: none;
 }
+.logo {
+  display: flex;
+  align-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 14px;
+  text-align: center;
+  font-size: 36px;
+}
+.aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  padding: 20px 16px;
+  background: $sidebar-background;
+  .logo {
+    margin: 34px auto 50px;
+    display: block;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 32px;
+    @include secondary-text;
+    .figure {
+      margin-right: 16px;
+      font-size: 22px;
+    }
+    &.active {
+      border-radius: 8px;
+      background: $aside-menu-active-background;
+      span {
+        @include gradient-text;
+      }
+    }
+    &.disabled {
+      // cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+  .account {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-radius: 8px;
+    background: #f3f6f8;
+    .options {
+      .option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        @include secondary-text($font-size: 14px);
+        .avatar {
+          margin-right: 12px;
+        }
+        .figure {
+          margin-right: 12px;
+          width: 32px;
+          font-size: 14px;
+        }
+        .name {
+          @include secondary-text($font-size: 14px);
+        }
+        &.plain {
+          cursor: initial;
+        }
+      }
+    }
+    .folder {
+      font-size: 12px;
+    }
+    &.expand {
+      background: #fff;
+      .folder {
+        align-self: flex-end;
+        transform: rotate(180deg);
+      }
+      .option {
+        margin-bottom: 32px;
+      }
+      .option.plain {
+        @include primary-text($font-size: 14px);
+        margin-bottom: 44px;
+      }
+    }
+  }
+}
+
+// Mobile layout
+@include mobile {
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    @include primary-text($font-size: 18px);
+    .breadcrumb {
+      font-size: 22px;
+    }
+  }
+  .aside {
+    display: none;
+    .logo {
+      display: none;
+    }
+    &.expand {
+      position: fixed;
+      display: flex;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: auto;
+    }
+  }
+}
+
 .aside {
   display: flex;
   flex-flow: column;

@@ -128,6 +128,10 @@ export default {
       const routes = [
         {
           path: '/get-started',
+          name: 'GetStarted',
+          meta: {
+            title: 'Get Started' // Document title
+          },
           mapToAsideMenu: {
             order: 1,
             name: 'Get Started',
@@ -136,6 +140,10 @@ export default {
         },
         {
           path: '/call-history',
+          name: 'CallHistory',
+          meta: {
+            title: 'Call History' // Document title
+          },
           mapToAsideMenu: {
             order: 2,
             name: 'Call History',
@@ -144,6 +152,10 @@ export default {
         },
         {
           path: '/customization',
+          name: 'Customization',
+          meta: {
+            title: 'Customization' // Document title
+          },
           mapToAsideMenu: {
             order: 3,
             name: 'Customization',
@@ -152,6 +164,10 @@ export default {
         },
         {
           path: '/premium',
+          name: 'Premium',
+          meta: {
+            title: 'Premium' // Document title
+          },
           mapToAsideMenu: {
             order: 4,
             name: 'Premium',
@@ -160,6 +176,10 @@ export default {
         },
         {
           path: '/mbr-faq',
+          name: 'FAQ',
+          meta: {
+            title: 'FAQ' // Document title
+          },
           mapToAsideMenu: {
             order: 5,
             name: 'FAQ',
@@ -167,10 +187,18 @@ export default {
           }
         },
         {
-          path: '/account-settings'
+          path: '/account-settings',
+          name: 'AccountSetting',
+          meta: {
+            title: 'AccountSetting' // Document title
+          }
         },
         {
-          path: '/call-history/:id?'
+          path: '/call-history/:id?',
+          name: 'CallDetail',
+          meta: {
+            title: 'Call Detail' // Document title
+          }
         }
       ]
       await dispatch('relation/FETCH_RELATION', null, { root: true })

@@ -231,10 +231,6 @@ p {
   width: 100%;
   background: $white;
 
-  .wrapper {
-    overflow: hidden;
-  }
-
   .subtitle {
     color: $colored-bg;
   }
@@ -246,6 +242,10 @@ p {
     .subtitle {
       color: #59687a;
       margin-bottom: 1.5rem !important;
+    }
+
+    .wrapper {
+      overflow: hidden;
     }
   }
 

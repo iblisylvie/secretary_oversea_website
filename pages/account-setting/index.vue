@@ -102,11 +102,11 @@
       <section class="block">
         <h3 class="title">Servicing Number</h3>
         <div class="form">
-          <p>(907) 555-0101</p>
+          <p>{{ phone || 'None' }}</p>
         </div>
-        <div class="form" style="margin-top: 16px">
+        <!-- <div class="form" style="margin-top: 16px">
           <p>(907) 555-0101</p>
-        </div>
+        </div> -->
         <!-- <b-button
           class="submit"
           rounded
@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import { get } from 'lodash-es'
 import { mapState } from 'vuex'
 
 export default {
@@ -148,7 +149,11 @@ export default {
     emailModel: ''
   }),
   computed: {
-    ...mapState('auth', ['nickname', 'email'])
+    ...mapState({
+      nickname: (state) => get(state, 'auth.nickname'),
+      email: (state) => get(state, 'auth.email'),
+      phone: (state) => get(state, 'relation.relation.phone')
+    })
   },
   methods: {}
 }

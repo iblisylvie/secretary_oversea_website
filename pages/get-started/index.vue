@@ -200,7 +200,7 @@ export default {
         url: '/overseas/captcha',
         method: 'GET',
         params: {
-          phone: '18070260521'
+          phone: this.phoneModel
         }
       })
     },

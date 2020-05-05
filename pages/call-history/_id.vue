@@ -65,11 +65,15 @@
             v-if="msg.user_voice_url && msg.user_query"
             class="call-record-history-session caller"
           >
-            <img
+            <avatar
+              class="call-record-history-avatar caller"
+              :src="userAvatar"
+            />
+            <!-- <img
               class="call-record-history-avatar caller"
               :src="userAvatar"
               alt="avatar"
-            />
+            /> -->
             <div class="call-record-history-bubble caller">
               <span
                 class="call-record-history-bubble-speak"

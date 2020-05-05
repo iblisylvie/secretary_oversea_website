@@ -18,17 +18,17 @@
         <h3 class="title">Account Settings</h3>
         <div class="label">Name</div>
         <div class="form">
-          <p>sdfsfsdfsdf</p>
-          <button class="opt">
+          <p>{{ nickname }}</p>
+          <!-- <button class="opt">
             Edit
-          </button>
+          </button> -->
         </div>
         <div class="label">Email</div>
         <div class="form">
-          <p>sdfasfafsdfs@gmail.com</p>
-          <button class="opt">
+          <p>{{ email || 'None' }}</p>
+          <!-- <button class="opt">
             Edit
-          </button>
+          </button> -->
         </div>
         <div class="label">Email Preference</div>
         <div class="form">
@@ -36,7 +36,7 @@
             Receive an email of call summary after each call
           </b-checkbox>
         </div>
-        <div class="form">
+        <!-- <div class="form">
           <b-checkbox :value="emailPreferenceModel" type="is-info">
             Receive weekly call summary
           </b-checkbox>
@@ -45,8 +45,13 @@
           <b-checkbox :value="emailPreferenceModel" type="is-info">
             Receive cool updates and discount information from HeyTico
           </b-checkbox>
-        </div>
-        <b-button class="submit" rounded>Update</b-button>
+        </div> -->
+        <a
+          href="https://passport.mobvoi.com/pages/user-edit?lang=en-us"
+          target="_blank"
+        >
+          <b-button class="submit" rounded>Update</b-button>
+        </a>
       </section>
       <hr class="seprate" />
       <!-- Subscription  -->
@@ -88,7 +93,7 @@
         <b-button
           class="submit"
           rounded
-          @click="$message.open('Function comming soon')"
+          @click="$message.open('Feature comming soon')"
           >Upgrade</b-button
         >
       </section>
@@ -97,19 +102,19 @@
       <section class="block">
         <h3 class="title">Servicing Number</h3>
         <div class="form">
-          <p>(907) 555-0101</p>
+          <p>{{ phone || 'None' }}</p>
         </div>
-        <div class="form" style="margin-top: 16px">
+        <!-- <div class="form" style="margin-top: 16px">
           <p>(907) 555-0101</p>
-        </div>
-        <b-button
+        </div> -->
+        <!-- <b-button
           class="submit"
           rounded
           style="padding: 5px 9px;"
           @click="$message.open('Function comming soon')"
         >
           <svg-icon icon-class="add"></svg-icon>
-        </b-button>
+        </b-button> -->
       </section>
       <hr class="seprate" />
       <section class="block">
@@ -117,13 +122,16 @@
           This account will no longer be available, and all its data will be
           deleted
         </p>
-        <button class="danger">DELETE ACCOUNT</button>
+        <button class="danger" @click="$message.open('Feature comming soon')">
+          DELETE ACCOUNT
+        </button>
       </section>
     </main>
   </section>
 </template>
 
 <script>
+import { get } from 'lodash-es'
 import { mapState } from 'vuex'
 
 export default {
@@ -141,7 +149,11 @@ export default {
     emailModel: ''
   }),
   computed: {
-    ...mapState('auth', ['nickname', 'email'])
+    ...mapState({
+      nickname: (state) => get(state, 'auth.nickname'),
+      email: (state) => get(state, 'auth.email'),
+      phone: (state) => get(state, 'relation.relation.phone')
+    })
   },
   methods: {}
 }
@@ -206,6 +218,10 @@ export default {
       }
       .submit {
         margin-top: 16px;
+        // @TODO support primary button
+        padding: 8px 24px;
+        height: auto;
+        font-weight: bold;
         @include primary-button;
       }
       ul {

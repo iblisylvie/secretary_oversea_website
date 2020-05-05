@@ -1,5 +1,17 @@
 <template>
-  <section>
+  <section class="container-wrap">
+    <div class="top">
+      <div class="aside-logo">
+        <svg-icon icon-class="logo" class-name="aside-logo-shape" />
+      </div>
+      <div>{{ 'Call History' }}</div>
+      <div class="breadcrumb">
+        <svg-icon
+          icon-class="breadcrumb"
+          class-name="breadcrumb-shape"
+        ></svg-icon>
+      </div>
+    </div>
     <b-sidebar :fullheight="true" open class="aside">
       <div class="aside">
         <div>
@@ -28,11 +40,13 @@
         >
           <div class="aside-account-popup">
             <div class="aside-account-user">
-              <img
+              <avatar :src="userInfo.head_image_url" />
+              <!-- <img
                 class="aside-account-avatar"
                 :src="userInfo.head_image_url"
+                :onerror="defaultImg"
                 alt="avatar"
-              />
+              /> -->
               <span class="aside-account-user-name">{{
                 userInfo.nickname
               }}</span>
@@ -58,12 +72,14 @@
             </div>
           </div>
           <div class="aside-account-plate">
-            <div class="aside-account-user">
-              <img
+            <div v-show="!asideAccountActive" class="aside-account-user">
+              <avatar :src="userInfo.head_image_url" />
+              <!-- <img
                 class="aside-account-avatar"
                 :src="userInfo.head_image_url"
+                :onerror="defaultImg"
                 alt="avatar"
-              />
+              /> -->
               <span class="aside-account-user-name">{{
                 userInfo.nickname
               }}</span>
@@ -120,6 +136,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/mixins.scss';
+.top {
+  display: none;
+}
 .aside {
   display: flex;
   flex-flow: column;
@@ -183,8 +202,11 @@ export default {
     &-plate {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
     &-user {
+      display: flex;
+      align-items: center;
       &-avatar {
         margin-right: 16px;
         width: 32px;
@@ -231,5 +253,31 @@ export default {
   width: 100%;
   padding-left: $sidebar-width;
   background: $main-panel-background;
+}
+
+@include mobile {
+  .container-wrap {
+    padding: 12px;
+    background: $main-panel-background;
+  }
+  .aside-logo {
+    margin: 0;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include primary-text($font-size: 18px);
+  }
+  .aside {
+    display: none;
+  }
+  .main-content {
+    position: relative;
+    padding: 0;
+  }
+  .breadcrumb-shape {
+    font-size: 22px;
+  }
 }
 </style>

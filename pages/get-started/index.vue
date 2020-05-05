@@ -41,37 +41,53 @@
       <template v-if="activeStep === 1">
         <svg-icon icon-class="active-phone" class-name="bind-number-icon" />
         <p class="bind-number-ISPS">
-          <button class="bind-number-ISPS-btn">
-            Verizion
-          </button>
-          <button class="bind-number-ISPS-btn">
-            AT&T
-          </button>
-          <button class="bind-number-ISPS-btn">
-            T-Mobile
-          </button>
-          <button class="bind-number-ISPS-btn">
-            Sprint
+          <button
+            v-for="(ISP, index) in ISPs"
+            :key="index"
+            class="bind-number-ISPS-btn"
+            :class="{ active: activeISP === ISP }"
+            @click="activeISP = ISP"
+          >
+            {{ ISP }}
           </button>
         </p>
+
         <div class="bind-number-ISP-desc">
-          <p class="bind-number-ISP-desc-title">
+          <p
+            v-show="activeISP === 'Verizion'"
+            class="bind-number-ISP-desc-title"
+          >
             From Your Mobile Device
           </p>
-          <ul class="bind-number-ISP-desc-content">
-            <li>Enter *72.</li>
+          <ul
+            v-show="activeISP === 'Verizion'"
+            class="bind-number-ISP-desc-content"
+          >
+            <li>&nbsp;Enter *72.</li>
             <li>
-              {{
-                'Enter +1(938) 253-2388 Tap the Call button and wait for confirmation.'
-              }}
+              Enter +1(938) 253-2388 Tap the Call button and wait for
+              confirmation.
             </li>
-            <li>You should hear a confirmation tone or message.</li>
-            <li>End your call.</li>
+            <li>&nbsp;You should hear a confirmation tone or message.</li>
+            <li>&nbsp;End your call.</li>
           </ul>
-          <p class="bind-number-ISP-desc-title">
+          <ul
+            v-show="activeISP !== 'Verizion'"
+            class="bind-number-ISP-desc-content"
+          >
+            <li>Enter *72.</li>
+            <li>Enter +1(938) 253-2388</li>
+          </ul>
+          <p
+            v-show="activeISP === 'Verizion'"
+            class="bind-number-ISP-desc-title"
+          >
             From Your Computer
           </p>
-          <ul class="bind-number-ISP-desc-content">
+          <ul
+            v-show="activeISP === 'Verizion'"
+            class="bind-number-ISP-desc-content"
+          >
             <li>
               In My Business Account, click the number for which you wish to
               activate call forwarding. This brings you to the Wireless Number
@@ -160,7 +176,9 @@ export default {
       { title: 'Bind Number' },
       { title: 'All Set!' }
     ],
+    ISPs: ['Verizion', 'AT&T', 'T-Mobile', 'Sprint'],
     activeStep: 0,
+    activeISP: 'Verizion',
     phoneModel: '',
     captchaModel: '',
     activatePolling: false
@@ -309,6 +327,7 @@ export default {
       // font-weight: bold;
       cursor: pointer;
       @include primary-text;
+      @include text-button;
       &.active {
         @include gradient-text;
       }
@@ -317,7 +336,7 @@ export default {
   &-ISP-desc {
     margin-top: 32px;
     height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
     color: #141b24;
     font-size: 18px;
     font-weight: bold;
@@ -345,7 +364,7 @@ export default {
       }
       & li:before {
         content: '\2022'; /* Add content: \2022 is the CSS Code/unicode for a bullet */
-        color: #02aefc; /* Change the color */
+        color: #101213; /* Change the color */
         font-weight: bold; /* If you want it to be bold */
         display: inline-block; /* Needed to add space between the bullet and the text */
         width: 1em; /* Also needed for space (tweak if needed) */

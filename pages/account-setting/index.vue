@@ -1,133 +1,125 @@
 <template>
   <section class="acc-settings">
-    <header class="acc-settings-navs">
-      <nav
-        v-for="(nav, index) of navs"
-        :key="index"
-        class="acc-settings-nav"
-        :class="{ active: index === activeNav }"
-        @click="activeNav = index"
-      >
-        {{ nav }}
-      </nav>
-      <nuxt-link to="/mbr-faq" class="acc-settings-nav">Support</nuxt-link>
-    </header>
-    <section class="acc-settings-card">
-      <!-- Profile  -->
-      <template v-if="activeNav === 0">
-        <div class="acc-settings-row">
-          <img src="" class="acc-settings-row-avatar" alt="avatar" />
-          <button class="acc-settings-btn">Upload</button>
-          <input type="file" style="display: none;" />
-        </div>
-        <div class="acc-settings-row">
-          <div class="acc-settings-row-prop">
-            <span class="acc-settings-row-label">
-              Name
-            </span>
-            <span v-show="!editingName" class="acc-settings-row-value">
-              {{ nickname }}
-            </span>
-            <b-input
-              v-show="editingName"
-              :value="nameModel"
-              class="acc-settings-row-edit"
-            ></b-input>
-          </div>
-          <button class="acc-settings-btn" @click="editingName = !editingName">
-            {{ editingName ? 'Done' : 'Edit' }}
+    <nav class="nav">
+      <ul class="primary">
+        <li @click="$router.back()">
+          <svg-icon icon-class="go-back"></svg-icon>
+        </li>
+        <li>Account</li>
+      </ul>
+      <ul class="secondary">
+        <li @click="$router.push({ path: '/feedback' })">Got Any Feedback?</li>
+        <li @click="$router.push({ path: '/mbr-faq' })">Support</li>
+      </ul>
+    </nav>
+    <main class="panel">
+      <!-- Account Settings  -->
+      <section class="block">
+        <h3 class="title">Account Settings</h3>
+        <div class="label">Name</div>
+        <div class="form">
+          <p>sdfsfsdfsdf</p>
+          <button class="opt">
+            Edit
           </button>
         </div>
-        <div class="acc-settings-row">
-          <div class="acc-settings-row-prop">
-            <span class="acc-settings-row-label">
-              Email
-            </span>
-            <span v-show="!editingEmail" class="acc-settings-row-value">
-              {{ email }}
-            </span>
-            <b-input
-              v-show="editingEmail"
-              :value="emailModel"
-              class="acc-settings-row-edit"
-            ></b-input>
-          </div>
-          <button
-            class="acc-settings-btn"
-            @click="editingEmail = !editingEmail"
-          >
-            {{ editingEmail ? 'Done' : 'Change' }}
+        <div class="label">Email</div>
+        <div class="form">
+          <p>sdfasfafsdfs@gmail.com</p>
+          <button class="opt">
+            Edit
           </button>
         </div>
-        <div class="acc-settings-row">
-          <div class="acc-settings-row-prop">
-            <span class="acc-settings-row-label">
-              Email Preference
-            </span>
-          </div>
+        <div class="label">Email Preference</div>
+        <div class="form">
+          <b-checkbox :value="emailPreferenceModel" type="is-info">
+            Receive an email of call summary after each call
+          </b-checkbox>
         </div>
-        <div class="acc-settings-row">
-          <div class="acc-settings-row-prop">
-            <b-checkbox
-              :value="emailPreferenceModel"
-              type="is-info"
-              class="acc-settings-row-checkbox"
-            >
-              Receive an email of call summary after each call
-            </b-checkbox>
-          </div>
+        <div class="form">
+          <b-checkbox :value="emailPreferenceModel" type="is-info">
+            Receive weekly call summary
+          </b-checkbox>
         </div>
-        <div class="acc-settings-row">
-          <div class="acc-settings-row-prop">
-            <button class="acc-settings-btn">DELETE ACCOUNT</button>
-          </div>
-          <a href="https://passport.mobvoi.com/pages/user-info" target="_blank"
-            ><b-button class="acc-settings-update" rounded>Update</b-button></a
-          >
+        <div class="form">
+          <b-checkbox :value="emailPreferenceModel" type="is-info">
+            Receive cool updates and discount information from HeyTico
+          </b-checkbox>
         </div>
-      </template>
+        <b-button class="submit" rounded>Update</b-button>
+      </section>
+      <hr class="seprate" />
       <!-- Subscription  -->
-      <template v-if="activeNav === 1">
-        <p class="acc-settings-subs-row plan">Free Plan</p>
-        <div class="acc-settings-subs-row">
-          <button class="acc-settings-btn">Downgrade</button>
+      <section class="block">
+        <h3 class="title">Subscription</h3>
+        <div class="label">Current Plan</div>
+        <div class="form">
+          <p>FREE</p>
         </div>
-        <p class="acc-settings-subs-row period">2019/12 - 2020/12</p>
-        <p class="acc-settings-subs-row desc">
-          Quis nisl libero orci massa egestas in. Feugiat nibh varius nisl,
-          blandit sit nec pretium, aliquam. Donec in dui lectus nibh enim
-          pretium, volutpat at. Tristique vel, nam massa, habitant. Erat nulla
-          vel rhoncus rhoncus dui risus sollicitudin cursus volutpat. Felis
-          mattis fermentum sit morbi sit hendrerit fringilla viverra. Pretium
-          egestas amet nulla lobortis eget vitae lorem. Sollicitudin placerat
-          odio urna ipsum ipsum maecenas. Dolor ligula consectetur consequat
-          quis etiam.
-        </p>
-      </template>
-      <!-- Servicing Number  -->
-      <template v-if="activeNav === 2">
-        <p class="acc-settings-svc-num">
-          (907) 555-0101
-        </p>
-        <p class="acc-settings-svc-num">
-          (907) 555-0101
-        </p>
-      </template>
-      <!-- Got any feedback ? -->
-      <template v-if="activeNav === 3">
-        <b-input
-          :value="emailModel"
-          class="acc-settings-got-feedback"
-          type="textarea"
-          placeholder="write your feedback here"
-        ></b-input>
-        <b-button class="acc-settings-update" rounded @click="sendFeedback"
-          >Send</b-button
+        <div class="form" style="margin-top: 12px; font-weight: normal">
+          When you go premium, you will be able to:
+        </div>
+        <ul>
+          <li>
+            Customize your responses
+            <br />
+            <p class="note">
+              &nbsp;Setup your personal opening remark, refusal message, and
+              special replies
+            </p>
+          </li>
+          <li>
+            Customize your names
+            <br />
+            <p class="note">
+              &nbsp;Have a more personal name for yourself and your virtual
+              assistant
+            </p>
+          </li>
+          <li>
+            Bind more numbers
+            <br />
+            <p class="note">
+              &nbsp;Have more than one number? Add it on to your account, so you
+              get an assistant for each number
+            </p>
+          </li>
+        </ul>
+        <b-button
+          class="submit"
+          rounded
+          @click="$message.open('Function comming soon')"
+          >Upgrade</b-button
         >
-      </template>
-      <!-- Support  -->
-      <!-- <template> </template> -->
-    </section>
+      </section>
+      <hr class="seprate" />
+      <!-- Servicing Number  -->
+      <section class="block">
+        <h3 class="title">Servicing Number</h3>
+        <div class="form">
+          <p>(907) 555-0101</p>
+        </div>
+        <div class="form" style="margin-top: 16px">
+          <p>(907) 555-0101</p>
+        </div>
+        <b-button
+          class="submit"
+          rounded
+          style="padding: 5px 9px;"
+          @click="$message.open('Function comming soon')"
+        >
+          <svg-icon icon-class="add"></svg-icon>
+        </b-button>
+      </section>
+      <hr class="seprate" />
+      <section class="block">
+        <p class="note">
+          This account will no longer be available, and all its data will be
+          deleted
+        </p>
+        <button class="danger">DELETE ACCOUNT</button>
+      </section>
+    </main>
   </section>
 </template>
 
@@ -144,133 +136,105 @@ export default {
     emailPreferenceModel: true,
     editingName: false,
     editingEmail: false,
-    feedbackModel: '',
+
     nameModel: '',
     emailModel: ''
   }),
   computed: {
     ...mapState('auth', ['nickname', 'email'])
   },
-  methods: {
-    async sendFeedback() {
-      await this.$axios({
-        method: 'POST',
-        url: '/overseas/feedback',
-        data: {
-          id: `source: feedback form
-${this.feedbackModel}`
-        }
-      })
-      this.feedbackModel = ''
-    }
-  }
+  methods: {}
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~/assets/scss/mixins.scss';
 .acc-settings {
-  padding: 60px 48px 0;
-  &-navs {
-    display: flex;
-    justify-content: flex-start;
-  }
-  &-nav {
-    margin-right: 48px;
-    color: #59687a;
-    font-size: 18px;
-    font-weight: 600;
-    padding-bottom: 8px;
-    cursor: pointer;
-    &.active {
-      border-bottom: 4px solid #141b24;
-      color: #141b24;
-      font-weight: bold;
-    }
-  }
-  &-card {
-    margin-top: 32px;
-    padding: 48px;
-    border-radius: 16px;
-    background: #fff;
-  }
-  &-row {
-    margin-bottom: 32px;
+  max-height: 100vh;
+  overflow: auto;
+  padding: 56px 48px;
+  .nav {
     display: flex;
     justify-content: space-between;
-    &-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 100%;
-    }
-    &-prop {
+    ul {
       display: flex;
-    }
-    &-label {
-      margin-right: 40px;
-      color: #59687a;
-      font-size: 18px;
-      font-weight: 600;
-    }
-    &-value {
-      color: #141b24;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    &-checkbox {
-      color: #141b24;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    &-edit {
-      height: 27px;
-    }
-  }
-  &-btn {
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: inherit;
-    color: #59687a;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    outline: none;
-    &.secondary {
-      font-size: 14px;
-    }
-  }
-  &-update {
-    background: #02aefc;
-    color: #fff;
-  }
-  &-subs {
-    &-row {
-      margin-bottom: 16px;
-      &.plan {
-        color: #141b24;
-        font-size: 24px;
-        font-weight: bold;
+      align-items: center;
+      li {
+        margin-right: 24px;
+        // @TODO hover
+        cursor: pointer;
       }
-      &.period {
-        color: #141b24;
-        font-size: 18px;
-        font-weight: bold;
-      }
-      &.desc {
-        color: #59687a;
-        font-size: 18px;
+      & :last-child {
+        margin-right: 0;
       }
     }
+    .primary {
+      @include primary-text($font-size: 18px);
+    }
+    .secondary {
+      @include secondary-text($font-size: 18px);
+    }
   }
-  &-svc-num {
-    margin-bottom: 32px;
-    color: #141b24;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  &-got-feedback {
-    margin-bottom: 24px;
-    background: #f3f6f8;
+  .panel {
+    margin-top: 24px;
+    padding: 64px 48px;
+    border-radius: 8px;
+    background: #fff;
+    .seprate {
+      margin: 72px 0;
+    }
+    .block {
+      .title {
+        @include primary-text;
+      }
+      .label {
+        margin-top: 24px;
+        @include secondary-text;
+      }
+      .form {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        @include primary-text($font-size: 18px);
+        .opt {
+          margin-left: 24px;
+        }
+      }
+      .opt {
+        @include text-button;
+        @include secondary-text;
+      }
+      .submit {
+        margin-top: 16px;
+        @include primary-button;
+      }
+      ul {
+        list-style: none;
+        .note {
+          margin-left: 1em;
+          @include secondary-text($font-size: 14px, $font-weight: normal);
+        }
+        li {
+          margin-top: 16px;
+          @include primary-text($font-size: 14px, $font-weight: normal);
+        }
+        li:before {
+          content: '\2022'; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+          color: #02aefc; /* Change the color */
+          font-weight: bold; /* If you want it to be bold */
+          display: inline-block; /* Needed to add space between the bullet and the text */
+          width: 1em; /* Also needed for space (tweak if needed) */
+        }
+      }
+      .note {
+        @include secondary-text($font-size: 14px, $font-weight: normal);
+      }
+      .danger {
+        margin-top: 8px;
+        @include primary-text($font-size: 14px);
+        @include text-button;
+      }
+    }
   }
 }
 </style>

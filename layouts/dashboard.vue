@@ -16,9 +16,9 @@
             <svg-icon
               :icon-class="menu.mapToAsideMenu.icon"
               class-name="aside-menu-icon"
-            ></svg-icon
-            >{{ menu.mapToAsideMenu.name }}</nuxt-link
-          >
+            ></svg-icon>
+            <span>{{ menu.mapToAsideMenu.name }}</span>
+          </nuxt-link>
         </div>
         <div
           class="aside-account"
@@ -119,6 +119,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~/assets/scss/mixins.scss';
 .aside {
   display: flex;
   flex-flow: column;
@@ -141,6 +142,7 @@ export default {
   &-menu {
     &-item {
       display: flex;
+      align-items: center;
       padding: 16px 32px 16px;
       font-weight: bold;
       font-size: 14px;
@@ -148,7 +150,10 @@ export default {
       &.active {
         border-radius: 8px;
         background: $aside-menu-active-background;
-        color: #141b24;
+
+        & span {
+          @include gradient-text;
+        }
       }
     }
     &-icon {

@@ -32,9 +32,19 @@
         </div>
         <div class="label">Email Preference</div>
         <div class="form">
-          <b-checkbox :value="emailPreferenceModel" type="is-info">
+          <b-checkbox
+            v-model="emailPreferenceModel"
+            :disabled="true"
+            type="is-info"
+          >
             Receive an email of call summary after each call
           </b-checkbox>
+        </div>
+        <div
+          class="label"
+          style="font-size: 14px; margin-top: 16px; font-weight: normal"
+        >
+          More email preferences coming soon.
         </div>
         <!-- <div class="form">
           <b-checkbox :value="emailPreferenceModel" type="is-info">

@@ -210,20 +210,33 @@ export default {
         return
       }
       if (this.activeStep === 0) {
-        const { activated } = await this.$axios({
+        const result = await this.$axios({
           method: 'POST',
           url: '/overseas/relation/phone',
-          data: {
+          params: {
             phone: this.phoneModel,
             captcha: this.captchaModel
           }
         })
+        if (get(result, 'err_code') && get(result, 'err_msg')) {
+          this.$message.open(get(result, 'err_msg'))
+          return
+        }
+        const activated = get(result, 'activated', '')
         if (activated) {
           this.activatePolling = false
         } else {
           this.activatePolling = true
+          let attempts = 0
           const timer = setInterval(async () => {
+            if (attempts >= 3) {
+              timer && clearInterval(timer)
+              this.activatePolling = false
+              this.$message.open('')
+              return
+            }
             await this.$store.dispatch('relation/FETCH_RELATION')
+            attempts++
             if (this.activated) {
               this.activatePolling = false
               timer && clearInterval(timer)
@@ -395,6 +408,19 @@ export default {
     margin-top: 24px;
     text-align: left;
     @include primary-text($font-size: 16px, $font-weight: normal);
+  }
+}
+
+@include mobile {
+  .get-start {
+    padding-top: 28px;
+  }
+  .get-start-steps {
+    width: auto;
+  }
+  .get-start-main {
+    margin: 24px 14px;
+    width: auto;
   }
 }
 </style>

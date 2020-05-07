@@ -17,6 +17,14 @@
               assistant.
             </h2>
             <Button
+              v-if="!user"
+              tag="a"
+              :href="signup"
+              text="Try Now"
+              sub-text="It's free"
+            />
+            <Button
+              v-if="user"
               tag="router-link"
               to="/call-history"
               text="Try Now"
@@ -43,7 +51,8 @@
           </div>
           <div class="column">
             <h2 class="title m-b-25 is-spaced has-text-centered-mobile">
-              Is voicemail the only place for missed calls?
+              Is voicemail <br />
+              the only place for missed calls?
             </h2>
             <h5 class="subtitle has-text-centered-mobile">
               Whether you are busy or do not want to answer a call, your
@@ -76,7 +85,7 @@
           />
           <TextImage
             title="Beyond an Answering Machine"
-            sub-title="From answering with appropriate answers to taking down messages, HeyTico helps you eliminate spam calls and focus more on the calls and messages that matter"
+            sub-title="From answering with appropriate answers to taking down messages, HeyTico helps you eliminate spam calls and focus more on the calls and messages that matter."
             image="icon3.png"
           />
         </div>
@@ -95,13 +104,10 @@
           </div>
         </div>
       </div>
-      <div class="shape-1">
-        <img src="~assets/images/shape-1.png" alt="shape" />
-      </div>
     </section>
 
     <!-- TESTIMONIAL SECTION -->
-    <section class="section">
+    <section class="section testimonial-section">
       <div class="container">
         <h2 class="title m-b-60 has-text-centered inverse-color">
           Everyone Can Have a Personal Assistant
@@ -109,6 +115,9 @@
         <div class="wrapper m-b-60">
           <Testimonials />
         </div>
+      </div>
+      <div class="shape-1">
+        <img src="~assets/images/shape-1.png" alt="shape" />
       </div>
     </section>
 
@@ -119,7 +128,7 @@
           Plans and Pricing
         </h2>
         <div class="wrapper m-b-60">
-          <Plans />
+          <Plans :user="user" :signup="signup" />
         </div>
       </div>
     </section>
@@ -136,6 +145,14 @@
             what your personal assistant can do for you!
           </p>
           <Button
+            v-if="!user"
+            tag="a"
+            :href="signup"
+            text="Try Now"
+            sub-text="It's free"
+          />
+          <Button
+            v-if="user"
             tag="router-link"
             to="/call-history"
             text="Try Now"
@@ -157,7 +174,13 @@ import Plans from '~/components/landingPage/Plans.vue'
 
 export default {
   name: 'HomePage',
-  components: { Button, Slogan, TextImage, Video, Testimonials, Plans }
+  components: { Button, Slogan, TextImage, Video, Testimonials, Plans },
+  data() {
+    return {
+      user: this.$store.getters['auth/loggedIn'],
+      signup: `https://passport.mobvoi.com/pages/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
+    }
+  }
 }
 </script>
 
@@ -223,6 +246,11 @@ p {
   }
 }
 
+.section {
+  z-index: 1;
+  position: relative;
+}
+
 .top-banner {
   display: flex;
   justify-content: center;
@@ -233,6 +261,7 @@ p {
 
   .subtitle {
     color: $colored-bg;
+    max-width: 520px;
   }
 
   @include mobile {
@@ -307,21 +336,6 @@ p {
   margin-right: auto;
 }
 
-.video-section {
-  position: relative;
-
-  .shape-1 {
-    position: absolute;
-    z-index: -2;
-    bottom: -30rem;
-    left: 0;
-
-    @include mobile {
-      bottom: -12rem;
-    }
-  }
-}
-
 .video {
   width: 70%;
   margin: 0 auto;
@@ -338,6 +352,21 @@ p {
 @include mobile {
   .pricing-section {
     margin-top: -8rem;
+  }
+}
+
+.video-section {
+  z-index: 2;
+}
+
+.testimonial-section .shape-1 {
+  position: absolute;
+  z-index: -2;
+  top: -32rem;
+  left: 0;
+
+  @include mobile {
+    top: -12rem;
   }
 }
 

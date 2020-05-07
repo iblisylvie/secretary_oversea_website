@@ -1,6 +1,10 @@
 <template>
   <div v-if="issues" class="faqs">
     <Faq v-for="issue in issues" :key="issue.question" :issue="issue" />
+    <span
+      >Still encountering problems? Contact us at
+      <a href="mailto:info@heytico.com">info@heytico.com</a></span
+    >
   </div>
 </template>
 
@@ -24,5 +28,9 @@ export default {
   margin: 0 auto;
   max-height: 95vh;
   overflow: scroll;
+
+  a {
+    color: $primary;
+  }
 }
 </style>

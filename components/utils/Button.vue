@@ -15,7 +15,6 @@ button {
   min-height: 4.5rem;
   font-size: 1.5rem;
   font-weight: bold;
-  line-height: 3.7rem;
   padding: 0.5rem 2.5rem;
   border-radius: 2.2rem;
   border-color: transparent;

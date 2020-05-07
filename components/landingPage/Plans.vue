@@ -9,7 +9,8 @@
         calls. Accurate, reliable, and always on duty. Ready even when you are
         not.
       </p>
-      <Button tag="router-link" to="/login" text="Start" />
+      <Button v-if="!user" tag="a" :href="signup" text="Start" />
+      <Button v-if="user" tag="router-link" to="/call-history" text="Start" />
     </article>
 
     <article class="plan premium">
@@ -30,7 +31,16 @@
 import Button from '~/components/utils/Button.vue'
 
 export default {
-  components: { Button }
+  components: { Button },
+  props: {
+    user: {
+      type: Boolean
+    },
+    signup: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 
@@ -57,7 +67,8 @@ export default {
   color: $white;
   font-weight: bold;
   border-radius: 2rem;
-  box-shadow: 0px 64px 88px rgba(90, 89, 165, 0.12);
+  box-shadow: 0px 24px 88px rgba(111, 111, 155, 0.1),
+    0px 16px 32px rgba(202, 208, 217, 0.25);
 
   @include mobile {
     width: 90%;
@@ -87,9 +98,10 @@ export default {
 
   p {
     font-size: 1.1rem;
+    font-weight: normal;
     line-height: 1.5;
     opacity: 0.7;
-    color: #59687a;
+    color: $dark;
     text-align: left;
   }
 
@@ -122,10 +134,6 @@ export default {
 
     h4 {
       color: $secondary;
-    }
-
-    p {
-      opacity: 0.7;
     }
 
     .coming {

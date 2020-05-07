@@ -1,34 +1,50 @@
 [
   {
     "question": "What is HeyTico?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêterConscience glace sorte midi révéler dehors avant moins. Bien résultat prêterConscience glace sorte midi révéler dehors avant moins. Bien résultat prêterConscience glace sorte midi révéler dehors avant moins. Bien résultat prêterConscience glace sorte midi révéler dehors avant moins. Bien résultat prêterConscience glace sorte midi révéler dehors avant moins. Bien résultat prêterConscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "answer": "HeyTico is an AI-powered virtual assistant for answering calls. No matter if you are busy, on the plane, have no signal, or just simply don’t want to answer the call, HeyTico AI-assistant is always available. Unlike voicemail that has only one answer for all, HeyTico is able to respond to all of your calls with the appropriate answer. By taking your calls, it helps you take down important messages, eliminate spam calls and let you focus more on the calls and messages that matter."
   },
   {
-    "question": "Who can use this service?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "question": "How does HeyTico work?",
+    "answer": "HeyTico is easy to use. Signup for a free account now to try out. Once you bind your number, your HeyTico AI-assistant is active and is on duty. When you have missed or unanswered calls, HeyTico answers for you and records the entire dialogue. You will then receive a copy of the record right away in your email for you to check when you are free. The dialogue will be available in voice recording and text. You will also be able to see all your call and dialogue history in your account dashboard once you log in. "
+  },
+  {
+    "question": "Who uses this service?",
+    "answer": "As long as you have calls coming in, you are in the right place! We welcome everyone to try out this service, experience the convenience that an AI-powered virtual assistant can bring you. ;D"
   },
   {
     "question": "Why should I use this service?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "answer": "Your calls will be picked up when you are busy, have no signal, on the plane, or any other times that you don’t pick up or miss a call. HeyTico will be right there for you, so you can spend your time on your work, with your family. Just refer back to the call dialogue when you are free, it will be ready for you in both recording and text. "
   },
   {
     "question": "What’s the difference between the Free and Premium plans?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "answer": "To check out the difference between <a to='/' hash='pricing'>here</a> to compare between the plans!"
   },
   {
     "question": "Is my data protected?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "answer": "We promise that your data is always protected at HeyTico. Only you can view your call dialogues."
+  },
+  {
+    "question": "How can I set this up?",
+    "answer": "Depending on your service provider, there will be a number for you to dial to set up your HeyTico AI-assistant."
+  },
+  {
+    "question": "Is HeyTico available on any type of mobile device?",
+    "answer": "Yes it is!"
   },
   {
     "question": "Will the caller know that he/she is speaking to a robot?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "answer": "Yes, HeyTico will let callers know that this is an AI-assistant that they are speaking to."
   },
   {
     "question": "Are the calls recorded?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "answer": "The dialogues are recorded for you to playback when you are free."
   },
   {
-    "question": "Will HeyTico assistant make mistakes?",
-    "answer": "Conscience glace sorte midi révéler dehors avant moins. Bien résultat prêter vie taille rencontre. Quinze groupe vêtir."
+    "question": "Will the HeyTico AI-assistant make mistakes?",
+    "answer": "We are constantly improving HeyTico. If you see a problem or have any feedback, feel free to let us know <a to='/contact'>here</a> and we promise to make HeyTico even more awesome! :D"
+  },
+  {
+    "question": "Will I be charged if I use call forwarding?",
+    "answer": "Airtime will be charged based on your current carrier plan."
   }
 ]

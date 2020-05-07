@@ -1,10 +1,9 @@
+/* eslint-disable vue/no-v-html */
 <template>
   <article :class="{ 'is-active': active }" @click="toggle">
     <div class="content">
       <h4>{{ issue.question }}</h4>
-      <p>
-        {{ issue.answer }}
-      </p>
+      <p v-html="issue.answer"></p>
     </div>
     <i class="arrow"></i>
   </article>
@@ -28,9 +27,46 @@ export default {
       active: false
     }
   },
+  mounted() {
+    this.$nextTick(this.addListeners)
+  },
+  beforeDestroy() {
+    this.removeListeners()
+  },
   methods: {
     toggle() {
       this.active = !this.active
+    },
+    navigate(event) {
+      const target = event.target
+
+      // If target is still not a link, ignore
+      if (!(target instanceof HTMLAnchorElement)) {
+        return
+      }
+      const to = target.getAttribute('to')
+      const hash = target.getAttribute('hash')
+      // Get link target, if local link, navigate with router link
+      if (to) {
+        event.preventDefault()
+        if (hash) {
+          this.$router.push({ path: to, hash })
+        } else {
+          this.$router.push(to)
+        }
+      }
+    },
+    addListeners() {
+      this._links = this.$el.getElementsByTagName('a')
+      for (let i = 0; i < this._links.length; i++) {
+        this._links[i].addEventListener('click', this.navigate, false)
+      }
+    },
+    removeListeners() {
+      for (let i = 0; i < this._links.length; i++) {
+        this._links[i].removeEventListener('click', this.navigate, false)
+      }
+      this._links = []
     }
   }
 }
@@ -62,6 +98,10 @@ article {
       margin: 0px;
       max-height: 24px;
       overflow: hidden;
+
+      /deep/ ol {
+        margin-top: 0;
+      }
 
       @include mobile {
         max-height: 0px;

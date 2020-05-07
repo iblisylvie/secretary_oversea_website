@@ -33,7 +33,7 @@ export default {
     setInterval(() => {
       this.index++
       if (this.index >= this.list.length) this.index = 0
-    }, 4000)
+    }, 3000)
   }
 }
 </script>
@@ -42,6 +42,7 @@ export default {
 h1 {
   line-height: 1.3;
   color: $white;
+  max-width: 590px;
 }
 
 .hightlight {
@@ -65,7 +66,7 @@ h1 {
   transition: opacity 0.5s ease-in;
 }
 .fade-enter-active {
-  transition: opacity 2s;
+  transition: opacity 1s;
 }
 .fade-enter,
 .fade-leave-to {

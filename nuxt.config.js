@@ -39,7 +39,8 @@ export default {
     { src: '~/plugins/nuxt-video-player-plugin', ssr: false },
     { src: '~/plugins/register-components' },
     { src: '~/plugins/axios' },
-    { src: '~/plugins/vue-touch', ssr: false }
+    { src: '~/plugins/vue-touch', ssr: false },
+    { src: '~/plugins/directives.js', ssr: false }
   ],
   /*
    ** Nuxt.js dev-modules

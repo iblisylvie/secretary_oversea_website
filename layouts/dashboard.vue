@@ -38,10 +38,10 @@
       </div>
       <!-- Account  -->
       <div
+        v-click-outside="onClickAccountOutSide"
         class="account"
         :class="{ expand: accountExpanded }"
-        @mouseenter="accountExpanded = true"
-        @mouseleave="accountExpanded = false"
+        @click="() => (accountExpanded = true)"
       >
         <div class="options">
           <div class="option plain">
@@ -126,7 +126,11 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    onClickAccountOutSide() {
+      this.accountExpanded = false
+    }
+  },
   middleware: 'auth'
 }
 </script>
@@ -252,7 +256,11 @@ export default {
 // Mobile layout
 @include mobile {
   .wrap {
-    // min-height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
   .top-bar {
     display: flex;
@@ -295,7 +303,7 @@ export default {
   }
   .main {
     position: relative;
-    padding: 0;
+    padding: 0 0 24px 0;
   }
 }
 </style>

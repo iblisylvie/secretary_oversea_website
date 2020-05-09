@@ -170,6 +170,9 @@ export default {
       } else {
         return 'play'
       }
+    },
+    callDetail() {
+      return get(this, 'detail', {})
     }
   },
   async created() {
@@ -185,10 +188,10 @@ export default {
           id: get(this, '$route.params.id')
         }
       })
-      this.detail = result
+      this.detail = result || {}
     },
     intializeFullVoiceAudio() {
-      const url = this.detail.full_voice_url
+      const url = this.callDetail.full_voice_url
       let timer = null
       if (!url) {
         return
@@ -352,6 +355,8 @@ export default {
         padding: 12px;
         background: #eff5fc;
         & .shape {
+          width: 48px;
+          height: 48px;
           font-size: 24px;
         }
       }

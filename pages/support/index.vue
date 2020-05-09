@@ -12,7 +12,7 @@
 import issues from '~/static/specific-faq.json'
 import Faq from '~/components/app/Faq.vue'
 export default {
-  name: 'Account',
+  name: 'Support',
   layout: 'dashboard',
   components: { Faq },
   asyncData({ params }) {

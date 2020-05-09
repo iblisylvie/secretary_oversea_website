@@ -49,6 +49,7 @@
             @click="activeISP = ISP"
           >
             {{ ISP }}
+            <div class="underline"></div>
           </button>
         </p>
 
@@ -119,32 +120,59 @@
           </p>
         </div>
       </template>
-      <!-- All Set! -->
+
+      <!-- Test Services  -->
       <template v-if="activeStep === 2">
         <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
         <p class="all-set-title">
-          All Set!
+          Test Services
         </p>
         <p class="all-set-sub-title">
           You Are Ready to Go!
         </p>
         <p class="all-set-tip">
+          To ensure that you have successfully setup your HeyTico assistant,
+          please call your phone number to test out your assistant. This will
+          take about 1min.
+        </p>
+      </template>
+      <!-- All Set! -->
+      <template v-if="activeStep === 3">
+        <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
+        <p class="all-set-title">
+          All Set!
+        </p>
+        <p class="all-set-sub-title">
+          Once you have called… You Are Ready to Go!
+        </p>
+        <p class="all-set-tip">
           You have successfully set up your number and it is now equipped with
-          your personal virtual assistant, DoubleMe.
+          your personal AI-assistant, HeyTico.
           <br />
-          <br />
-          Go ahead and try out its awesome features, if you have any questions
+          Go ahead and explore its awesome features, if you have any questions
           please refer to FAQ or contact us.
         </p>
       </template>
-      <b-button
-        rounded
-        class="acc-setup-nav-btn"
-        :disabled="continueDisabled"
-        :loading="activeStep === 1 && activatePolling"
-        @click="onContinue"
-        >{{ activeStep === 2 ? 'Done' : 'Continue' }}</b-button
-      >
+
+      <!-- button groups  -->
+      <div class="groups">
+        <t-button
+          v-if="activeStep === 2"
+          class="acc-setup-back-btn"
+          type="secondary"
+          @click="activeStep = 1"
+        >
+          BackBack
+        </t-button>
+        <t-button
+          class="acc-setup-nav-btn"
+          :disabled="continueDisabled"
+          :loading="activeStep === 1 && activatePolling"
+          @click="onContinue"
+        >
+          {{ activeStep === 3 ? 'Done' : 'Continue' }}
+        </t-button>
+      </div>
     </main>
   </section>
 </template>
@@ -174,6 +202,7 @@ export default {
     steps: [
       { title: 'Account Setup' },
       { title: 'Bind Number' },
+      { title: 'Test Services' },
       { title: 'All Set!' }
     ],
     ISPs: ['Verizion', 'AT&T', 'T-Mobile', 'Sprint'],
@@ -205,8 +234,8 @@ export default {
       })
     },
     async onContinue() {
-      if (this.activeStep === 2) {
-        this.$router.redirect(301, '/call-history')
+      if (this.activeStep === 3) {
+        this.$router.push({ path: '/call-history' })
         return
       }
       if (this.activeStep === 0) {
@@ -222,28 +251,29 @@ export default {
           this.$message.open(get(result, 'err_msg'))
           return
         }
-        const activated = get(result, 'activated', '')
-        if (activated) {
-          this.activatePolling = false
-        } else {
-          this.activatePolling = true
-          let attempts = 0
-          const timer = setInterval(async () => {
-            if (attempts >= 3) {
-              timer && clearInterval(timer)
-              this.activatePolling = false
-              this.$message.open('')
-              return
-            }
-            await this.$store.dispatch('relation/FETCH_RELATION')
-            attempts++
-            if (this.activated) {
-              this.activatePolling = false
-              timer && clearInterval(timer)
-            }
-          }, 5000)
-        }
       }
+      //   const activated = get(result, 'activated', '')
+      //   if (activated) {
+      //     this.activatePolling = false
+      //   } else {
+      //     this.activatePolling = true
+      //     let attempts = 0
+      //     const timer = setInterval(async () => {
+      //       if (attempts >= 3) {
+      //         timer && clearInterval(timer)
+      //         this.activatePolling = false
+      //         this.$message.open('')
+      //         return
+      //       }
+      //       await this.$store.dispatch('relation/FETCH_RELATION')
+      //       attempts++
+      //       if (this.activated) {
+      //         this.activatePolling = false
+      //         timer && clearInterval(timer)
+      //       }
+      //     }, 5000)
+      //   }
+      // }
       this.activeStep++
     }
   }
@@ -283,9 +313,11 @@ export default {
     &-row {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-top: 32px;
     }
     &-label {
+      margin-right: 8px;
       flex-basis: 26%;
       color: #141b24;
       text-align: left;
@@ -297,12 +329,9 @@ export default {
       flex-grow: 7;
       justify-content: space-between;
     }
-    &-input {
+    /deep/ &-input {
       flex: 1;
-    }
-    /deep/ &-input input {
-      background: #eff5fc;
-      border: none;
+      @include reset-buefy-input;
     }
     &-btn {
       background: rgba(2, 174, 252, 0.1);
@@ -312,16 +341,22 @@ export default {
       &.send-code {
         margin-left: 32px;
       }
+      &:hover {
+        background: #02aefc2b;
+      }
     }
   }
-  &-nav-btn {
-    margin-top: 100px;
-    background: #02aefc;
-    align-self: flex-end;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
+
+  &-back-btn {
+    float: left;
   }
+  &-nav-btn {
+    float: right;
+  }
+}
+.groups {
+  margin-top: 30px;
+  overflow: hidden;
 }
 .bind-number {
   &-icon {
@@ -333,16 +368,33 @@ export default {
     display: flex;
     justify-content: space-between;
     &-btn {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
       background: inherit;
       border: none;
-      // color: #59687a;
-      // font-size: 24px;
-      // font-weight: bold;
       cursor: pointer;
-      @include primary-text;
+      @include secondary-text;
       @include text-button;
+      &:hover {
+        & .underline {
+          display: flex;
+          background: $secondary-text-color;
+        }
+      }
+      & .underline {
+        display: none;
+        margin-top: 4px;
+        width: 32px;
+        height: 4px;
+        background: #02aefc;
+      }
       &.active {
-        @include gradient-text;
+        color: #02aefc;
+        & .underline {
+          display: flex;
+          background: #02aefc;
+        }
       }
     }
   }
@@ -417,10 +469,46 @@ export default {
   }
   .get-start-steps {
     width: auto;
+    /deep/ .step-title {
+      font-size: 12px;
+    }
   }
+
   .get-start-main {
     margin: 24px 14px;
     width: auto;
+    padding: 24px;
+    .acc-setup-title {
+      font-size: 18px;
+    }
+    .acc-setup-tip {
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .acc-setup-form-row {
+      margin-top: 10px;
+      flex-flow: column;
+    }
+    .acc-setup-form-group {
+      width: 100%;
+    }
+    .acc-setup-form-label {
+      align-self: flex-start;
+      margin-bottom: 6px;
+    }
+    .acc-setup-nav-btn {
+      margin-top: 16px;
+    }
+
+    // bind number
+    .bind-number-ISP-desc {
+      height: auto;
+      overflow: auto;
+      margin-top: 12px;
+    }
+    .bind-number-ISP-desc-title {
+      text-align: center;
+    }
   }
 }
 </style>

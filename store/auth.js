@@ -118,11 +118,11 @@ export default {
       }
     },
     async FETCH_USER({ commit }) {
-      const { base_info: baseInfo } = await this.$axios({
+      const result = await this.$axios({
         url: 'https://passport.mobvoi.com/v1/api/users/me/info',
         method: 'GET'
       })
-      commit('PUT_USER_INFO', baseInfo)
+      commit('PUT_USER_INFO', get(result, 'base_info'))
     },
     async FETCH_AVAILABLE_ROUTES({ commit, dispatch, rootState }) {
       const routes = [
@@ -175,15 +175,27 @@ export default {
           }
         },
         {
-          path: '/mbr-faq',
-          name: 'FAQ',
+          path: '/support',
+          name: 'Support',
           meta: {
-            title: 'FAQ' // Document title
+            title: 'Support' // Document title
           },
           mapToAsideMenu: {
             order: 5,
-            name: 'FAQ',
-            icon: 'mbr-faq'
+            name: 'Support',
+            icon: 'support'
+          }
+        },
+        {
+          path: '/feedback',
+          name: 'Feedback',
+          meta: {
+            title: 'Feedback' // Document title
+          },
+          mapToAsideMenu: {
+            order: 6,
+            name: 'Feedback',
+            icon: 'feedback'
           }
         },
         {

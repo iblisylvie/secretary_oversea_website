@@ -39,7 +39,7 @@
         <b-navbar-item tag="router-link" :to="{ path: '/contact' }">
           Contact Us
         </b-navbar-item>
-        <b-navbar-item v-if="!user" :href="signup">Sign Up</b-navbar-item>
+        <!-- <b-navbar-item v-if="!user" :href="signup">Sign Up</b-navbar-item> -->
         <b-navbar-item v-if="!user" @click="login">Login</b-navbar-item>
         <b-navbar-item
           v-if="user"

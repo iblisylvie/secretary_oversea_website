@@ -1,8 +1,8 @@
-/* eslint-disable vue/no-v-html */
 <template>
   <article :class="{ 'is-active': active }" @click="toggle">
     <div class="content">
       <h4>{{ issue.question }}</h4>
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <p v-html="issue.answer"></p>
     </div>
     <i class="arrow"></i>

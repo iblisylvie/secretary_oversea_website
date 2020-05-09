@@ -309,6 +309,8 @@ p {
 }
 
 .product-section {
+  padding-top: 5rem;
+
   .product-logo {
     width: 325px;
 

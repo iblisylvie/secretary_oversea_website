@@ -3,15 +3,22 @@
     <!-- Mobile top bar  -->
     <div class="top-bar">
       <svg-icon icon-class="logo" class-name="logo" />
-      <span>{{ 'xxxxxxx' }}</span>
+      <span>{{ pageTitle }}</span>
       <div @click="asideExpanded = true">
         <svg-icon icon-class="breadcrumb" class-name="breadcrumb" />
       </div>
     </div>
+
     <!-- Aside bar  -->
+    <!-- Modal under mobile  -->
+    <div v-if="asideExpanded" class="mask" @click="asideExpanded = false"></div>
     <aside class="aside" :class="{ expand: asideExpanded }">
       <div>
         <svg-icon icon-class="logo" class-name="logo" />
+        <div @click="asideExpanded = false">
+          <svg-icon icon-class="close" class-name="close" />
+        </div>
+
         <nuxt-link
           v-for="(menu, index) in asideMenu"
           :key="index"
@@ -31,10 +38,10 @@
       </div>
       <!-- Account  -->
       <div
+        v-click-outside="onClickAccountOutSide"
         class="account"
         :class="{ expand: accountExpanded }"
-        @mouseenter="accountExpanded = true"
-        @mouseleave="accountExpanded = false"
+        @click="() => (accountExpanded = true)"
       >
         <div class="options">
           <div class="option plain">
@@ -61,7 +68,7 @@
         <svg-icon icon-class="fold" class-name="folder" />
       </div>
     </aside>
-    <main class="main-content">
+    <main class="main">
       <nuxt />
     </main>
   </section>
@@ -83,9 +90,11 @@ export default {
   }),
   computed: {
     ...mapState({
-      // arrow functions can make the code very succinct!
+      userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url']),
+      activated: (state) => get(state, 'relation.activated'),
+      availableRoutes: (state) => get(state, 'auth.availableRoutes', []),
       asideMenu: (state) => {
-        const availableRoutes = state.auth.availableRoutes
+        const availableRoutes = get(state, 'auth.availableRoutes', [])
         return availableRoutes
           .filter((menu) => menu.mapToAsideMenu)
           .sort(
@@ -94,10 +103,16 @@ export default {
               get(prevMenu, 'mapToAsideMenu.order') -
               get(nextMenu, 'meta.mapToAsideMenu.order')
           )
-      },
-      userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url']),
-      activated: (state) => get(state, 'relation.activated')
+      }
     }),
+    pageTitle() {
+      const currentRoute = this.$route.path
+      return get(
+        this.availableRoutes.find((route) => route.path === currentRoute),
+        'meta.title',
+        ''
+      )
+    },
     menuDisabled() {
       const activated = this.activated
       return (route) => {
@@ -111,7 +126,11 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    onClickAccountOutSide() {
+      this.accountExpanded = false
+    }
+  },
   middleware: 'auth'
 }
 </script>
@@ -149,6 +168,9 @@ export default {
   .logo {
     margin: 34px auto 50px;
     display: block;
+  }
+  .close {
+    display: none;
   }
   .menu-item {
     display: flex;
@@ -221,14 +243,31 @@ export default {
   }
 }
 
+.main {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding-left: 257px;
+  background: $main-panel-background;
+}
+
 // Mobile layout
 @include mobile {
+  .wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
   .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    @include primary-text($font-size: 18px);
+    @include secondary-text($font-size: 18px);
     .breadcrumb {
       font-size: 22px;
     }
@@ -237,6 +276,12 @@ export default {
     display: none;
     .logo {
       display: none;
+    }
+    .close {
+      margin-bottom: 38px;
+      display: flex;
+      justify-content: flex-end;
+      font-size: 20px;
     }
     &.expand {
       position: fixed;
@@ -247,147 +292,18 @@ export default {
       left: auto;
     }
   }
-}
-
-.aside {
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  height: 100%;
-  padding: 20px 16px;
-  background: $sidebar-background;
-  &-logo {
-    margin: 34px auto 50px;
-    width: 56px;
-    height: 56px;
-    padding: 10px;
-    background: #fff;
-    border-radius: 14px;
-    text-align: center;
-    &-shape {
-      font-size: 36px;
-    }
+  .mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    background: $model-color;
   }
-  &-menu {
-    &-item {
-      display: flex;
-      align-items: center;
-      padding: 16px 32px 16px;
-      font-weight: bold;
-      font-size: 14px;
-      color: #717d8b;
-      &.active {
-        border-radius: 8px;
-        background: $aside-menu-active-background;
-
-        & span {
-          @include gradient-text;
-        }
-      }
-    }
-    &-icon {
-      margin-right: 16px;
-      font-size: 22px;
-    }
-  }
-  &-account {
-    padding: 16px 24px;
-    border-radius: 8px;
-    background: #f3f6f8;
-    &.active {
-      background: #fff;
-      & > .aside-account-plate {
-        justify-content: flex-end;
-        & > .aside-account-user {
-          display: none;
-        }
-        & > .aside-account-folder {
-          transform: rotate(180deg);
-        }
-      }
-      & > .aside-account-popup {
-        display: block;
-      }
-    }
-    &-plate {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    &-user {
-      display: flex;
-      align-items: center;
-      &-avatar {
-        margin-right: 16px;
-        width: 32px;
-        height: 32px;
-        border: 2px solid #fff;
-        border-radius: 100%;
-      }
-      &-name {
-        color: #59687a;
-        font-size: 14px;
-        font-weight: bold;
-      }
-    }
-    &-folder {
-      width: 12px;
-    }
-    &-popup {
-      display: none;
-    }
-    &-menu {
-      margin: 40px 0;
-      &-item {
-        margin-bottom: 32px;
-        display: block;
-        cursor: pointer;
-      }
-      &-icon {
-        width: 14px;
-        margin-right: 22px;
-      }
-      &-name {
-        color: #717d8b;
-        font-size: 14px;
-        font-weight: bold;
-      }
-    }
-  }
-}
-.main-content {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  padding-left: $sidebar-width;
-  background: $main-panel-background;
-}
-
-@include mobile {
-  .container-wrap {
-    padding: 12px;
-    background: $main-panel-background;
-  }
-  .aside-logo {
-    margin: 0;
-  }
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    @include primary-text($font-size: 18px);
-  }
-  .aside {
-    display: none;
-  }
-  .main-content {
+  .main {
     position: relative;
-    padding: 0;
-  }
-  .breadcrumb-shape {
-    font-size: 22px;
+    padding: 0 0 24px 0;
   }
 }
 </style>

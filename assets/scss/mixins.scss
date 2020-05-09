@@ -73,11 +73,13 @@
 
 // @TODO
 // Customize input component
-@mixin reset-buefy-input {
-  /deep/ input {
-    background: #eff5fc;
+@mixin reset-buefy-input($background: #eff5fc) {
+  /deep/ input,
+  textarea {
+    background: $background;
     border: none;
     box-shadow: none;
+    resize: none;
     &:focus {
       border: none;
     }

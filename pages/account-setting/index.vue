@@ -7,10 +7,9 @@
         </li>
         <li>Account</li>
       </ul>
-      <ul class="secondary">
+      <!-- <ul class="secondary">
         <li @click="$router.push({ path: '/feedback' })">Got Any Feedback?</li>
-        <li @click="$router.push({ path: '/mbr-faq' })">Support</li>
-      </ul>
+      </ul> -->
     </nav>
     <main class="panel">
       <!-- Account Settings  -->
@@ -132,7 +131,7 @@
           This account will no longer be available, and all its data will be
           deleted
         </p>
-        <button class="danger" @click="$message.open('Feature comming soon')">
+        <button class="danger" @click="leadToDeleteAccount">
           DELETE ACCOUNT
         </button>
       </section>
@@ -162,10 +161,21 @@ export default {
     ...mapState({
       nickname: (state) => get(state, 'auth.nickname'),
       email: (state) => get(state, 'auth.email'),
-      phone: (state) => get(state, 'relation.relation.phone')
+      phone: (state) => get(state, 'relation.relation.phone'),
+      token: (state) => get(state, 'auth.loginCert'),
+      redirectDomain: (state) => get(state, 'app.domain')
     })
   },
-  methods: {}
+  methods: {
+    leadToDeleteAccount() {
+      const params = new URLSearchParams({
+        email: this.email,
+        token: this.token,
+        redirect: `${this.redirectDomain}/`
+      })
+      window.location = `https://passport.mobvoi.com/pages/secretary-oversea/close-account?${params.toString()}`
+    }
+  }
 }
 </script>
 

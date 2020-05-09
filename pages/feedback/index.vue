@@ -2,13 +2,10 @@
   <section class="feedback">
     <nav class="nav">
       <ul class="primary">
-        <li @click="$router.back()">
+        <!-- <li @click="$router.back()">
           <svg-icon icon-class="go-back"></svg-icon>
-        </li>
+        </li> -->
         <li>Got Any Feedback?</li>
-      </ul>
-      <ul class="secondary">
-        <li @click="$router.push({ path: '/mbr-faq' })">Support</li>
       </ul>
     </nav>
     <main class="panel">
@@ -24,7 +21,9 @@
           type="textarea"
           placeholder="write your feedback here"
         ></b-input>
-        <b-button class="send" rounded @click="sendFeedback">Send</b-button>
+        <t-button class="send" @click="sendFeedback">
+          Send
+        </t-button>
       </div>
     </main>
   </section>
@@ -96,7 +95,6 @@ ${this.feedbackModel}`
   }
   .panel {
     margin-top: 24px;
-    width: 60%;
     .explain {
       @include primary-text($font-size: 18px, $font-weight: normal);
     }
@@ -107,14 +105,12 @@ ${this.feedbackModel}`
       padding: 48px;
       background: #fff;
       border-radius: 16px;
-      /deep/ .editor textarea {
-        background: #f3f6f8;
-        resize: none;
+      /deep/ .editor {
+        @include reset-buefy-input($background: #f3f6f8);
       }
       .send {
         margin-top: 32px;
         align-self: flex-end;
-        @include primary-button;
       }
     }
   }

@@ -1,95 +1,110 @@
 <template>
-  <section class="call-history">
-    <header class="call-history-thead">
-      <b-checkbox
-        v-show="editing"
-        v-model="selectAllModel"
-        class="call-history-thead-select-all"
-        :indeterminate="selectAllIndeterminate"
-        @input="onSelectAll"
-      ></b-checkbox>
-      <div @click="editing = true">
-        <svg-icon
-          v-show="!editing"
-          icon-class="edit"
-          class-name="call-history-thead-edit"
-        ></svg-icon>
-      </div>
-
-      <div class="call-history-thead-cells">
-        <span
-          v-for="column in THEAD_COLUMNS"
-          :key="column.label"
-          :style="{ width: column.flexGrow }"
-          class="call-history-thead-cell"
-          >{{ column.label }}</span
-        >
-      </div>
-    </header>
-    <section>
-      <div
-        v-for="row in callHistoryTableData"
-        :key="row.id"
-        class="call-history-row"
-      >
+  <section :class="['call-history', { empty: !callHistory.length }]">
+    <template v-if="callHistory.length">
+      <header class="call-history-thead">
         <b-checkbox
           v-show="editing"
-          v-model="row.selectedModel"
-          class="call-history-row-select"
+          v-model="selectAllModel"
+          class="call-history-thead-select-all"
+          :indeterminate="selectAllIndeterminate"
+          @input="onSelectAll"
         ></b-checkbox>
-        <nuxt-link
-          :to="`/call-history/${row.id}`"
-          class="call-history-row-card"
-          :class="{ editing: editing }"
+        <div @click="editing = true">
+          <svg-icon
+            v-show="!editing"
+            icon-class="edit"
+            class-name="call-history-thead-edit"
+          ></svg-icon>
+        </div>
+
+        <div class="call-history-thead-cells">
+          <span
+            v-for="column in THEAD_COLUMNS"
+            :key="column.label"
+            :style="{ width: column.flexGrow }"
+            class="call-history-thead-cell"
+            >{{ column.label }}</span
+          >
+        </div>
+      </header>
+      <section>
+        <div
+          v-for="row in callHistoryTableData"
+          :key="row.id"
+          class="call-history-row"
         >
-          <div class="call-history-row-card-fields">
-            <span
-              class="call-history-row-card-field"
-              :style="{ width: row.flexGrowRates[0] }"
-              >{{ row.phone }}</span
-            >
-            <span
-              class="call-history-row-card-field"
-              :style="{ width: row.flexGrowRates[1] }"
-              >{{ row.tags.toString() }}</span
-            >
-            <span
-              class="call-history-row-card-field"
-              :style="{ width: row.flexGrowRates[2] }"
-              >{{ row.called_no }}</span
-            >
-            <span
-              class="call-history-row-card-field"
-              :style="{ width: row.flexGrowRates[3] }"
-              >{{ row.timestamp | parseToDate }}</span
-            >
-            <span
-              class="call-history-row-card-field"
-              :style="{ width: row.flexGrowRates[4] }"
-              >{{ row.timestamp | parseToTime }}</span
-            >
-          </div>
-        </nuxt-link>
-      </div>
-    </section>
-    <footer class="call-history-footer">
-      <b-pagination
-        range-before="3"
-        range-after="1"
-        icon-prev="chevron-left"
-        icon-next="chevron-right"
-        aria-next-label="Next page"
-        aria-previous-label="Previous page"
-        aria-page-label="Page"
-        aria-current-label="Current page"
-        :total="total"
-        :current.sync="current"
-        :simple="false"
-        :rounded="false"
-        :per-page="perPage"
-        @change="fetchCallHistory"
-      ></b-pagination>
-    </footer>
+          <b-checkbox
+            v-show="editing"
+            v-model="row.selectedModel"
+            class="call-history-row-select"
+          ></b-checkbox>
+          <nuxt-link
+            :to="`/call-history/${row.id}`"
+            class="call-history-row-card"
+            :class="{ editing: editing }"
+          >
+            <div class="call-history-row-card-fields">
+              <span
+                class="call-history-row-card-field"
+                :style="{ width: row.flexGrowRates[0] }"
+                >{{ row.phone }}</span
+              >
+              <span
+                class="call-history-row-card-field"
+                :style="{ width: row.flexGrowRates[1] }"
+                >{{ row.tags.toString() }}</span
+              >
+              <span
+                class="call-history-row-card-field"
+                :style="{ width: row.flexGrowRates[2] }"
+                >{{ row.called_no }}</span
+              >
+              <span
+                class="call-history-row-card-field"
+                :style="{ width: row.flexGrowRates[3] }"
+                >{{ row.timestamp | parseToDate }}</span
+              >
+              <span
+                class="call-history-row-card-field"
+                :style="{ width: row.flexGrowRates[4] }"
+                >{{ row.timestamp | parseToTime }}</span
+              >
+              <div class="cell">
+                <span class="caller">{{ row.phone }}</span>
+                <span class="callee">{{ `My number${row.called_no}` }}</span>
+              </div>
+              <div class="cell">
+                <span>{{ row.tags.toString() }}</span>
+                <div class="time">
+                  <span>{{ row.timestamp | parseToDate }}</span>
+                  <span>{{ row.timestamp | parseToTime }}</span>
+                </div>
+              </div>
+            </div>
+          </nuxt-link>
+        </div>
+        <!-- mobile select item  -->
+        <div class="call-history-row mobile"></div>
+      </section>
+      <footer class="call-history-footer">
+        <b-pagination
+          range-before="3"
+          range-after="1"
+          icon-prev="chevron-left"
+          icon-next="chevron-right"
+          aria-next-label="Next page"
+          aria-previous-label="Previous page"
+          aria-page-label="Page"
+          aria-current-label="Current page"
+          :total="total"
+          :current.sync="current"
+          :simple="false"
+          :rounded="false"
+          :per-page="perPage"
+          @change="fetchCallHistory"
+        ></b-pagination>
+      </footer>
+    </template>
 
     <!-- Delete tool tip -->
     <div v-show="editing" class="call-history-tool-tip">
@@ -115,6 +130,23 @@
         @click="editing = false"
         >Exit</b-button
       >
+    </div>
+
+    <!-- place holder  -->
+    <div v-if="!callHistory.length" class="placeholder">
+      <p class="title">You haven’t called your HeyTico assistant.</p>
+      <p class="sub-title">
+        Please call your own mobile number to speak to and <br />
+        <span>
+          activate your HeyTico assistant.
+        </span>
+      </p>
+      <div class="group">
+        <t-button @click="$router.push({ path: '/get-started' })"
+          >Binding Instructions</t-button
+        >
+        <t-button @click="$router.push({ path: '/mbr-faq' })">Support</t-button>
+      </div>
     </div>
   </section>
 </template>
@@ -247,10 +279,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$table-sticky-header-height: 700px;
+@import '~/assets/scss/mixins.scss';
+// $table-sticky-header-height: 700px;
 .call-history {
   padding: 40px 32px 84px 48px;
   height: 100%;
+  &.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &-thead {
     display: flex;
     width: 100%;
@@ -298,6 +336,9 @@ $table-sticky-header-height: 700px;
       &-fields {
         display: flex;
         flex: 1;
+      }
+      .cell {
+        display: none;
       }
       &-field {
         color: #141b24;
@@ -347,6 +388,76 @@ $table-sticky-header-height: 700px;
       font-size: 14px;
       font-weight: bold;
       cursor: pointer;
+    }
+  }
+}
+
+.placeholder {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  .title {
+    margin-bottom: 0;
+    @include primary-text;
+  }
+  .sub-title {
+    margin-top: 36px;
+    text-align: center;
+    @include secondary-text;
+  }
+  .group {
+    margin-top: 36px;
+    & > * {
+      margin: 0 14px;
+    }
+  }
+}
+
+@include mobile {
+  .call-history {
+    padding: 28px 14px;
+    .call-history-thead-cells {
+      display: none;
+    }
+    .call-history-row-card {
+      margin-left: 0;
+      padding: 14px;
+    }
+    .call-history-row-card-fields {
+      flex-flow: column;
+    }
+    .call-history-row-card-field {
+      display: none;
+    }
+    .cell {
+      display: flex;
+      justify-content: space-between;
+      .caller {
+        @include primary-text($font-size: 14px);
+      }
+      .callee {
+        @include secondary-text($font-size: 12px);
+      }
+      .time {
+        @include secondary-text($font-size: 12px);
+      }
+    }
+    .call-history-tool-tip {
+      bottom: 16px;
+      right: 14px;
+      left: 14px;
+      padding: 20px;
+    }
+    .call-history-tool-tip-state-icon {
+      margin-right: 12px;
+    }
+    .call-history-tool-tip-state-desc {
+      margin-right: 28px;
+      font-size: 12px;
+    }
+    .call-history-tool-tip-delete {
+      font-size: 12px;
     }
   }
 }

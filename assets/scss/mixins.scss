@@ -1,35 +1,85 @@
 @mixin gradient-background {
-    background: $linear-gradient
+  background: $linear-gradient;
 }
 
 @mixin gradient-text {
-    background-image: $linear-gradient;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background-image: $linear-gradient;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-@mixin primary-text ($color: $primary-text-color, $font-size: $primary-text-size, $font-weight: $primary-text-weight) {
-    color: $color;
-    font-size: $font-size;
-    font-weight: $font-weight
+@mixin primary-text(
+  $color: $primary-text-color,
+  $font-size: $primary-text-size,
+  $font-weight: $primary-text-weight
+) {
+  color: $color;
+  font-size: $font-size;
+  font-weight: $font-weight;
 }
 
-@mixin secondary-text ($color: $secondary-text-color, $font-size: $secondary-text-size, $font-weight: $secondary-text-weight) {
-    color: $color;
-    font-size: $font-size;
-    font-weight: $font-weight
+@mixin secondary-text(
+  $color: $secondary-text-color,
+  $font-size: $secondary-text-size,
+  $font-weight: $secondary-text-weight
+) {
+  color: $color;
+  font-size: $font-size;
+  font-weight: $font-weight;
 }
 
-@mixin text-button () {
-    padding: 0;
-    background: none;
+@mixin text-button() {
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+@mixin primary-button(
+  $padding: $primary-button-padding,
+  $font-size: $primary-button-font-size
+) {
+  padding: $padding;
+  background: $primary-button-background;
+  color: #fff;
+  font-size: $font-size;
+  font-weight: bold;
+  border-radius: 90px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: $primary-button-hover-background;
+  }
+}
+
+@mixin secondary-button(
+  $padding: $secondary-button-padding,
+  $font-size: $secondary-button-font-size
+) {
+  padding: $padding;
+  background: $secondary-button-background;
+  color: #fff;
+  font-size: $font-size;
+  font-weight: bold;
+  border-radius: 90px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: $secondary-button-hover-background;
+  }
+}
+
+// @TODO
+// Customize input component
+@mixin reset-buefy-input {
+  /deep/ input {
+    background: #eff5fc;
     border: none;
-    outline: none;
-    cursor: pointer;
-}
-
-@mixin primary-button () {
-    background: #02aefc;
-    color: #fff;
+    box-shadow: none;
+    &:focus {
+      border: none;
+    }
+  }
 }

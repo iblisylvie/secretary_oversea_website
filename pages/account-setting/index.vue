@@ -59,7 +59,7 @@
           href="https://passport.mobvoi.com/pages/user-edit?lang=en-us"
           target="_blank"
         >
-          <b-button class="submit" rounded>Update</b-button>
+          <t-button class="submit">Update</t-button>
         </a>
       </section>
       <hr class="seprate" />
@@ -99,12 +99,9 @@
             </p>
           </li>
         </ul>
-        <b-button
-          class="submit"
-          rounded
-          @click="$message.open('Feature comming soon')"
-          >Upgrade</b-button
-        >
+        <t-button class="submit" @click="$message.open('Feature comming soon')">
+          Upgrade
+        </t-button>
       </section>
       <hr class="seprate" />
       <!-- Servicing Number  -->
@@ -238,11 +235,6 @@ export default {
       }
       .submit {
         margin-top: 16px;
-        // @TODO support primary button
-        padding: 8px 24px;
-        height: auto;
-        font-weight: bold;
-        @include primary-button;
       }
       ul {
         list-style: none;

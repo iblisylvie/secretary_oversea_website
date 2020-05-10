@@ -110,7 +110,7 @@
     <div v-show="editing" class="call-history-tool-tip">
       <div class="call-history-tool-tip-state">
         <svg-icon
-          icon-class="phone"
+          icon-class="phone-white"
           class-name="call-history-tool-tip-state-icon"
         ></svg-icon>
         <span class="call-history-tool-tip-state-desc">
@@ -363,7 +363,7 @@ export default {
     justify-content: space-between;
     padding: 20px 32px;
     border-radius: 8px;
-    background: #fff;
+    background: #02aefc;
     &-state {
       display: flex;
       align-items: center;
@@ -373,19 +373,21 @@ export default {
       }
       &-desc {
         margin-right: 86px;
-        color: #717d8b;
+        color: #fff;
         font-size: 14px;
         font-weight: bold;
       }
     }
     &-btn {
-      background: #02aefc;
+      background: #fff;
       font-size: 14px;
       font-weight: bold;
-      color: #fff;
+      /deep/ & span {
+        @include gradient-text;
+      }
     }
     &-delete {
-      color: #f55757;
+      color: #fff;
       background: inherit;
       border: none;
       font-size: 14px;

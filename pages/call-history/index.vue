@@ -110,7 +110,7 @@
     <div v-show="editing" class="call-history-tool-tip">
       <div class="call-history-tool-tip-state">
         <svg-icon
-          icon-class="phone"
+          icon-class="phone-white"
           class-name="call-history-tool-tip-state-icon"
         ></svg-icon>
         <span class="call-history-tool-tip-state-desc">
@@ -133,7 +133,7 @@
     </div>
 
     <!-- place holder  -->
-    <div v-if="!callHistory.length" class="placeholder">
+    <div v-if="!callHistory.length && callHistoryFetched" class="placeholder">
       <p class="title">You haven’t called your HeyTico assistant.</p>
       <p class="sub-title">
         Please call your own mobile number to speak to and <br />
@@ -199,6 +199,7 @@ export default {
       perPage: 20,
       current: 1,
       total: 0,
+      callHistoryFetched: false,
 
       // Call history from server
       callHistory: []
@@ -244,6 +245,7 @@ export default {
   },
   methods: {
     async fetchCallHistory() {
+      this.callHistoryFetched = false
       const result = await this.$axios({
         method: 'get',
         url: '/overseas/call-history',
@@ -254,6 +256,7 @@ export default {
       })
       this.callHistory = get(result, 'call_history', [])
       this.total = get(result, 'sum', 0)
+      this.callHistoryFetched = true
     },
     onSelectAll(value) {
       this.callHistoryTableData.forEach(
@@ -360,7 +363,7 @@ export default {
     justify-content: space-between;
     padding: 20px 32px;
     border-radius: 8px;
-    background: #fff;
+    background: #02aefc;
     &-state {
       display: flex;
       align-items: center;
@@ -370,19 +373,21 @@ export default {
       }
       &-desc {
         margin-right: 86px;
-        color: #717d8b;
+        color: #fff;
         font-size: 14px;
         font-weight: bold;
       }
     }
     &-btn {
-      background: #02aefc;
+      background: #fff;
       font-size: 14px;
       font-weight: bold;
-      color: #fff;
+      /deep/ & span {
+        @include gradient-text;
+      }
     }
     &-delete {
-      color: #f55757;
+      color: #fff;
       background: inherit;
       border: none;
       font-size: 14px;

@@ -18,12 +18,20 @@
               rounded
               class="acc-setup-form-input"
             ></b-input>
-            <b-button
+            <t-button
+              type="secondary"
+              class="send-code"
+              :disabled="!phoneModel"
+              @click="sendCode"
+            >
+              Send Code
+            </t-button>
+            <!-- <b-button
               rounded
               class="acc-setup-form-btn send-code"
               @click="sendCode"
               >Send Code</b-button
-            >
+            > -->
           </div>
         </div>
         <div class="acc-setup-form-row">
@@ -328,23 +336,24 @@ export default {
       display: flex;
       flex-grow: 7;
       justify-content: space-between;
+      align-items: center;
     }
-    /deep/ &-input {
+    &-input {
       flex: 1;
       @include reset-buefy-input;
     }
-    &-btn {
-      background: rgba(2, 174, 252, 0.1);
-      color: #02aefc;
-      border: none;
-      font-weight: bold;
-      &.send-code {
-        margin-left: 32px;
-      }
-      &:hover {
-        background: #02aefc2b;
-      }
-    }
+    // &-btn {
+    //   background: rgba(2, 174, 252, 0.1);
+    //   color: #02aefc;
+    //   border: none;
+    //   font-weight: bold;
+    //   &.send-code {
+    //     margin-left: 32px;
+    //   }
+    //   &:hover {
+    //     background: #02aefc2b;
+    //   }
+    // }
   }
 
   &-back-btn {
@@ -357,6 +366,9 @@ export default {
 .groups {
   margin-top: 30px;
   overflow: hidden;
+}
+.send-code {
+  margin-left: 32px;
 }
 .bind-number {
   &-icon {

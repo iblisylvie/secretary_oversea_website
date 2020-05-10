@@ -52,7 +52,7 @@ export default {
         background: $secondary-button-background;
       }
       & .content {
-        opacity: 0.5;
+        color: #79d5ff;
       }
     }
   }

@@ -68,6 +68,7 @@
             <avatar
               class="call-record-history-avatar caller"
               :src="userAvatar"
+              :avatar="caller"
             />
             <!-- <img
               class="call-record-history-avatar caller"
@@ -352,11 +353,10 @@ export default {
       }
       &.callee {
         margin-left: 10px;
+        display: flex;
         padding: 12px;
         background: #eff5fc;
         & .shape {
-          width: 48px;
-          height: 48px;
           font-size: 24px;
         }
       }

@@ -133,7 +133,7 @@
     </div>
 
     <!-- place holder  -->
-    <div v-if="!callHistory.length" class="placeholder">
+    <div v-if="!callHistory.length && callHistoryFetched" class="placeholder">
       <p class="title">You haven’t called your HeyTico assistant.</p>
       <p class="sub-title">
         Please call your own mobile number to speak to and <br />
@@ -199,6 +199,7 @@ export default {
       perPage: 20,
       current: 1,
       total: 0,
+      callHistoryFetched: false,
 
       // Call history from server
       callHistory: []
@@ -244,6 +245,7 @@ export default {
   },
   methods: {
     async fetchCallHistory() {
+      this.callHistoryFetched = false
       const result = await this.$axios({
         method: 'get',
         url: '/overseas/call-history',
@@ -254,6 +256,7 @@ export default {
       })
       this.callHistory = get(result, 'call_history', [])
       this.total = get(result, 'sum', 0)
+      this.callHistoryFetched = true
     },
     onSelectAll(value) {
       this.callHistoryTableData.forEach(

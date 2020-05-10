@@ -6,7 +6,7 @@
       alt="avatar"
       @error="loadFailed = true"
     />
-    <svg-icon v-else icon-class="default-avatar" class-name="default" />
+    <svg-icon v-else :icon-class="avatar" class-name="default" />
   </div>
 </template>
 
@@ -17,6 +17,10 @@ export default {
     src: {
       type: String,
       default: ''
+    },
+    avatar: {
+      type: String,
+      default: 'default-avatar'
     }
   },
   data: () => ({

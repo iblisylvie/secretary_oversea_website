@@ -8,7 +8,7 @@
         <svg-icon icon-class="acc-setup" class-name="acc-setup-icon" />
         <p class="acc-setup-title">Account Setup</p>
         <p class="acc-setup-tip">
-          Get a phone number equipped with TciMeet by setting up below.
+          Get a phone number equipped with HeyTico by setting up below.
         </p>
         <div class="acc-setup-form-row">
           <span class="acc-setup-form-label">Phone Number</span>

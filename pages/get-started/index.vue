@@ -287,7 +287,7 @@ export default {
         url: '/overseas/captcha',
         method: 'GET',
         params: {
-          phone: this.phoneModel
+          phone: `+1${this.phoneModel.replace(/\D/g, '')}`
         }
       })
       this.sendCodePending = false

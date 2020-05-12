@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="avatar-wrap">
     <img
       v-if="!loadFailed"
       :src="src"
@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 // @import '~/assets/scss/mixins.scss';
-.wrap {
+.avatar-wrap {
   display: inline-block;
   width: 32px;
   height: 32px;

@@ -8,23 +8,28 @@
         <svg-icon icon-class="acc-setup" class-name="acc-setup-icon" />
         <p class="acc-setup-title">Account Setup</p>
         <p class="acc-setup-tip">
-          Get a phone number equipped with TciMeet by setting up below.
+          Get a phone number equipped with HeyTico by setting up below.
         </p>
         <div class="acc-setup-form-row">
           <span class="acc-setup-form-label">Phone Number</span>
           <div class="acc-setup-form-group">
-            <b-input
-              v-model="phoneModel"
-              rounded
-              class="acc-setup-form-input"
-            ></b-input>
+            <div class="acc-setup-form-phone-wrap">
+              <b-input
+                v-model="phoneModel"
+                rounded
+                class="acc-setup-form-input phone"
+                placeholder="123-456-7890"
+                @input="onPhoneInput"
+              ></b-input>
+            </div>
+
             <t-button
               type="secondary"
               class="send-code"
-              :disabled="!phoneModel"
+              :disabled="!sendCodeAvaliable"
               @click="sendCode"
             >
-              Send Code
+              {{ sendCodeText }}
             </t-button>
             <!-- <b-button
               rounded
@@ -218,7 +223,11 @@ export default {
     activeISP: 'Verizion',
     phoneModel: '',
     captchaModel: '',
-    activatePolling: false
+    // activatePolling: false
+
+    sendCodePending: false,
+    sendCodeCountdown: 60,
+    sendCodeText: 'Send Code'
   }),
   computed: {
     ...mapState({
@@ -229,17 +238,59 @@ export default {
         return !this.phoneModel || !this.captchaModel
       }
       return false
+    },
+    sendCodeAvaliable() {
+      return (
+        get(this, 'phoneModel.length') === 12 && this.sendCodeCountdown === 60
+      )
+    }
+    // sendCodeText() {
+    //   if (this.sendCodePending) {
+
+    //     return `sent ${}`
+    //   } else {
+    //     return 'Send Code'
+    //   }
+    // }
+  },
+  watch: {
+    sendCodePending(newVal) {
+      if (newVal) {
+        const timer = setInterval(() => {
+          if (this.sendCodeCountdown === 0) {
+            timer && clearInterval(timer)
+            this.sendCodeText = 'Send Code'
+            this.sendCodeCountdown = 60
+            return
+          }
+          this.sendCodeText = `Sent ${this.sendCodeCountdown--}s`
+        }, 1000)
+      }
     }
   },
   methods: {
-    sendCode() {
-      this.$axios({
+    onPhoneInput(phone) {
+      phone = phone || ''
+      this.$nextTick(() => {
+        this.phoneModel = phone
+          .substring(0, 12)
+          .replace(/\D/g, '')
+          .replace(/(\d)(?=((?:\d{4})|(?:\d{7}))$)/g, '$1-')
+      })
+    },
+    async sendCode() {
+      if (this.sendCodePending) {
+        return
+      }
+      this.sendCodePending = true
+      await this.$axios({
         url: '/overseas/captcha',
         method: 'GET',
         params: {
-          phone: this.phoneModel
+          phone: `+1${this.phoneModel.replace(/\D/g, '')}`
         }
       })
+      this.sendCodePending = false
     },
     async onContinue() {
       if (this.activeStep === 3) {
@@ -341,6 +392,22 @@ export default {
     &-input {
       flex: 1;
       @include reset-buefy-input;
+
+      /deep/ &.phone input {
+        padding-left: 50px;
+      }
+    }
+    &-phone-wrap {
+      flex: 1;
+      position: relative;
+      &:before {
+        content: '+1';
+        position: absolute;
+        top: 5px;
+        left: 16px;
+        z-index: 1;
+        @include primary-text($font-size: 18px);
+      }
     }
     // &-btn {
     //   background: rgba(2, 174, 252, 0.1);
@@ -368,7 +435,7 @@ export default {
   overflow: hidden;
 }
 .send-code {
-  margin-left: 32px;
+  margin-left: 16px;
 }
 .bind-number {
   &-icon {

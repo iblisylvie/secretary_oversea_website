@@ -1,13 +1,16 @@
-import { isObject } from 'lodash-es'
+import { isObject, get } from 'lodash-es'
 
 // Map fields to /overseas/relation/*
 // See https://docs.google.com/document/d/1S4NV68f6OPPHw320t3_o9tz74s3UPr6gQO9yXW0BPIY/edit#
 export default {
   state: () => ({
-    activated: false,
     relation: {}
   }),
-  getters: {},
+  getters: {
+    skipGetStarted: (state) => {
+      return Boolean(get(state, 'relation.phone', false))
+    }
+  },
   mutations: {
     PUT_RELATION_INFO: (state, relationInfo) => {
       if (!isObject(relationInfo)) return

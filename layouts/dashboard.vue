@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { get, pick } from 'lodash-es'
 
 export default {
@@ -91,7 +91,7 @@ export default {
   computed: {
     ...mapState({
       userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url']),
-      activated: (state) => get(state, 'relation.activated'),
+      activated: (state) => get(state, 'relation.relation.activated'),
       availableRoutes: (state) => get(state, 'auth.availableRoutes', []),
       asideMenu: (state) => {
         const availableRoutes = get(state, 'auth.availableRoutes', [])
@@ -105,6 +105,7 @@ export default {
           )
       }
     }),
+    ...mapGetters('relation', ['skipGetStarted']),
     pageTitle() {
       const currentRoute = this.$route.path
       return get(
@@ -114,9 +115,12 @@ export default {
       )
     },
     menuDisabled() {
-      const activated = this.activated
+      const skipGetStarted = this.skipGetStarted
       return (route) => {
-        if (!activated && ['/call-history', '/customization'].includes(route)) {
+        if (
+          !skipGetStarted &&
+          ['/call-history', '/customization'].includes(route)
+        ) {
           return true
         }
         return false

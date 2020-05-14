@@ -124,7 +124,7 @@ export default {
       })
       commit('PUT_USER_INFO', get(result, 'base_info'))
     },
-    async FETCH_AVAILABLE_ROUTES({ commit, dispatch, rootState }) {
+    async FETCH_AVAILABLE_ROUTES({ commit, dispatch, rootGetters }) {
       const routes = [
         {
           path: '/get-started',
@@ -214,8 +214,8 @@ export default {
         }
       ]
       await dispatch('relation/FETCH_RELATION', null, { root: true })
-      const activated = get(rootState, 'relation.activated')
-      if (activated) {
+      const skipGetStarted = rootGetters['relation/skipGetStarted']
+      if (skipGetStarted) {
         remove(routes, (route) => route.path === '/get-started')
       }
       commit('PUT_USER_INFO', { availableRoutes: routes })

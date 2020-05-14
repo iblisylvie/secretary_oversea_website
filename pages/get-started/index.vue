@@ -192,7 +192,7 @@
 
 <script>
 import { get } from 'lodash-es'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import Steps from '~/components/utils/steps/Steps'
 
@@ -204,8 +204,8 @@ export default {
   },
   async asyncData({ redirect, store }) {
     await store.dispatch('relation/FETCH_RELATION')
-    const activated = get(store, 'state.relation.activated')
-    if (!activated) {
+    const skipGetStarted = store.getters['auth/loggedIn']
+    if (!skipGetStarted) {
       return {}
     }
     redirect(301, '/call-history')
@@ -230,9 +230,7 @@ export default {
     sendCodeText: 'Send Code'
   }),
   computed: {
-    ...mapState({
-      activated: (state) => get(state, 'relation.activated', false)
-    }),
+    ...mapGetters('relation', ['skipGetStarted']),
     continueDisabled() {
       if (this.activeStep === 0) {
         return !this.phoneModel || !this.captchaModel

@@ -133,7 +133,10 @@
     </div>
 
     <!-- place holder  -->
-    <div v-if="!callHistory.length && callHistoryFetched" class="placeholder">
+    <div
+      v-if="!activated && phoneBinded && callHistoryFetched"
+      class="placeholder"
+    >
       <p class="title">You haven’t called your HeyTico assistant.</p>
       <p class="sub-title">
         Please call your own mobile number to speak to and <br />
@@ -153,6 +156,7 @@
 
 <script>
 import { get } from 'lodash-es'
+import { mapState } from 'vuex'
 import dayjs from 'dayjs'
 
 export default {
@@ -209,6 +213,10 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      activated: (state) => get(state, 'relation.relation.activated'),
+      phoneBinded: (state) => get(state, 'ralation.realtion.phone')
+    }),
     callHistoryTableData() {
       return get(this, 'callHistory', []).map((record) => {
         record.flexGrowRates = this.THEAD_COLUMNS.map(

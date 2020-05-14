@@ -302,7 +302,7 @@ export default {
           method: 'POST',
           url: '/overseas/relation/phone',
           params: {
-            phone: this.phoneModel,
+            phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
             captcha: this.captchaModel
           }
         })

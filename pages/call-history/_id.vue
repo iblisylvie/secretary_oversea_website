@@ -61,10 +61,7 @@
           :key="index"
           class="call-record-history-wrap"
         >
-          <div
-            v-if="msg.user_voice_url && msg.user_query"
-            class="call-record-history-session caller"
-          >
+          <div v-if="msg.user_query" class="call-record-history-session caller">
             <avatar
               class="call-record-history-avatar caller"
               :src="userAvatar"
@@ -76,13 +73,13 @@
               alt="avatar"
             /> -->
             <div class="call-record-history-bubble caller">
-              <span
+              <!-- <span
                 class="call-record-history-bubble-speak"
                 @click="onSessionAudioCtrol"
               >
                 <svg-icon icon-class="speak" />
               </span>
-              <audio :src="msg.user_voice_url" style="display:none"></audio>
+              <audio :src="msg.user_voice_url" style="display:none"></audio> -->
               {{ msg.user_query }}
             </div>
           </div>

@@ -25,7 +25,6 @@ button {
 
   small {
     font-size: 1.12rem;
-    color: rgba(255, 255, 255, 0.65);
     margin-left: 0.5rem;
   }
 

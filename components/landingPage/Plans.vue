@@ -102,7 +102,7 @@ export default {
     line-height: 1.5;
     opacity: 0.7;
     color: $dark;
-    text-align: left;
+    text-align: center;
   }
 
   a {

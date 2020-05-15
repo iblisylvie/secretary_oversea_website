@@ -21,16 +21,25 @@
       </template>
 
       <template slot="end">
-        <b-navbar-item tag="router-link" :to="{ path: '/', hash: 'product' }">
+        <b-navbar-item
+          class="hide-active"
+          tag="router-link"
+          :to="{ path: '/', hash: 'product' }"
+        >
           Product
         </b-navbar-item>
         <b-navbar-item
+          class="hide-active"
           tag="router-link"
           :to="{ path: '/', hash: 'how-it-works' }"
         >
           How it works
         </b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/', hash: 'pricing' }">
+        <b-navbar-item
+          class="hide-active"
+          tag="router-link"
+          :to="{ path: '/', hash: 'pricing' }"
+        >
           Pricing
         </b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ path: '/faq' }">
@@ -46,7 +55,7 @@
           tag="router-link"
           :to="{ path: '/call-history' }"
         >
-          Dashboard
+          <avatar :src="avatar" class="avatar" />
         </b-navbar-item>
       </template>
     </b-navbar>
@@ -122,6 +131,7 @@ export default {
   data() {
     return {
       user: this.$store.getters['auth/loggedIn'],
+      avatar: this.$store.state.auth.head_image_url,
       signup: `https://passport.mobvoi.com/pages/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
     }
   },
@@ -154,6 +164,10 @@ export default {
     font-weight: bold;
   }
 
+  /deep/ & > .container {
+    max-width: none;
+  }
+
   @include mobile {
     .navbar-brand {
       padding: 2rem;
@@ -167,6 +181,14 @@ export default {
 
   &:hover {
     color: $colored-bg;
+  }
+
+  &.hide-active.nuxt-link-exact-active {
+    color: $colored-bg;
+
+    @include mobile {
+      color: $primary;
+    }
   }
 }
 

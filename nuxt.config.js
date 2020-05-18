@@ -75,16 +75,14 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: true,
-    credentials: true
+    proxy: true
   },
   proxy: {
     '/overseas': {
-      target: 'http://106.75.81.82:8434',
+      target: 'http://106.75.81.82:8434'
       // process.env.NODE_ENV === 'development'
       //   ? 'http://106.75.81.82:8434'
       //   : 'https://durian.ticwear.com',
-      changeOrigin: true
     }
   },
   /*

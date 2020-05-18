@@ -75,7 +75,9 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: true
+    proxy: true,
+    host: '106.75.81.82',
+    port: '8434'
   },
   proxy: {
     '/overseas': {

@@ -1,6 +1,16 @@
 <template>
   <section class="get-start">
-    <Steps class="get-start-steps" :active="activeStep" :steps="steps"></Steps>
+    <div class="header-wrap">
+      <nav v-if="refer" class="nav">
+        <ul class="primary">
+          <li @click="$router.back()">
+            <svg-icon icon-class="go-back"></svg-icon>
+          </li>
+          <li>Account Setting</li>
+        </ul>
+      </nav>
+      <Steps class="steps-wrap" :active="activeStep" :steps="steps"></Steps>
+    </div>
 
     <main class="get-start-main">
       <!-- Account Setup  -->
@@ -202,9 +212,14 @@ export default {
   components: {
     Steps
   },
-  async asyncData({ redirect, store }) {
+  async asyncData({ redirect, store, params }) {
+    // @workaround add servicing number
+    const { refer } = params
+    if (refer) {
+      return { refer }
+    }
     await store.dispatch('relation/FETCH_RELATION')
-    const skipGetStarted = store.getters['auth/loggedIn']
+    const skipGetStarted = store.getters['relation/skipGetStarted']
     if (!skipGetStarted) {
       return {}
     }
@@ -298,7 +313,9 @@ export default {
       if (this.activeStep === 0) {
         const result = await this.$axios({
           method: 'POST',
-          url: '/overseas/relation/phone',
+          url: this.refer
+            ? '/overseas/relation/phone/attach'
+            : '/overseas/relation/phone',
           params: {
             phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
             captcha: this.captchaModel
@@ -340,7 +357,33 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/mixins.scss';
 .get-start {
-  padding-top: 84px;
+  padding: 48px;
+  .header-wrap {
+    display: flex;
+    align-items: center;
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      ul {
+        display: flex;
+        align-items: center;
+        li {
+          margin-right: 24px;
+          cursor: pointer;
+        }
+        & :last-child {
+          margin-right: 0;
+        }
+      }
+      .primary {
+        @include primary-text($font-size: 18px);
+      }
+    }
+    .steps-wrap {
+      // width: 30%;
+      margin-right: 34%;
+    }
+  }
   &-main {
     margin: 48px auto 0;
     width: 60%;
@@ -350,9 +393,6 @@ export default {
     background: #fff;
     padding: 48px 72px;
     text-align: center;
-  }
-  &-steps {
-    width: 50%;
   }
 }
 .acc-setup {

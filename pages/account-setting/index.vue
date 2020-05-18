@@ -108,19 +108,37 @@
       <section class="block">
         <h3 class="title">Servicing Number</h3>
         <div class="form">
-          <p>{{ phone || 'None' }}</p>
+          <p v-for="(number, index) in phones" :key="index" class="row">
+            <svg-icon icon-class="phone" class-name="shape"></svg-icon>
+            <span>{{ number }}</span>
+            <t-button
+              type="text"
+              class="unbind"
+              :disabled="Boolean(number === phone && attachPhones.length)"
+              @click="onUnbindPhone(number)"
+            >
+              Unbind
+            </t-button>
+            <!-- <button class="opt" >
+              Unbind
+            </button> -->
+          </p>
         </div>
         <!-- <div class="form" style="margin-top: 16px">
           <p>(907) 555-0101</p>
         </div> -->
-        <!-- <b-button
+        <t-button
           class="submit"
-          rounded
-          style="padding: 5px 9px;"
-          @click="$message.open('Function comming soon')"
+          style="padding:6px 8px;"
+          @click="
+            $router.push({
+              name: 'get-started',
+              params: { refer: 'Account-setting' }
+            })
+          "
         >
           <svg-icon icon-class="add"></svg-icon>
-        </b-button> -->
+        </t-button>
       </section>
       <hr class="seprate" />
       <section class="block">
@@ -128,9 +146,12 @@
           This account will no longer be available, and all its data will be
           deleted
         </p>
-        <button class="danger" @click="leadToDeleteAccount">
+        <t-button type="text" @click="leadToDeleteAccount">
           DELETE ACCOUNT
-        </button>
+        </t-button>
+        <!-- <button class="danger" @click="leadToDeleteAccount">
+          DELETE ACCOUNT
+        </button> -->
       </section>
     </main>
   </section>
@@ -160,8 +181,12 @@ export default {
       email: (state) => get(state, 'auth.email'),
       phone: (state) => get(state, 'relation.relation.phone'),
       token: (state) => get(state, 'auth.loginCert'),
-      redirectDomain: (state) => get(state, 'app.domain')
-    })
+      redirectDomain: (state) => get(state, 'app.domain'),
+      attachPhones: (state) => get(state, 'phone-attach.phones', [])
+    }),
+    phones() {
+      return [this.phone].concat(this.attachPhones)
+    }
   },
   methods: {
     leadToDeleteAccount() {
@@ -171,6 +196,15 @@ export default {
         redirect: `${this.redirectDomain}/`
       })
       window.location = `https://passport.mobvoi.com/pages/secretary-oversea/close-account?${params.toString()}`
+    },
+    onUnbindPhone(phone) {
+      this.$router.push({
+        name: 'unbind-phone',
+        params: {
+          phone,
+          isPrimaryPhone: phone === this.phone
+        }
+      })
     }
   }
 }
@@ -225,8 +259,20 @@ export default {
         display: flex;
         align-items: center;
         @include primary-text($font-size: 18px);
-        .opt {
-          margin-left: 24px;
+        .row {
+          margin-bottom: 24px;
+          display: flex;
+          align-items: center;
+          @include primary-text($font-size: 14px);
+          .shape {
+            font-size: 18px;
+          }
+          span {
+            margin-left: 8px;
+          }
+        }
+        .unbind {
+          margin-left: 8px;
         }
       }
       .opt {
@@ -259,8 +305,8 @@ export default {
       }
       .danger {
         margin-top: 8px;
-        @include primary-text($font-size: 14px);
-        @include text-button;
+        // @include primary-text($font-size: 14px);
+        // @include text-button;
       }
     }
   }

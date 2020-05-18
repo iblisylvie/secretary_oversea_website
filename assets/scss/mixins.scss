@@ -35,6 +35,10 @@
   border: none;
   outline: none;
   cursor: pointer;
+  color: #02aefc;
+  &:hover {
+    color: #00a4ee;
+  }
 }
 
 @mixin primary-button(

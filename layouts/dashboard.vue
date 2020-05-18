@@ -48,14 +48,14 @@
             <avatar :src="userInfo.head_image_url" class="avatar" />
             <span>{{ userInfo.nickname }}</span>
           </div>
-          <nuxt-link
+          <div
             v-show="accountExpanded"
-            to="/account-setting"
             class="option"
+            @click.stop="onClickAccountSetting"
           >
             <svg-icon icon-class="aside-acc-setting" class-name="figure" />
             <span class="name">Account Setting</span>
-          </nuxt-link>
+          </div>
           <div
             v-show="accountExpanded"
             class="option"
@@ -133,6 +133,12 @@ export default {
   methods: {
     onClickAccountOutSide() {
       this.accountExpanded = false
+    },
+    onClickAccountSetting() {
+      this.accountExpanded = false
+      this.$router.push({
+        name: 'account-setting'
+      })
     }
   },
   middleware: 'auth'

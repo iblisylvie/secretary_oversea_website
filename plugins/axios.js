@@ -37,6 +37,7 @@ export default function({ $axios, store }, inject) {
       // @TODO using message or other under client side
       // eslint-disable-next-line
       console.log(`
+[request url]: ${get(error, 'response.request.path')}
 [response error]: ${error}`)
       const status = get(error, 'response.status')
       // Logout under `401`

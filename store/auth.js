@@ -109,12 +109,15 @@ export default {
      * Initialize prerequisite info
      * @param {*} param0
      */
-    async INIT_PREQ_INFO({ dispatch, state }) {
+    async INIT_PREQ_INFO({ dispatch, state, rootState }) {
       if (!state.wwid) {
         await dispatch('FETCH_USER')
       }
       if (!state.availableRoutes) {
         await dispatch('FETCH_AVAILABLE_ROUTES')
+      }
+      if (!get(rootState, 'phone-attach.phones.length')) {
+        await dispatch('phone-attach/FETCH_PHONE_ATTACH', null, { root: true })
       }
     },
     async FETCH_USER({ commit }) {

@@ -31,6 +31,13 @@ export default {
       if (relationInfo) {
         commit('PUT_RELATION_INFO', relationInfo)
       }
+    },
+    async DELETE_RELATION({ dispatch }) {
+      await this.$axios({
+        url: '/overseas/relation',
+        method: 'DELETE'
+      })
+      await dispatch('FETCH_RELATION')
     }
   }
 }

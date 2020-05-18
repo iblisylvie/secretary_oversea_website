@@ -56,6 +56,18 @@ export default {
       }
     }
   }
+  .text {
+    @include text-button;
+    &[disabled] {
+      cursor: not-allowed;
+      &:hover {
+        color: #59687a;
+      }
+      & .content {
+        color: #59687a;
+      }
+    }
+  }
   &.loading {
     pointer-events: none;
   }

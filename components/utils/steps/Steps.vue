@@ -103,7 +103,7 @@ export default {
     }
   }
   &-main {
-    margin-top: 24px;
+    margin-top: 8px;
     text-align: center;
   }
   &-title {

@@ -161,6 +161,9 @@
         </div>
       </div>
     </section>
+
+    <!-- Promotion Modal -->
+    <Modal v-if="!user" :url="signup" />
   </div>
 </template>
 
@@ -171,10 +174,11 @@ import TextImage from '~/components/landingPage/TextImage.vue'
 import Video from '~/components/landingPage/Video.vue'
 import Testimonials from '~/components/landingPage/Testimonials.vue'
 import Plans from '~/components/landingPage/Plans.vue'
+import Modal from '~/components/landingPage/PromotionModal.vue'
 
 export default {
   name: 'HomePage',
-  components: { Button, Slogan, TextImage, Video, Testimonials, Plans },
+  components: { Button, Slogan, TextImage, Video, Testimonials, Plans, Modal },
   data() {
     return {
       user: this.$store.getters['auth/loggedIn'],

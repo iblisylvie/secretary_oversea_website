@@ -261,7 +261,8 @@ export default {
 @import '~/assets/scss/mixins.scss';
 .call-record {
   padding: 40px 32px 84px 48px;
-  height: 100%;
+  height: auto;
+  background: $main-panel-background;
   &-thead {
     display: flex;
     align-items: center;

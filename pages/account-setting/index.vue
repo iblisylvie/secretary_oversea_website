@@ -22,6 +22,13 @@
             Edit
           </button> -->
         </div>
+        <div class="label">Gender</div>
+        <div class="form">
+          <p>{{ gender ? 'Female' : 'Male' }}</p>
+          <!-- <button class="opt">
+            Edit
+          </button> -->
+        </div>
         <div class="label">Email</div>
         <div class="form">
           <p>{{ email || 'None' }}</p>
@@ -59,7 +66,7 @@
           href="https://passport.mobvoi.com/pages/user-edit?lang=en-us"
           target="_blank"
         >
-          <t-button class="submit">Update</t-button>
+          <t-button class="submit">Edit</t-button>
         </a>
       </section>
       <hr class="seprate" />
@@ -179,6 +186,7 @@ export default {
     ...mapState({
       nickname: (state) => get(state, 'auth.nickname'),
       email: (state) => get(state, 'auth.email'),
+      gender: (state) => get(state, 'auth.sex'),
       phone: (state) => get(state, 'relation.relation.phone'),
       token: (state) => get(state, 'auth.loginCert'),
       redirectDomain: (state) => get(state, 'app.domain'),
@@ -252,7 +260,7 @@ export default {
       }
       .label {
         margin-top: 24px;
-        @include secondary-text;
+        @include secondary-text($font-weight: normal);
       }
       .form {
         margin-top: 16px;

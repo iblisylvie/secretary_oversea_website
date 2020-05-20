@@ -9,6 +9,12 @@
   -webkit-text-fill-color: transparent;
 }
 
+@mixin gradient-border($border-width: 2px) {
+  border: $border-width solid;
+  border-image: $linear-gradient 1;
+  clip-path: inset(0 round 4px);
+}
+
 @mixin primary-text(
   $color: $primary-text-color,
   $font-size: $primary-text-size,

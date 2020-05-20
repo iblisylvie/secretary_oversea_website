@@ -74,41 +74,54 @@
       <section class="block">
         <h3 class="title">Subscription</h3>
         <div class="label">Current Plan</div>
-        <div class="form">
-          <p>FREE</p>
-        </div>
-        <div class="form" style="margin-top: 12px; font-weight: normal">
-          When you go premium, you will be able to:
-        </div>
-        <ul>
-          <li>
-            Customize your responses
-            <br />
-            <p class="note">
-              &nbsp;Setup your personal opening remark, refusal message, and
-              special replies
-            </p>
-          </li>
-          <li>
-            Customize your names
-            <br />
-            <p class="note">
-              &nbsp;Have a more personal name for yourself and your virtual
-              assistant
-            </p>
-          </li>
-          <li>
-            Bind more numbers
-            <br />
-            <p class="note">
-              &nbsp;Have more than one number? Add it on to your account, so you
-              get an assistant for each number
-            </p>
-          </li>
-        </ul>
-        <t-button class="submit" @click="$message.open('Feature comming soon')">
-          Upgrade
-        </t-button>
+        <template v-if="!isVip">
+          <div class="form">
+            <p>FREE</p>
+          </div>
+          <div class="form" style="margin-top: 12px; font-weight: normal">
+            When you go premium, you will be able to:
+          </div>
+          <ul>
+            <li>
+              Customize your responses
+              <br />
+              <p class="note">
+                &nbsp;Setup your personal opening remark, refusal message, and
+                special replies
+              </p>
+            </li>
+            <li>
+              Customize your names
+              <br />
+              <p class="note">
+                &nbsp;Have a more personal name for yourself and your virtual
+                assistant
+              </p>
+            </li>
+            <li>
+              Bind more numbers
+              <br />
+              <p class="note">
+                &nbsp;Have more than one number? Add it on to your account, so
+                you get an assistant for each number
+              </p>
+            </li>
+          </ul>
+          <t-button
+            class="submit"
+            @click="$message.open('Feature comming soon')"
+          >
+            Upgrade
+          </t-button>
+        </template>
+        <template v-if="isVip">
+          <div class="form">
+            <p>PREMIUM</p>
+          </div>
+          <div class="form">
+            <p>End at: {{ vipEndAt }}</p>
+          </div>
+        </template>
       </section>
       <hr class="seprate" />
       <!-- Servicing Number  -->
@@ -166,7 +179,8 @@
 
 <script>
 import { get } from 'lodash-es'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+import dayjs from 'dayjs'
 
 export default {
   name: 'AccountSettings',
@@ -190,8 +204,12 @@ export default {
       phone: (state) => get(state, 'relation.relation.phone'),
       token: (state) => get(state, 'auth.loginCert'),
       redirectDomain: (state) => get(state, 'app.domain'),
-      attachPhones: (state) => get(state, 'phone-attach.phones', [])
+      attachPhones: (state) => get(state, 'phone-attach.phones', []),
+      vipEndAt: (state) => {
+        return dayjs(get(state, 'vip.end_at', '')).format('MMM D')
+      }
     }),
+    ...mapGetters('vip', ['isVip']),
     phones() {
       return [this.phone].concat(this.attachPhones)
     }

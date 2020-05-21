@@ -4,7 +4,8 @@ import { isObject, get } from 'lodash-es'
 // See https://docs.google.com/document/d/1S4NV68f6OPPHw320t3_o9tz74s3UPr6gQO9yXW0BPIY/edit#
 export default {
   state: () => ({
-    phones: []
+    phones: [],
+    fetchedPhoneAttachInfo: false
   }),
   mutations: {
     PUT_PHONE_ATTACH_INFO: (state, phoneAttachInfo) => {
@@ -14,16 +15,23 @@ export default {
           state[prop] = value
         }
       }
+    },
+    PUT_FETCHED_PHONE_ATTACH_INFO: (state, fetched) => {
+      state.fetchedPhoneAttachInfo = Boolean(fetched)
     }
   },
   actions: {
-    async FETCH_PHONE_ATTACH({ commit }) {
+    async FETCH_PHONE_ATTACH({ commit, state }) {
+      if (state.fetchedPhoneAttachInfo) {
+        return
+      }
       const phoneAttachInfo = await this.$axios({
         url: '/overseas/relation/phone/attach',
         method: 'GET'
       })
       if (phoneAttachInfo) {
         commit('PUT_PHONE_ATTACH_INFO', phoneAttachInfo)
+        commit('PUT_FETCHED_PHONE_ATTACH_INFO', true)
       }
     },
     async DELETE_PHONE_ATTACH({ state, commit }, { phone }) {

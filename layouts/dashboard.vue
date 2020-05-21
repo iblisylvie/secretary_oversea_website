@@ -261,6 +261,7 @@ export default {
   width: 100%;
   padding-left: 257px;
   background: $main-panel-background;
+  overflow: auto;
 }
 
 // Mobile layout

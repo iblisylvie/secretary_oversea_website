@@ -64,8 +64,8 @@
           <div v-if="msg.user_query" class="call-record-history-session caller">
             <avatar
               class="call-record-history-avatar caller"
+              avatar="caller"
               :src="userAvatar"
-              :avatar="caller"
             />
             <!-- <img
               class="call-record-history-avatar caller"
@@ -108,10 +108,10 @@ export default {
   name: 'CallRecord',
   filters: {
     parseToDate(val) {
-      return dayjs(val).format('MMM D')
+      return val ? dayjs(Number(val)).format('YYYY MMM DD') : ''
     },
     parseToTime(val) {
-      return dayjs(val).format('hh:mm')
+      return val ? dayjs(Number(val)).format('HH:mm') : ''
     }
   },
   data() {
@@ -122,7 +122,7 @@ export default {
           label: 'Caller'
         },
         {
-          flexGrow: '48%',
+          flexGrow: '40%',
           label: 'Type'
         },
         {
@@ -130,11 +130,11 @@ export default {
           label: 'My number'
         },
         {
-          flexGrow: '9%',
+          flexGrow: '13%',
           label: 'Date'
         },
         {
-          flexGrow: '7%',
+          flexGrow: '11%',
           label: 'Time'
         }
       ],

@@ -210,7 +210,7 @@ export default {
     align-items: center;
     padding: 16px 24px;
     border-radius: 8px;
-    background: #f3f6f8;
+    background: $white;
     .options {
       .option {
         display: flex;

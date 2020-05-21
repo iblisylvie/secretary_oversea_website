@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/scss/mixins.scss';
 .steps {
   display: flex;
   margin: 0 auto;

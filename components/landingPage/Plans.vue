@@ -3,35 +3,54 @@
     <article class="plan free">
       <img src="~assets/images/free-plan.png" alt="Free Plan" />
       <h4>Free Plan</h4>
-      <p>
+      <!-- <p>
         Satisfy the basic needs of answering calls. From letting your callers
         know that you are busy to where to put packages and to refusing spam
         calls. Accurate, reliable, and always on duty. Ready even when you are
         not.
-      </p>
-      <Button v-if="!user" tag="a" :href="signup" text="Start" />
-      <Button v-if="user" tag="router-link" to="/call-history" text="Start" />
+      </p> -->
+      <!-- <Button v-if="!user" tag="a" :href="signup" text="Start" />
+      <Button v-if="user" tag="router-link" to="/call-history" text="Start" /> -->
+
+      <div class="content">
+        <DotText text="Call Answering" />
+        <DotText text="Choose Your Voice - 4 voices" />
+        <DotText text="Service 1 Number" />
+      </div>
     </article>
 
     <article class="plan premium">
       <img src="~assets/images/premium-plan.png" alt="Premium Plan" />
       <h4>Premium Plan</h4>
-      <p>
+      <!-- <p>
         Enjoy all the customizable features you need while reluctantly missing
         calls. From customizing replies for your contacts and unknown callers to
         setting your assistant’s voice. Your personal assistant should be this
         personalized and flexible.
-      </p>
-      <p class="coming">Coming Soon</p>
+      </p> -->
+      <!-- <p class="coming">Coming Soon</p> -->
+
+      <div class="content">
+        <DotText premium text="Call Answering" />
+        <DotText premium text="Choose Your Voice - 6 voices" />
+        <DotText premium text="Change Your Name" />
+        <DotText premium text="Change Your HeyTico Assistant’s Name" />
+        <DotText premium text="Set You Opening Remarks" />
+        <DotText premium text="Set Replies For Your Contacts" />
+        <DotText premium text="Set Specific Replies" />
+        <DotText premium text="Set Your Refusal Replies" />
+        <DotText premium text="Servicing Multiple Numbers" />
+      </div>
     </article>
   </div>
 </template>
 
 <script>
-import Button from '~/components/utils/Button.vue'
+// import Button from '~/components/utils/Button.vue'
+import DotText from '~/components/app/DotText.vue'
 
 export default {
-  components: { Button },
+  components: { DotText },
   props: {
     user: {
       type: Boolean
@@ -48,7 +67,7 @@ export default {
 .plans {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 
   @include mobile {
     flex-direction: column;
@@ -60,9 +79,8 @@ export default {
   padding: 3.8rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  text-align: center;
   background: $white;
   color: $white;
   font-weight: bold;
@@ -77,7 +95,8 @@ export default {
   }
 
   img {
-    width: 10rem;
+    width: 8rem;
+    height: 8rem;
     margin-bottom: 1rem;
 
     @include mobile {
@@ -102,7 +121,6 @@ export default {
     line-height: 1.5;
     opacity: 0.7;
     color: $dark;
-    text-align: center;
   }
 
   a {
@@ -111,9 +129,6 @@ export default {
   }
 
   &.free {
-    margin-right: -3.6rem;
-    transform: scale(0.9);
-
     h4 {
       color: $primary;
     }
@@ -123,9 +138,7 @@ export default {
     }
 
     @include mobile {
-      margin-right: 0px;
       margin-bottom: 16px;
-      transform: none;
     }
   }
 

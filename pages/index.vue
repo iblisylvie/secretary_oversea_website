@@ -122,8 +122,8 @@
     </section>
 
     <!-- PRICE SECTION -->
-    <section id="pricing" class="section pricing-section">
-      <div class="container">
+    <section class="section pricing-section">
+      <div id="pricing" class="container">
         <h2 class="title m-b-60 has-text-centered">
           Plans and Pricing
         </h2>

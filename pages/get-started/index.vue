@@ -9,8 +9,26 @@
           <li>Account Setting</li>
         </ul>
       </nav>
-      <Steps class="steps-wrap" :active="activeStep" :steps="steps"></Steps>
     </div>
+
+    <b-steps v-model="activeStep" size="is-small" :has-navigation="false">
+      <b-step-item
+        :clickable="false"
+        label="Account Setup"
+        step="1"
+      ></b-step-item>
+      <b-step-item
+        :clickable="false"
+        label="Bind Number"
+        step="2"
+      ></b-step-item>
+      <b-step-item
+        :clickable="false"
+        label="Test Services"
+        step="3"
+      ></b-step-item>
+      <b-step-item :clickable="false" label="All Set!" step="4"></b-step-item>
+    </b-steps>
 
     <main class="get-start-main">
       <!-- Account Setup  -->
@@ -185,7 +203,7 @@
           type="secondary"
           @click="activeStep = 1"
         >
-          BackBack
+          Back
         </t-button>
         <t-button
           class="acc-setup-nav-btn"
@@ -204,14 +222,9 @@
 import { get } from 'lodash-es'
 import { mapGetters } from 'vuex'
 
-import Steps from '~/components/utils/steps/Steps'
-
 export default {
   name: 'GetStart',
   layout: 'dashboard',
-  components: {
-    Steps
-  },
   async asyncData({ redirect, store, params }) {
     // @workaround add servicing number
     const { refer } = params
@@ -358,12 +371,15 @@ export default {
 @import '~/assets/scss/mixins.scss';
 .get-start {
   padding: 48px;
+  background: $main-panel-background;
   .header-wrap {
     display: flex;
+    flex-direction: column;
     align-items: center;
     .nav {
       display: flex;
       justify-content: space-between;
+      align-self: baseline;
       ul {
         display: flex;
         align-items: center;
@@ -385,7 +401,7 @@ export default {
     }
   }
   &-main {
-    margin: 48px auto 0;
+    margin: 0 auto;
     width: 60%;
     display: flex;
     flex-flow: column;
@@ -393,6 +409,11 @@ export default {
     background: #fff;
     padding: 48px 72px;
     text-align: center;
+
+    & .acc-setup-tip {
+      font-size: 14px;
+      font-weight: normal;
+    }
   }
 }
 .acc-setup {
@@ -418,8 +439,8 @@ export default {
       flex-basis: 26%;
       color: #141b24;
       text-align: left;
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: normal;
     }
     &-group {
       display: flex;
@@ -627,5 +648,46 @@ export default {
       text-align: center;
     }
   }
+}
+
+/* Override Buefy Step Styles */
+/deep/ .b-steps {
+  max-width: 600px;
+  margin: 3rem auto 1rem;
+}
+
+/deep/ .step-details {
+  background: transparent !important;
+}
+
+/deep/ .step-marker {
+  border: none !important;
+}
+
+/deep/ .b-steps .steps .step-items .step-item .step-link {
+  color: $secondary-text-color;
+}
+
+/deep/ .b-steps .steps .step-items .step-item .step-marker {
+  background: $secondary-text-color;
+}
+
+/deep/ .b-steps .steps .step-items .step-item.is-previous .step-marker,
+/deep/ .b-steps .steps .step-items .step-item.is-active .step-marker {
+  background: $linear-gradient;
+}
+
+/deep/ .b-steps .steps .step-items .step-item.is-active .step-marker {
+  color: $white;
+  background: $linear-gradient;
+}
+
+/deep/ .b-steps .steps .step-items .step-item .step-details .step-title {
+  font-weight: normal;
+}
+
+/deep/ .b-steps .steps .step-items .step-item.is-previous .step-title,
+/deep/ .b-steps .steps .step-items .step-item.is-active .step-title {
+  @include gradient-text;
 }
 </style>

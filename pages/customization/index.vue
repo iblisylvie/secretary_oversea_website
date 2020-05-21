@@ -222,8 +222,8 @@
         </div>
         <b-switch
           v-model="refusalReply.checked"
-          @input="onRefuseOneReply(refusalReply.intent)"
           type="is-info"
+          @input="onRefuseOneReply(refusalReply.intent)"
         />
       </div>
     </div>
@@ -289,7 +289,6 @@ export default {
         )
       },
       set(val) {
-        console.log(val)
         if (val) {
           this.onRefuseAll()
         }

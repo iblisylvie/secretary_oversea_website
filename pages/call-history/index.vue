@@ -157,17 +157,17 @@
 <script>
 import { get } from 'lodash-es'
 import { mapState } from 'vuex'
-import dayjs from 'dayjs'
+import * as dayjs from 'dayjs'
 
 export default {
   name: 'CallHistory',
   layout: 'dashboard',
   filters: {
     parseToDate(val) {
-      return dayjs(val).format('MMM D')
+      return dayjs(Number(val)).format('YYYY MMM DD')
     },
     parseToTime(val) {
-      return dayjs(val).format('hh:mm')
+      return dayjs(Number(val)).format('HH:mm')
     }
   },
   asyncData() {
@@ -182,7 +182,7 @@ export default {
           label: 'Caller'
         },
         {
-          flexGrow: '48%',
+          flexGrow: '40%',
           label: 'Type'
         },
         {
@@ -190,11 +190,11 @@ export default {
           label: 'My number'
         },
         {
-          flexGrow: '9%',
+          flexGrow: '13%',
           label: 'Date'
         },
         {
-          flexGrow: '7%',
+          flexGrow: '11%',
           label: 'Time'
         }
       ],

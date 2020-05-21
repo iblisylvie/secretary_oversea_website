@@ -207,7 +207,8 @@
     <h3 class="primary-heading">
       Set your refusal replies
       <span class="link"
-        >Refuse All <b-switch :value="true" class="b-switch" type="is-info"
+        >Refuse All
+        <b-switch v-model="refuseAllModel" class="b-switch" type="is-info"
       /></span>
     </h3>
     <div class="refusal-wrap">
@@ -219,7 +220,11 @@
         <div class="desc">
           {{ refusalReply.name }}
         </div>
-        <b-switch :value="refusalReply.checked" type="is-info" />
+        <b-switch
+          v-model="refusalReply.checked"
+          type="is-info"
+          @input="onRefuseOneReply(refusalReply.intent)"
+        />
       </div>
     </div>
   </section>
@@ -268,14 +273,26 @@ export default {
         'secretary.take_out#take': 'takeOutReplyModel',
         'secretary.express#arrived': 'deliveryRepleyModel'
       }
-      return this.replies.map((replay) => {
-        if (pairs[replay.domain]) {
-          const tts = get(replay, 'tts_item', []).find(
+      return this.replies.map((reply) => {
+        if (pairs[reply.domain]) {
+          const tts = get(reply, 'tts_item', []).find(
             (tts) => tts.item_no === 0
           )
-          this[pairs[replay.domain]] = get(tts, 'content', '')
+          this[pairs[reply.domain]] = get(tts, 'content', '')
         }
       })
+    },
+    refuseAllModel: {
+      get() {
+        return get(this, 'refusalReplies', []).every(
+          (refusalReply) => refusalReply.checked
+        )
+      },
+      set(val) {
+        if (val) {
+          this.onRefuseAll()
+        }
+      }
     }
   },
   created() {
@@ -344,6 +361,19 @@ export default {
           domain: 'secretary.express#arrived',
           tts: this.deliveryRepleyModel
         }
+      })
+    },
+    async onRefuseAll() {
+      await this.putCustomSettings({
+        reject_scene: get(this, 'refusalReplies', []).map(
+          (refusalReply) => refusalReply.intent
+        )
+      })
+      await this.fetchRefusalReplies()
+    },
+    async onRefuseOneReply(intent) {
+      await this.putCustomSettings({
+        reject_scene: [intent]
       })
     },
     async fetchVoices() {

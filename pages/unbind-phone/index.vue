@@ -133,10 +133,14 @@ export default {
     async onClickNext() {
       if (this.activeStep === 0) {
         if (this.isPrimaryPhone) {
-          await this.store.dispatch('relation/DELETE_RELATION')
+          await this.$store.dispatch('relation/DELETE_RELATION')
+          await this.$store.dispatch('relation/FETCH_RELATION')
         } else {
-          await this.store.dispatch('phone-attach/DELETE_PHONE_ATTACH', {
+          await this.$store.dispatch('phone-attach/DELETE_PHONE_ATTACH', {
             phone: this.phone
+          })
+          await this.$store.dispatch('phone-attach/FETCH_PHONE_ATTACH', {
+            reFetch: true
           })
         }
         this.activeStep++

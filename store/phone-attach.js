@@ -21,8 +21,8 @@ export default {
     }
   },
   actions: {
-    async FETCH_PHONE_ATTACH({ commit, state }) {
-      if (state.fetchedPhoneAttachInfo) {
+    async FETCH_PHONE_ATTACH({ commit, state }, { reFetch }) {
+      if (!reFetch && state.fetchedPhoneAttachInfo) {
         return
       }
       const phoneAttachInfo = await this.$axios({

@@ -203,7 +203,7 @@ export default {
     }),
     ...mapGetters('vip', ['isVip']),
     phones() {
-      return [this.phone].concat(this.attachPhones)
+      return this.phone ? [this.phone].concat(this.attachPhones) : []
     }
   },
   methods: {

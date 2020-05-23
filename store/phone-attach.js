@@ -21,7 +21,7 @@ export default {
     }
   },
   actions: {
-    async FETCH_PHONE_ATTACH({ commit, state }, { reFetch }) {
+    async FETCH_PHONE_ATTACH({ commit, state }, reFetch) {
       if (!reFetch && state.fetchedPhoneAttachInfo) {
         return
       }

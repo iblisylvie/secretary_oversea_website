@@ -152,8 +152,7 @@
           style="padding:6px 8px;"
           @click="
             $router.push({
-              name: 'get-started',
-              params: { refer: 'Account-setting' }
+              path: 'account-setting/servicing-number'
             })
           "
         >
@@ -185,6 +184,7 @@ import dayjs from 'dayjs'
 export default {
   name: 'AccountSettings',
   layout: 'dashboard',
+  middleware: ['bind-number-checker'],
   data: () => ({
     navs: ['Profile', 'Subscription', 'Servicing Number', 'Got Any Feedback?'],
     activeNav: 0,

@@ -117,10 +117,10 @@ export default {
         await dispatch('FETCH_AVAILABLE_ROUTES')
       }
       if (!get(rootState, 'phone-attach.fetchedPhoneAttachInfo')) {
-        await dispatch('phone-attach/FETCH_PHONE_ATTACH', null, { root: true })
+        await dispatch('phone-attach/FETCH_PHONE_ATTACH', {}, { root: true })
       }
       if (!get(rootState, 'vip.fetchedVipInfo')) {
-        await dispatch('vip/FETCH_VIP_INFO', null, { root: true })
+        await dispatch('vip/FETCH_VIP_INFO', {}, { root: true })
       }
     },
     async FETCH_USER({ commit }) {

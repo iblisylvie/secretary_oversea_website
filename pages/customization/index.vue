@@ -235,6 +235,7 @@ import { get, pick } from 'lodash-es'
 export default {
   name: 'Customization',
   layout: 'dashboard',
+  middleware: ['bind-number-checker'],
   data() {
     return {
       voices: [],

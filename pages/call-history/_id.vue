@@ -106,6 +106,7 @@ import dayjs from 'dayjs'
 export default {
   layout: 'dashboard',
   name: 'CallRecord',
+  middleware: ['bind-number-checker'],
   filters: {
     parseToDate(val) {
       return val ? dayjs(Number(val)).format('YYYY MMM DD') : ''

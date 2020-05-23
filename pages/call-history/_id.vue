@@ -298,20 +298,21 @@ export default {
       top: 50%;
       left: 0;
       transform: translate(-50%, -50%);
-      width: 64px;
-      height: 64px;
-      border: none;
+      width: 60px;
+      height: 60px;
+      border: 9px solid $main-panel-background;
       border-radius: 100%;
       font-size: 64px;
       cursor: pointer;
       outline: none;
+      padding: 0;
       @include gradient-background;
       &[disabled] {
         // background: gray;
         cursor: not-allowed;
       }
       &-shape {
-        font-size: 24px;
+        font-size: 18px;
       }
     }
     &-fields {

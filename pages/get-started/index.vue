@@ -234,11 +234,10 @@ export default {
     await store.dispatch('relation/FETCH_RELATION')
     const skipGetStarted = store.getters['relation/skipGetStarted']
     if (!skipGetStarted) {
-      return {}
+      return { refer: '' }
     }
     redirect(301, '/call-history')
   },
-
   data: () => ({
     steps: [
       { title: 'Account Setup' },

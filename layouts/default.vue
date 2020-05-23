@@ -196,6 +196,13 @@ export default {
   padding: 1rem;
 }
 
+@include touch {
+  /deep/ .navbar-burger span {
+    background-color: $colored-bg;
+    transition: background-color 0.5s;
+  }
+}
+
 @include mobile {
   /deep/ .navbar-end {
     position: fixed;
@@ -218,11 +225,6 @@ export default {
       line-height: 60px;
       color: #141b24;
     }
-  }
-
-  /deep/ .navbar-burger span {
-    background-color: $colored-bg;
-    transition: background-color 0.5s;
   }
 
   /deep/ .is-active.navbar-burger {

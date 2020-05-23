@@ -226,11 +226,6 @@ p {
     padding-right: 0px;
   }
 
-  section {
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
   .title.m-b-60 {
     margin-bottom: 20px !important;
   }
@@ -244,10 +239,10 @@ p {
   width: 80%;
   margin: 0 auto;
 
-  @include touch {
+  /* @include touch {
     width: 85%;
     width: 100%;
-  }
+  } */
 }
 
 .section {
@@ -268,6 +263,10 @@ p {
     max-width: 520px;
   }
 
+  @include touch {
+    min-height: 80vh;
+  }
+
   @include mobile {
     min-height: inherit;
     flex-direction: column;
@@ -280,12 +279,26 @@ p {
     .wrapper {
       overflow: hidden;
     }
+
+    .banner-image {
+      width: 100%;
+
+      img {
+        width: 100%;
+      }
+    }
   }
 
   .banner-shape {
     position: absolute;
     top: 0;
     left: 0;
+
+    @include touch {
+      &.desktop-only {
+        width: 120%;
+      }
+    }
   }
 
   .banner-body {
@@ -368,11 +381,23 @@ p {
 .testimonial-section .shape-1 {
   position: absolute;
   z-index: -2;
-  top: -32rem;
+  top: -30rem;
   left: 0;
 
+  @include touch {
+    top: -22rem;
+  }
+
   @include mobile {
+    top: -17rem;
+  }
+
+  @media (max-width: 500px) {
     top: -12rem;
+  }
+
+  @media (max-width: 380px) {
+    top: -10rem;
   }
 }
 

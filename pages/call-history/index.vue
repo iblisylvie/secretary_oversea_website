@@ -134,7 +134,7 @@
 
     <!-- place holder  -->
     <div
-      v-if="!activated && phoneBinded && callHistoryFetched"
+      v-if="!activated && !showTestServices && callHistoryFetched"
       class="placeholder"
     >
       <p class="title">You haven’t called your HeyTico assistant.</p>
@@ -145,12 +145,14 @@
         </span>
       </p>
       <div class="group">
-        <t-button @click="$router.push({ path: '/get-started' })"
+        <t-button @click="showTestServices = true"
           >Binding Instructions</t-button
         >
-        <t-button @click="$router.push({ path: '/mbr-faq' })">Support</t-button>
+        <t-button @click="$router.push({ path: '/support' })">Support</t-button>
       </div>
     </div>
+
+    <test-services v-if="showTestServices" />
   </section>
 </template>
 
@@ -159,9 +161,15 @@ import { get } from 'lodash-es'
 import { mapState } from 'vuex'
 import * as dayjs from 'dayjs'
 
+import TestServices from './components/TestServices'
+
 export default {
   name: 'CallHistory',
   layout: 'dashboard',
+  middleware: ['bind-number-checker'],
+  components: {
+    TestServices
+  },
   filters: {
     parseToDate(val) {
       return dayjs(Number(val)).format('YYYY MMM DD')
@@ -176,6 +184,7 @@ export default {
   data() {
     return {
       editing: false,
+      showTestServices: false,
       THEAD_COLUMNS: [
         {
           flexGrow: '13%',
@@ -214,8 +223,7 @@ export default {
   },
   computed: {
     ...mapState({
-      activated: (state) => get(state, 'relation.relation.activated'),
-      phoneBinded: (state) => get(state, 'ralation.realtion.phone')
+      activated: (state) => get(state, 'relation.relation.activated')
     }),
     callHistoryTableData() {
       return get(this, 'callHistory', []).map((record) => {

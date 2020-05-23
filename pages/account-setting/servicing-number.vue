@@ -1,7 +1,7 @@
 <template>
   <section class="get-start">
-    <!-- <div class="header-wrap">
-      <nav v-if="refer" class="nav">
+    <div class="header-wrap">
+      <nav class="nav">
         <ul class="primary">
           <li @click="$router.back()">
             <svg-icon icon-class="go-back"></svg-icon>
@@ -9,7 +9,7 @@
           <li>Account Setting</li>
         </ul>
       </nav>
-    </div> -->
+    </div>
 
     <b-steps v-model="activeStep" size="is-small" :has-navigation="false">
       <b-step-item
@@ -225,19 +225,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'GetStart',
   layout: 'dashboard',
-  // asyncData({ redirect, store, params }) {
-  // @workaround add servicing number
-  // const { refer } = params
-  // if (refer) {
-  //   return { refer }
-  // }
-  // await store.dispatch('relation/FETCH_RELATION')
-  // const skipGetStarted = store.getters['relation/skipGetStarted']
-  // if (!skipGetStarted) {
-  //   return { refer: '' }
-  // }
-  // redirect(301, '/call-history')
-  // },
+  middleware: ['bind-number-checker'],
   data: () => ({
     steps: [
       { title: 'Account Setup' },
@@ -325,13 +313,15 @@ export default {
       if (this.activeStep === 0) {
         const result = await this.$axios({
           method: 'POST',
-          url: '/overseas/relation/phone',
+          url: '/overseas/relation/phone/attach',
           params: {
             phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
             captcha: this.captchaModel
           }
         })
-        this.$store.dispatch('relation/FETCH_RELATION')
+        this.$store.dispatch('phone-attach/FETCH_PHONE_ATTACH', {
+          reFetch: true
+        })
         if (get(result, 'err_code') && get(result, 'err_msg')) {
           this.$message.open(get(result, 'err_msg'))
           return

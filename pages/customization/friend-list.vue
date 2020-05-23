@@ -43,6 +43,7 @@ import { get } from 'lodash-es'
 export default {
   name: 'FriendList',
   layout: 'dashboard',
+  middleware: ['bind-number-checker'],
   data() {
     return {
       friends: []

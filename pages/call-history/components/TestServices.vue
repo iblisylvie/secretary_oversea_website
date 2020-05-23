@@ -1,85 +1,28 @@
 <template>
   <section class="get-start">
-    <!-- <div class="header-wrap">
-      <nav v-if="refer" class="nav">
-        <ul class="primary">
-          <li @click="$router.back()">
-            <svg-icon icon-class="go-back"></svg-icon>
-          </li>
-          <li>Account Setting</li>
-        </ul>
-      </nav>
-    </div> -->
-
     <b-steps v-model="activeStep" size="is-small" :has-navigation="false">
-      <b-step-item
+      <!-- <b-step-item
         :clickable="false"
         label="Account Setup"
+        step="1"
+      ></b-step-item> -->
+      <b-step-item
+        :clickable="false"
+        label="Bind Number"
         step="1"
       ></b-step-item>
       <b-step-item
         :clickable="false"
-        label="Bind Number"
+        label="Test Services"
         step="2"
       ></b-step-item>
-      <b-step-item
-        :clickable="false"
-        label="Test Services"
-        step="3"
-      ></b-step-item>
-      <b-step-item :clickable="false" label="All Set!" step="4"></b-step-item>
+      <b-step-item :clickable="false" label="All Set!" step="3"></b-step-item>
     </b-steps>
 
     <main class="get-start-main">
       <!-- Account Setup  -->
-      <template v-if="activeStep === 0">
-        <svg-icon icon-class="acc-setup" class-name="acc-setup-icon" />
-        <p class="acc-setup-title">Account Setup</p>
-        <p class="acc-setup-tip">
-          Get a phone number equipped with HeyTico by setting up below.
-        </p>
-        <div class="acc-setup-form-row">
-          <span class="acc-setup-form-label">Phone Number</span>
-          <div class="acc-setup-form-group">
-            <div class="acc-setup-form-phone-wrap">
-              <b-input
-                v-model="phoneModel"
-                rounded
-                class="acc-setup-form-input phone"
-                placeholder="123-456-7890"
-                @input="onPhoneInput"
-              ></b-input>
-            </div>
-
-            <t-button
-              type="secondary"
-              class="send-code"
-              :disabled="!sendCodeAvaliable"
-              @click="sendCode"
-            >
-              {{ sendCodeText }}
-            </t-button>
-            <!-- <b-button
-              rounded
-              class="acc-setup-form-btn send-code"
-              @click="sendCode"
-              >Send Code</b-button
-            > -->
-          </div>
-        </div>
-        <div class="acc-setup-form-row">
-          <span class="acc-setup-form-label">Verification Code</span>
-          <div class="acc-setup-form-group">
-            <b-input
-              v-model="captchaModel"
-              rounded
-              class="acc-setup-form-input"
-            ></b-input>
-          </div>
-        </div>
-      </template>
       <!-- Bind Number  -->
-      <template v-if="activeStep === 1">
+      <template v-if="activeStep === 0">
         <svg-icon icon-class="active-phone" class-name="bind-number-icon" />
         <p class="bind-number-ISPS">
           <button
@@ -163,7 +106,7 @@
       </template>
 
       <!-- Test Services  -->
-      <template v-if="activeStep === 2">
+      <template v-if="activeStep === 1">
         <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
         <p class="all-set-title">
           Test Services
@@ -178,7 +121,7 @@
         </p>
       </template>
       <!-- All Set! -->
-      <template v-if="activeStep === 3">
+      <template v-if="activeStep === 2">
         <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
         <p class="all-set-title">
           All Set!
@@ -219,8 +162,8 @@
 </template>
 
 <script>
-import { get } from 'lodash-es'
-import { mapGetters } from 'vuex'
+// import { get } from 'lodash-es'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'GetStart',
@@ -257,21 +200,20 @@ export default {
     sendCodeText: 'Send Code'
   }),
   computed: {
-    ...mapGetters('relation', ['skipGetStarted']),
-    continueDisabled() {
-      if (this.activeStep === 0) {
-        return !this.phoneModel || !this.captchaModel
-      }
-      return false
-    },
-    sendCodeAvaliable() {
-      return (
-        get(this, 'phoneModel.length') === 12 && this.sendCodeCountdown === 60
-      )
-    }
+    // ...mapGetters('relation', ['skipGetStarted']),
+    // continueDisabled() {
+    //   if (this.activeStep === 0) {
+    //     return !this.phoneModel || !this.captchaModel
+    //   }
+    //   return false
+    // },
+    // sendCodeAvaliable() {
+    //   return (
+    //     get(this, 'phoneModel.length') === 12 && this.sendCodeCountdown === 60
+    //   )
+    // }
     // sendCodeText() {
     //   if (this.sendCodePending) {
-
     //     return `sent ${}`
     //   } else {
     //     return 'Send Code'
@@ -303,40 +245,40 @@ export default {
           .replace(/(\d)(?=((?:\d{4})|(?:\d{7}))$)/g, '$1-')
       })
     },
-    async sendCode() {
-      if (this.sendCodePending) {
+    // async sendCode() {
+    //   if (this.sendCodePending) {
+    //     return
+    //   }
+    //   this.sendCodePending = true
+    //   await this.$axios({
+    //     url: '/overseas/captcha',
+    //     method: 'GET',
+    //     params: {
+    //       phone: `+1${this.phoneModel.replace(/\D/g, '')}`
+    //     }
+    //   })
+    //   this.sendCodePending = false
+    // },
+    onContinue() {
+      if (this.activeStep === 2) {
+        window.location.reload()
         return
       }
-      this.sendCodePending = true
-      await this.$axios({
-        url: '/overseas/captcha',
-        method: 'GET',
-        params: {
-          phone: `+1${this.phoneModel.replace(/\D/g, '')}`
-        }
-      })
-      this.sendCodePending = false
-    },
-    async onContinue() {
-      if (this.activeStep === 3) {
-        this.$router.push({ path: '/call-history' })
-        return
-      }
-      if (this.activeStep === 0) {
-        const result = await this.$axios({
-          method: 'POST',
-          url: '/overseas/relation/phone',
-          params: {
-            phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
-            captcha: this.captchaModel
-          }
-        })
-        this.$store.dispatch('relation/FETCH_RELATION')
-        if (get(result, 'err_code') && get(result, 'err_msg')) {
-          this.$message.open(get(result, 'err_msg'))
-          return
-        }
-      }
+      //   if (this.activeStep === 0) {
+      //     const result = await this.$axios({
+      //       method: 'POST',
+      //       url: '/overseas/relation/phone',
+      //       params: {
+      //         phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
+      //         captcha: this.captchaModel
+      //       }
+      //     })
+      //     this.$store.dispatch('relation/FETCH_RELATION')
+      //     if (get(result, 'err_code') && get(result, 'err_msg')) {
+      //       this.$message.open(get(result, 'err_msg'))
+      //       return
+      //     }
+      //   }
       //   const activated = get(result, 'activated', '')
       //   if (activated) {
       //     this.activatePolling = false
@@ -368,8 +310,9 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/mixins.scss';
 .get-start {
-  padding: 48px;
-  background: $main-panel-background;
+  width: 100%;
+  //   padding: 48px;
+  //   background: $main-panel-background;
   .header-wrap {
     display: flex;
     flex-direction: column;

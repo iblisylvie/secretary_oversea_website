@@ -1,4 +1,4 @@
-import { isObject, get } from 'lodash-es'
+import { isObject, get, isEmpty } from 'lodash-es'
 export default {
   state: () => ({
     // See doc https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
@@ -105,7 +105,7 @@ export default {
       if (!state.wwid) {
         await dispatch('FETCH_USER')
       }
-      if (!get(rootState, 'relation.relation')) {
+      if (isEmpty(get(rootState, 'relation.relation'))) {
         await dispatch('relation/FETCH_RELATION', {}, { root: true })
       }
       if (!get(rootState, 'phone-attach.fetchedPhoneAttachInfo')) {

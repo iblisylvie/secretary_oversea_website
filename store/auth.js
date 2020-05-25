@@ -1,4 +1,4 @@
-import { isObject, get, remove } from 'lodash-es'
+import { isObject, get, isEmpty } from 'lodash-es'
 export default {
   state: () => ({
     // See doc https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
@@ -28,15 +28,7 @@ export default {
      * Login certificate from Mobvoi
      * See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
      */
-    loginCert: '',
-
-    /**
-     * [{
-     *    path: <String>,
-     *    mapToAsideMenu:? <Object>
-     * }]
-     */
-    availableRoutes: null
+    loginCert: ''
   }),
   getters: {
     loggedIn: (state) => {
@@ -113,8 +105,8 @@ export default {
       if (!state.wwid) {
         await dispatch('FETCH_USER')
       }
-      if (!state.availableRoutes) {
-        await dispatch('FETCH_AVAILABLE_ROUTES')
+      if (isEmpty(get(rootState, 'relation.relation'))) {
+        await dispatch('relation/FETCH_RELATION', {}, { root: true })
       }
       if (!get(rootState, 'phone-attach.fetchedPhoneAttachInfo')) {
         await dispatch('phone-attach/FETCH_PHONE_ATTACH', {}, { root: true })
@@ -129,102 +121,6 @@ export default {
         method: 'GET'
       })
       commit('PUT_USER_INFO', get(result, 'base_info'))
-    },
-    async FETCH_AVAILABLE_ROUTES({ commit, dispatch, rootGetters }) {
-      const routes = [
-        {
-          path: '/get-started',
-          name: 'GetStarted',
-          meta: {
-            title: 'Get Started' // Document title
-          },
-          mapToAsideMenu: {
-            order: 1,
-            name: 'Get Started',
-            icon: 'aside-logo'
-          }
-        },
-        {
-          path: '/call-history',
-          name: 'CallHistory',
-          meta: {
-            title: 'Call History' // Document title
-          },
-          mapToAsideMenu: {
-            order: 2,
-            name: 'Call History',
-            icon: 'phone'
-          }
-        },
-        {
-          path: '/customization',
-          name: 'Customization',
-          meta: {
-            title: 'Customization' // Document title
-          },
-          mapToAsideMenu: {
-            order: 3,
-            name: 'Customization',
-            icon: 'customization'
-          }
-        },
-        {
-          path: '/premium',
-          name: 'Premium',
-          meta: {
-            title: 'Premium' // Document title
-          },
-          mapToAsideMenu: {
-            order: 4,
-            name: 'Premium',
-            icon: 'premium'
-          }
-        },
-        {
-          path: '/support',
-          name: 'Support',
-          meta: {
-            title: 'Support' // Document title
-          },
-          mapToAsideMenu: {
-            order: 5,
-            name: 'Support',
-            icon: 'support'
-          }
-        },
-        {
-          path: '/feedback',
-          name: 'Feedback',
-          meta: {
-            title: 'Feedback' // Document title
-          },
-          mapToAsideMenu: {
-            order: 6,
-            name: 'Feedback',
-            icon: 'feedback'
-          }
-        },
-        {
-          path: '/account-settings',
-          name: 'AccountSetting',
-          meta: {
-            title: 'AccountSetting' // Document title
-          }
-        },
-        {
-          path: '/call-history/:id?',
-          name: 'CallDetail',
-          meta: {
-            title: 'Call Detail' // Document title
-          }
-        }
-      ]
-      await dispatch('relation/FETCH_RELATION', null, { root: true })
-      const skipGetStarted = rootGetters['relation/skipGetStarted']
-      if (skipGetStarted) {
-        remove(routes, (route) => route.path === '/get-started')
-      }
-      commit('PUT_USER_INFO', { availableRoutes: routes })
     }
   }
 }

@@ -76,7 +76,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { get, pick } from 'lodash-es'
+import { get, pick, remove } from 'lodash-es'
 
 export default {
   name: 'Dashboard',
@@ -89,23 +89,99 @@ export default {
     asideExpanded: false
   }),
   computed: {
+    ...mapGetters('relation', ['skipGetStarted']),
     ...mapState({
       userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url']),
       activated: (state) => get(state, 'relation.relation.activated'),
-      availableRoutes: (state) => get(state, 'auth.availableRoutes', []),
-      asideMenu: (state) => {
-        const availableRoutes = get(state, 'auth.availableRoutes', [])
-        return availableRoutes
-          .filter((menu) => menu.mapToAsideMenu)
-          .sort(
-            // ascending order
-            (prevMenu, nextMenu) =>
-              get(prevMenu, 'mapToAsideMenu.order') -
-              get(nextMenu, 'meta.mapToAsideMenu.order')
-          )
-      }
+      availableRoutes: (state) => get(state, 'auth.availableRoutes', [])
     }),
-    ...mapGetters('relation', ['skipGetStarted']),
+    asideMenu() {
+      const asideMenu = [
+        {
+          path: '/get-started',
+          name: 'GetStarted',
+          meta: {
+            title: 'Get Started' // Document title
+          },
+          mapToAsideMenu: {
+            order: 1,
+            name: 'Get Started',
+            icon: 'aside-logo'
+          }
+        },
+        {
+          path: '/call-history',
+          name: 'CallHistory',
+          meta: {
+            title: 'Call History' // Document title
+          },
+          mapToAsideMenu: {
+            order: 2,
+            name: 'Call History',
+            icon: 'phone'
+          }
+        },
+        {
+          path: '/customization',
+          name: 'Customization',
+          meta: {
+            title: 'Customization' // Document title
+          },
+          mapToAsideMenu: {
+            order: 3,
+            name: 'Customization',
+            icon: 'customization'
+          }
+        },
+        {
+          path: '/premium',
+          name: 'Premium',
+          meta: {
+            title: 'Premium' // Document title
+          },
+          mapToAsideMenu: {
+            order: 4,
+            name: 'Premium',
+            icon: 'premium'
+          }
+        },
+        {
+          path: '/support',
+          name: 'Support',
+          meta: {
+            title: 'Support' // Document title
+          },
+          mapToAsideMenu: {
+            order: 5,
+            name: 'Support',
+            icon: 'support'
+          }
+        },
+        {
+          path: '/feedback',
+          name: 'Feedback',
+          meta: {
+            title: 'Feedback' // Document title
+          },
+          mapToAsideMenu: {
+            order: 6,
+            name: 'Feedback',
+            icon: 'feedback'
+          }
+        }
+      ]
+      if (this.skipGetStarted) {
+        remove(asideMenu, (item) => item.path === '/get-started')
+      }
+      return asideMenu
+        .filter((menu) => menu.mapToAsideMenu)
+        .sort(
+          // ascending order
+          (prevMenu, nextMenu) =>
+            get(prevMenu, 'mapToAsideMenu.order') -
+            get(nextMenu, 'meta.mapToAsideMenu.order')
+        )
+    },
     pageTitle() {
       const currentRoute = this.$route.path
       return get(

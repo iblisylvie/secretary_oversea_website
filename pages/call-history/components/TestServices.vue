@@ -148,12 +148,7 @@
         >
           Back
         </t-button>
-        <t-button
-          class="acc-setup-nav-btn"
-          :disabled="continueDisabled"
-          :loading="activeStep === 1 && activatePolling"
-          @click="onContinue"
-        >
+        <t-button class="acc-setup-nav-btn" @click="onContinue">
           {{ activeStep === 3 ? 'Done' : 'Continue' }}
         </t-button>
       </div>

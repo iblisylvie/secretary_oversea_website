@@ -64,7 +64,7 @@ export default {
       // Lead to dashboard route if login after landing page
       let redirectRoutePath = route.path
       if (route.path === '/') {
-        redirectRoutePath = '/get-started'
+        redirectRoutePath = '/call-history'
       }
       const redirectDomain =
         get(rootState, 'app.domain') || process.env.returnUrl

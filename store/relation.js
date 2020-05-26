@@ -28,8 +28,10 @@ export default {
         method: 'GET'
       })
 
-      if (relationInfo) {
+      if (get(relationInfo, 'relation')) {
         commit('PUT_RELATION_INFO', relationInfo)
+      } else {
+        commit('PUT_RELATION_INFO', { relation: {} })
       }
     },
     async DELETE_RELATION({ dispatch }) {

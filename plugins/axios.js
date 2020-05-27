@@ -47,6 +47,24 @@ export default function({ $axios, store }, inject) {
     }
   )
 
+  // Create a custom axios instance
+  const accountAxios = $axios.create({
+    withCredentials: true,
+    timeout: 6000,
+    headers: {
+      common: {
+        'Content-Type': 'application/json'
+      }
+    }
+  })
+
+  // Change URL only for server
+  if (process.server) {
+    axios.setBaseURL('http://106.75.81.82:8434')
+    accountAxios.setBaseURL('http://106.75.81.82:8891')
+  }
+
   // Inject to context as $api
   inject('axios', axios)
+  inject('accountAxios', accountAxios)
 }

@@ -224,19 +224,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'GetStart',
   layout: 'dashboard',
-  // asyncData({ redirect, store, params }) {
-  // @workaround add servicing number
-  // const { refer } = params
-  // if (refer) {
-  //   return { refer }
-  // }
-  // await store.dispatch('relation/FETCH_RELATION')
-  // const skipGetStarted = store.getters['relation/skipGetStarted']
-  // if (!skipGetStarted) {
-  //   return { refer: '' }
-  // }
-  // redirect(301, '/call-history')
-  // },
   data: () => ({
     steps: [
       { title: 'Account Setup' },

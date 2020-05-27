@@ -123,7 +123,7 @@ export default {
       return this.activeStep === 0 ? 'Continue' : 'Done'
     },
     phone() {
-      return get(this, '$route.params.phone', false)
+      return get(this, '$route.params.phone', '')
     },
     isPrimaryPhone() {
       return get(this, '$route.params.isPrimaryPhone', false)

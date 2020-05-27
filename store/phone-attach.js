@@ -44,7 +44,7 @@ export default {
         }
       })
       commit('PUT_PHONE_ATTACH_INFO', {
-        phones: phones.splice(phones.findIndex(phone), 1)
+        phones: phones.filter((factor) => factor !== phone)
       })
     }
   }

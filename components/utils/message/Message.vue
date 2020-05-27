@@ -202,6 +202,7 @@ $message-opt-hover-color: #fff;
   .media-content {
     font-size: 14px;
     font-weight: bold;
+    margin-right: 1rem;
   }
 }
 // // Modifiers

@@ -325,7 +325,8 @@ footer {
 
   .navbar {
     background: white;
-    padding: 0;
+    padding: 0 2rem;
+    height: 5rem;
 
     span {
       color: $primary;

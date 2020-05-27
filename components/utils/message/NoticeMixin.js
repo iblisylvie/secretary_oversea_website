@@ -12,7 +12,7 @@ export default {
     },
     position: {
       type: String,
-      default: 'is-bottom-right',
+      default: 'is-top-right',
       validator(value) {
         return [
           'is-top-right',

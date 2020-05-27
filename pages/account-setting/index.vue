@@ -206,7 +206,7 @@ export default {
       redirectDomain: (state) => get(state, 'app.domain'),
       attachPhones: (state) => get(state, 'phone-attach.phones', []),
       vipEndAt: (state) => {
-        return dayjs(get(state, 'vip.end_at', '')).format('MMM D')
+        return dayjs(get(state, 'vip.end_at', '')).format('YYYY MMM D')
       }
     }),
     ...mapGetters('vip', ['isVip']),

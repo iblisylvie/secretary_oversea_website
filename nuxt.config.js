@@ -78,17 +78,28 @@ export default {
    */
   axios: {
     proxy: true,
-    host: '106.75.81.82',
-    port: '8434'
+    prefix: '/'
+    // host: '106.75.81.82',
+
+    // port: '8434'
   },
-  proxy: {
-    '/overseas': {
-      target: 'http://106.75.81.82:8434'
-      // process.env.NODE_ENV === 'development'
-      //   ? 'http://106.75.81.82:8434'
-      //   : 'https://durian.ticwear.com',
-    }
-  },
+  proxy: [
+    'http://106.75.81.82:8434/overseas',
+    'http://106.75.81.82:8891/v2',
+    'http://106.75.81.82:8891/account/info'
+  ],
+  //   '/overseas/': {
+  //     target: 'http://106.75.81.82:8434',
+  //     changeOrigin: true
+  //     // process.env.NODE_ENV === 'development'
+  //     //   ? 'http://106.75.81.82:8434'
+  //     //   : 'https://durian.ticwear.com',
+  //   },
+  //   '^/v2/': {
+  //     target: 'http://106.75.81.82:8891',
+  //     changeOrigin: true
+  //   }
+  // },
   /*
    ** style-resources-module
    */

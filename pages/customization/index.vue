@@ -18,37 +18,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="sub-heading">Basic Voice</div>
-    <div class="voice-wrap">
-      <div class="voice-box">
-        <span>Zira</span>
-        <div class="voice">
-          <svg-icon icon-class="speak-grey"></svg-icon>
-        </div>
-      </div>
-      <div class="voice-box active">
-        <span>Zira</span>
-        <div class="voice">
-          <svg-icon icon-class="speak-grey" />
-        </div>
-      </div>
-    </div>
-
-    <div class="sub-heading">Premium Voices</div>
-    <div class="voice-wrap">
-      <div class="voice-box">
-        <span>Zira</span>
-        <div class="voice">
-          <svg-icon icon-class="speak-grey"></svg-icon>
-        </div>
-      </div>
-      <div class="voice-box active">
-        <span>Zira</span>
-        <div class="voice">
-          <svg-icon icon-class="speak-grey" />
-        </div>
-      </div>
-    </div> -->
     <hr class="seprate" />
     <!-- Set you opening remark  -->
     <h3 class="primary-heading">Set you opening remark</h3>
@@ -253,7 +222,11 @@ export default {
       editingDelivery: false,
 
       takeOutReplyModel: '',
-      deliveryRepleyModel: ''
+      deliveryRepleyModel: '',
+
+      ttsSpeaker: 'en-US-ZiraRUS',
+      // ttsText transform under basic voice
+      ttsText: 'Nice to meet you.'
     }
   },
   computed: {
@@ -306,6 +279,11 @@ export default {
   methods: {
     onClickVoice(audioUrl) {
       // console.log(audioUrl)
+    },
+    textToSpeech({ speaker = 'en-US-ZiraRUS', text = 'Nice to meet you.' }) {
+      return `http://106.75.64.52:8868?${encodeURIComponent(
+        speaker
+      )}&${encodeURIComponent(text)}`
     },
     async onChooseVoice(voice) {
       await this.putCustomSettings({

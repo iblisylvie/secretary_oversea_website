@@ -208,7 +208,6 @@
         <t-button
           class="acc-setup-nav-btn"
           :disabled="continueDisabled"
-          :loading="activeStep === 1 && activatePolling"
           @click="onContinue"
         >
           {{ activeStep === 3 ? 'Done' : 'Continue' }}
@@ -314,7 +313,7 @@ export default {
         const result = await this.$axios({
           method: 'POST',
           url: '/overseas/relation/phone/attach',
-          params: {
+          data: {
             phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
             captcha: this.captchaModel
           }

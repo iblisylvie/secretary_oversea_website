@@ -283,7 +283,8 @@ export default {
       .form {
         margin-top: 16px;
         display: flex;
-        align-items: center;
+        flex-flow: column;
+        align-items: flex-start;
         @include primary-text($font-size: 18px);
         .row {
           margin-bottom: 24px;

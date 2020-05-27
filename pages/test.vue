@@ -44,7 +44,7 @@ export default {
         })
     },
     registerAccount() {
-      this.$axios({
+      this.$accountAxios({
         method: 'post',
         url: '/v2/register',
         data: {

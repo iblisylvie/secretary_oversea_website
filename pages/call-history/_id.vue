@@ -30,7 +30,9 @@
           <span
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[0].flexGrow }"
-            >{{ detail.call_phone }}</span
+            >{{
+              detail.call_phone === '+1' ? 'Unavailable ' : detail.call_phone
+            }}</span
           >
           <span
             class="call-record-card-field"

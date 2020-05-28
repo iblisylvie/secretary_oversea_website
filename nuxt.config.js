@@ -1,5 +1,7 @@
 import path from 'path'
 
+const easyMonitor = require('easy-monitor')
+
 export default {
   mode: 'universal',
   /**
@@ -23,6 +25,11 @@ export default {
       }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+  },
+  hooks: {
+    listen: async () => {
+      easyMonitor('HeyTico')
+    }
   },
   /*
    ** Customize the progress-bar color
@@ -79,27 +86,12 @@ export default {
   axios: {
     proxy: true,
     prefix: '/'
-    // host: '106.75.81.82',
-
-    // port: '8434'
   },
   proxy: [
     'http://106.75.81.82:8434/overseas',
     'http://106.75.81.82:8891/v2',
     'http://106.75.81.82:8891/account/info'
   ],
-  //   '/overseas/': {
-  //     target: 'http://106.75.81.82:8434',
-  //     changeOrigin: true
-  //     // process.env.NODE_ENV === 'development'
-  //     //   ? 'http://106.75.81.82:8434'
-  //     //   : 'https://durian.ticwear.com',
-  //   },
-  //   '^/v2/': {
-  //     target: 'http://106.75.81.82:8891',
-  //     changeOrigin: true
-  //   }
-  // },
   /*
    ** style-resources-module
    */

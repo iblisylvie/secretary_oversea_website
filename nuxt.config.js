@@ -1,5 +1,6 @@
 import path from 'path'
-import easyMonitor from 'easy-monitor'
+
+const easyMonitor = require('easy-monitor')
 
 export default {
   mode: 'universal',

@@ -133,10 +133,7 @@
     </div>
 
     <!-- place holder  -->
-    <div
-      v-if="!activated && !showTestServices && callHistoryFetched"
-      class="placeholder"
-    >
+    <div v-if="!activated && !showTestServices" class="placeholder">
       <p class="title">You haven’t called your HeyTico assistant.</p>
       <p class="sub-title">
         Please call your own mobile number to speak to and <br />
@@ -257,7 +254,7 @@ export default {
     }
   },
   created() {
-    this.fetchCallHistory()
+    this.activated && this.fetchCallHistory()
   },
   methods: {
     async fetchCallHistory() {

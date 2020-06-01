@@ -38,7 +38,7 @@ export default {
   plugins: [
     { src: '~/plugins/nuxt-video-player-plugin', ssr: false },
     { src: '~/plugins/register-components' },
-    { src: '~/plugins/axios' },
+    { src: '~/plugins/axios/index.js' },
     { src: '~/plugins/vue-touch', ssr: false },
     { src: '~/plugins/directives.js', ssr: false }
   ],
@@ -86,20 +86,10 @@ export default {
   proxy: [
     'http://106.75.81.82:8434/overseas',
     'http://106.75.81.82:8891/v2',
-    'http://106.75.81.82:8891/account/info'
+    'http://106.75.81.82:8891/account/info',
+    'http://106.75.81.82:8891/api/captcha',
+    'http://106.75.81.82:8891/logout'
   ],
-  //   '/overseas/': {
-  //     target: 'http://106.75.81.82:8434',
-  //     changeOrigin: true
-  //     // process.env.NODE_ENV === 'development'
-  //     //   ? 'http://106.75.81.82:8434'
-  //     //   : 'https://durian.ticwear.com',
-  //   },
-  //   '^/v2/': {
-  //     target: 'http://106.75.81.82:8891',
-  //     changeOrigin: true
-  //   }
-  // },
   /*
    ** style-resources-module
    */

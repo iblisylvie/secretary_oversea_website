@@ -202,7 +202,7 @@ export default {
       email: (state) => get(state, 'auth.email'),
       gender: (state) => get(state, 'auth.sex'),
       phone: (state) => get(state, 'relation.relation.phone'),
-      token: (state) => get(state, 'auth.loginCert'),
+      token: (state) => get(state, 'auth.token'),
       redirectDomain: (state) => get(state, 'app.domain'),
       attachPhones: (state) => get(state, 'phone-attach.phones', []),
       vipEndAt: (state) => {

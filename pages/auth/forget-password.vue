@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
+
 import validEmail from '~/components/utils/validEmail'
 import Button from '~/components/utils/Button.vue'
 
@@ -84,11 +86,28 @@ export default {
     }
   },
   methods: {
-    sendCode() {
+    async sendCode() {
       if (validEmail(this.email)) {
-        this.$message.open({
-          message: 'valid email, go send code Herry!',
-          type: 'is-success'
+        // this.$message.open({
+        //   message: 'valid email, go send code Herry!',
+        //   type: 'is-success'
+        // })
+        const timestamp = Date.now()
+        await this.$accountAxios({
+          method: 'GET',
+          url: '/api/captcha/email',
+          params: {
+            email: this.email,
+            usage: 6,
+            lang: 2
+          },
+          headers: {
+            appkey: process.env.APP_KEY,
+            sign: CryptoJS.SHA256(
+              `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+            ).toString(CryptoJS.enc.Hex),
+            timestamp
+          }
         })
       } else {
         this.$message.open({
@@ -97,11 +116,29 @@ export default {
         })
       }
     },
-    goNext() {
+    async goNext() {
       if (validEmail(this.email) && this.verifyCode) {
         this.$message.open({
           message: 'valid email, go verify code Herry!',
           type: 'is-success'
+        })
+        const timestamp = Date.now()
+        await this.$accountAxios({
+          method: 'POST',
+          url: '/api/captcha/verify',
+          data: {
+            key: this.email,
+            type: 2,
+            usage: 6,
+            value: this.verifyCode
+          },
+          headers: {
+            appkey: process.env.APP_KEY,
+            sign: CryptoJS.SHA256(
+              `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+            ).toString(CryptoJS.enc.Hex),
+            timestamp
+          }
         })
         this.nextStep = true
       } else {
@@ -111,11 +148,26 @@ export default {
         })
       }
     },
-    resetPassword() {
+    async resetPassword() {
       if (validEmail(this.email) && this.password && this.samePassword) {
-        this.$message.open({
-          message: 'valid form, go reset password Herry!',
-          type: 'is-success'
+        // this.$message.open({
+        //   message: 'valid form, go reset password Herry!',
+        //   type: 'is-success'
+        // })
+        await this.$accountAxios({
+          method: 'POST',
+          url: '/v2/password/reset',
+          params: {
+            origin: process.env.APP_KEY
+          },
+          data: {
+            need_captcha: false,
+            usage: 'reset_pwd',
+            type: 'email',
+            email: this.email,
+            origin: process.env.APP_KEY,
+            new_password: CryptoJS.MD5(this.password).toString()
+          }
         })
       } else {
         this.$message.open({

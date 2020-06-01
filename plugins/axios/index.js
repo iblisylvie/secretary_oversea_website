@@ -1,10 +1,13 @@
 import { get, set } from 'lodash-es'
 
+import useFeedStoreAfterRequest from './interceptors/feed-store-after-request'
+
 export default function({ $axios, store }, inject) {
+  const timeout = 6000
   // Create a custom axios instance
   const axios = $axios.create({
     withCredentials: true,
-    timeout: 6000,
+    timeout,
     headers: {
       common: {
         'Content-Type': 'application/json'
@@ -14,13 +17,14 @@ export default function({ $axios, store }, inject) {
   // Create a custom axios instance
   const accountAxios = $axios.create({
     withCredentials: true,
-    timeout: 6000,
+    timeout,
     headers: {
       common: {
         'Content-Type': 'application/json'
       }
     }
   })
+
   axios.interceptors.request.use(
     (config) => {
       const token = get(store, 'state.auth.token', '')
@@ -65,6 +69,9 @@ export default function({ $axios, store }, inject) {
     axios.setBaseURL('http://106.75.81.82:8434')
     accountAxios.setBaseURL('http://106.75.81.82:8891')
   }
+
+  //   Use interceptors
+  useFeedStoreAfterRequest([axios, accountAxios], store)
 
   // Inject to context as $api
   inject('axios', axios)

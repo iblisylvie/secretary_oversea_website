@@ -146,7 +146,8 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch('auth/LOGIN')
+      this.$router.push({ path: '/auth/login' })
+      // this.$store.dispatch('auth/LOGIN')
     }
   }
 }

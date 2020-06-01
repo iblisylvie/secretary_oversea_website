@@ -41,7 +41,7 @@
         <b-navbar-item tag="router-link" :to="{ path: '/auth/login' }">
           Login
         </b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/auth/signup' }">
+        <b-navbar-item tag="router-link" :to="{ path: '/auth/sign-up' }">
           SignUp
         </b-navbar-item>
       </template>

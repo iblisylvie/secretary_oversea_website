@@ -54,6 +54,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'Auth'
+}
+</script>
+
 <style lang="scss" scoped>
 .nav-bar {
   position: absolute;

@@ -76,6 +76,7 @@ import Button from '~/components/utils/Button.vue'
 // @TODO
 // enum captcha api type
 export default {
+  name: 'SignUp',
   layout: 'auth',
   components: { Button },
   data() {

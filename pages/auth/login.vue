@@ -140,7 +140,7 @@ export default {
           maxAge: 60 * 60 * 0.5,
           sameSite: true
         })
-        this.$router.replace({ path: '/call-history' })
+        this.$router.push({ path: '/call-history' })
       } else {
         this.$message.open({
           message: 'Please provide valid info.',

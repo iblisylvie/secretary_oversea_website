@@ -3,41 +3,31 @@ export default {
   state: () => ({
     // See doc https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
     accountId: null,
-    agree: true,
+    account_id: null,
+    agree: false,
     birthday: '',
-    career: '',
     company: '',
     create_time: '',
     email: '',
     head_image_url: '',
-    height: null,
     home: '',
     nickname: '',
-    phone: '',
     pii: false,
     referral_code: '',
-    region: '',
-    sex: null,
+    sex: 0,
     true_name: '',
     update_time: '',
-    username: '',
-    weight: null,
     wwid: '',
-
-    /**
-     * Login certificate from Mobvoi
-     * See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-     */
-    loginCert: ''
+    token: ''
   }),
   getters: {
     loggedIn: (state) => {
-      return Boolean(state.loginCert)
+      return Boolean(state.token)
     }
   },
   mutations: {
-    POST_LOGIN_CERT: (state, { loginCert }) => {
-      state.loginCert = loginCert
+    POST_LOGIN_CERT: (state, { token }) => {
+      state.token = token
     },
     PUT_USER_INFO: (state, userInfo) => {
       if (!isObject(userInfo)) return
@@ -49,53 +39,64 @@ export default {
     }
   },
   actions: {
-    async LOGIN({ commit, dispatch, rootState }) {
-      // Lead to Mobvoi login page
-      // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-      const context = get(this, 'app.context', {})
-      const { redirect, route } = context
+    // @TODO clean up
+    async LOGIN({ commit, dispatch }) {
+      const redirect = get(this, 'app.context.redirect', () => {})
       const loginCert = this.$cookies.get('ww_token')
       if (loginCert) {
-        commit('POST_LOGIN_CERT', { loginCert })
+        commit('PUT_USER_INFO', { token: loginCert })
         // Fetch user info immediately after login
         await dispatch('INIT_PREQ_INFO')
         return
       }
+      redirect('/auth/login')
       // Lead to dashboard route if login after landing page
-      let redirectRoutePath = route.path
-      if (route.path === '/') {
-        redirectRoutePath = '/call-history'
-      }
-      const redirectDomain =
-        get(rootState, 'app.domain') || process.env.returnUrl
-      const params = new URLSearchParams({
-        lang: 'en-us',
-        from: 'secretary-oversea',
-        redirect_url: `${redirectDomain}${redirectRoutePath}`
-      })
-      try {
-        redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
-      } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
+      // let redirectRoutePath = route.path
+      // if (route.path === '/') {
+      //   redirectRoutePath = '/call-history'
+      // }
+      // const redirectDomain =
+      //   get(rootState, 'app.domain') || process.env.returnUrl
+      // const params = new URLSearchParams({
+      //   lang: 'en-us',
+      //   from: 'secretary-oversea',
+      //   redirect_url: `${redirectDomain}${redirectRoutePath}`
+      // })
+      // try {
+      //   redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
+      // } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
     },
-    LOGOUT({ commit, rootState }) {
+    async LOGOUT({ commit, state }) {
+      const redirect = get(this, 'app.context.redirect', () => {})
+      commit('PUT_USER_INFO', { token: '' })
+      await this.$accountAxios({
+        method: 'POST',
+        url: '/logout',
+        params: {
+          token: state.token,
+          origin: process.env.APP_KEY
+        }
+      })
+      this.$cookies.remove('ww_token')
+      redirect('/auth/login')
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-      commit('POST_LOGIN_CERT', '')
-      commit('PUT_USER_INFO', { wwid: '' })
-      const context = get(this, 'app.context', {})
-      const { redirect } = context
-      const redirectDomain =
-        get(rootState, 'app.domain') || process.env.returnUrl
-      const params = new URLSearchParams({
-        lang: 'en-us',
-        from: 'secretary-oversea',
-        redirect_url: `${redirectDomain}/`
-      })
-      try {
-        redirect(
-          `https://passport.mobvoi.com/pages/logout?${params.toString()}`
-        )
-      } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
+      // commit('POST_LOGIN_CERT', '')
+      // commit('PUT_USER_INFO', { wwid: '' })
+      // const context = get(this, 'app.context', {})
+      // const { redirect } = context
+      // const redirectDomain =
+      //   get(rootState, 'app.domain') || process.env.returnUrl
+      // const params = new URLSearchParams({
+      //   lang: 'en-us',
+      //   from: 'secretary-oversea',
+      //   redirect_url: `${redirectDomain}/`
+      // })
+      // try {
+      //   redirect(
+      //     `https://passport.mobvoi.com/pages/logout?${params.toString()}`
+      //   )
+      // } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
     },
     /**
      * Initialize prerequisite info
@@ -115,12 +116,25 @@ export default {
         await dispatch('vip/FETCH_VIP_INFO', {}, { root: true })
       }
     },
-    async FETCH_USER({ commit }) {
-      const result = await this.$axios({
-        url: 'https://passport.mobvoi.com/v1/api/users/me/info',
-        method: 'GET'
+    async FETCH_USER({ commit, state }) {
+      // @Note
+      // Not necessary for server side
+      const res = await this.$accountAxios({
+        method: 'GET',
+        url: '/account/info/token',
+        params: {
+          origin: process.env.APP_KEY,
+          token: state.token
+        }
       })
-      commit('PUT_USER_INFO', get(result, 'base_info'))
+      // const result = await this.$axios({
+      //   url: 'https://passport.mobvoi.com/v1/api/users/me/info',
+      //   method: 'GET'
+      // })
+      commit('PUT_USER_INFO', {
+        ...get(res, 'base_info', {}),
+        token: get(res, 'token')
+      })
     }
   }
 }

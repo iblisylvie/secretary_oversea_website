@@ -23,7 +23,7 @@ export default {
   layout: 'dashboard',
   data() {
     return {
-      cert: this.$store.state.auth.loginCert,
+      cert: this.$store.state.auth.token,
       number: ''
     }
   },

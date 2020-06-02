@@ -1,4 +1,4 @@
-export default async function({ store }) {
+export default async function({ store, redirect, app }) {
   const loggedIn = store.getters['auth/loggedIn']
   if (!loggedIn) {
     await store.dispatch('auth/LOGIN')

@@ -2,9 +2,11 @@
  * Available in dashboard routes.
  */
 
-export default function({ store, redirect }) {
+export default async function({ store, redirect }) {
   const skipGetStarted = store.getters['relation/skipGetStarted']
   if (!skipGetStarted) {
-    redirect(301, '/get-started')
+    await new Promise((resolve) => {
+      resolve(redirect('/get-started'))
+    })
   }
 }

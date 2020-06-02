@@ -6,8 +6,7 @@ export default {
   mutations: {},
   actions: {
     async nuxtServerInit({ dispatch, commit, state }, { app, req }) {
-      const loginCert =
-        get(state, 'auth.loginCert', '') || app.$cookies.get('ww_token')
+      const token = get(state, 'auth.token', '') || app.$cookies.get('ww_token')
       const host = req.headers.host
       if (host) {
         const domain =
@@ -16,8 +15,8 @@ export default {
             : `https://${host}`
         commit('app/POST_APP_INFO', { domain })
       }
-      if (loginCert) {
-        commit('auth/POST_LOGIN_CERT', { loginCert })
+      if (token) {
+        commit('auth/PUT_USER_INFO', { token })
         await dispatch('auth/INIT_PREQ_INFO')
       }
     }

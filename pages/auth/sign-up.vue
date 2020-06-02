@@ -1,7 +1,7 @@
 <template>
   <div class="auth-container">
     <div class="type">
-      <nuxt-link to="/auth/signup">Sign Up</nuxt-link>
+      <nuxt-link to="/auth/sign-up">Sign Up</nuxt-link>
       <nuxt-link to="/auth/login">Login</nuxt-link>
     </div>
 
@@ -35,12 +35,12 @@
       </b-input>
     </b-field>
 
-    <b-field grouped>
+    <!-- <b-field grouped>
       <b-input v-model="captcha" required placeholder="Captcha"> </b-input>
       <div class="control captcha">
         <img src="~assets/images/sample-code.png" alt="ReCaptcha" />
       </div>
-    </b-field>
+    </b-field> -->
 
     <b-field grouped>
       <b-input v-model="verifyCode" required placeholder="Email Verification">
@@ -68,10 +68,15 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
+
 import validEmail from '~/components/utils/validEmail'
 import Button from '~/components/utils/Button.vue'
 
+// @TODO
+// enum captcha api type
 export default {
+  name: 'SignUp',
   layout: 'auth',
   components: { Button },
   data() {
@@ -79,7 +84,7 @@ export default {
       email: '',
       password: '',
       rePassword: '',
-      captcha: '',
+      // captcha: '',
       verifyCode: '',
       agreeItem: false
     }
@@ -92,9 +97,26 @@ export default {
   methods: {
     sendCode() {
       if (validEmail(this.email)) {
-        this.$message.open({
-          message: 'valid email, go send code Herry!',
-          type: 'is-success'
+        // this.$message.open({
+        //   message: 'valid email, go send code Herry!',
+        //   type: 'is-success'
+        // })
+        const timestamp = Date.now()
+        this.$accountAxios({
+          method: 'GET',
+          url: '/api/captcha/email',
+          params: {
+            email: this.email,
+            usage: 1,
+            lang: 2
+          },
+          headers: {
+            appkey: process.env.APP_KEY,
+            sign: CryptoJS.SHA256(
+              `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+            ).toString(CryptoJS.enc.Hex),
+            timestamp
+          }
         })
       } else {
         this.$message.open({
@@ -103,19 +125,57 @@ export default {
         })
       }
     },
-    submit() {
+    async submit() {
       if (
         validEmail(this.email) &&
         this.password &&
         this.samePassword &&
-        this.captcha &&
+        // this.captcha &&
         this.verifyCode &&
         this.agreeItem
       ) {
+        // this.$message.open({
+        //   message: 'valid form, go register Herry!',
+        //   type: 'is-success'
+        // })
+        // const timestamp = Date.now()
+        // await this.$accountAxios({
+        //   method: 'POST',
+        //   url: '/api/captcha/verify',
+        //   data: {
+        //     key: 1,
+        //     type: 2,
+        //     usage: 1,
+        //     value: this.verifyCode
+        //   },
+        //   headers: {
+        //     appkey: process.env.APP_KEY,
+        //     sign: CryptoJS.SHA256(
+        //       `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+        //     ).toString(CryptoJS.enc.Hex),
+        //     timestamp
+        //   }
+        // })
+        await this.$accountAxios({
+          method: 'POST',
+          url: '/v2/register',
+          params: {
+            origin: process.env.APP_KEY
+          },
+          data: {
+            email: this.email,
+            origin: process.env.APP_KEY,
+            password: CryptoJS.MD5(this.password).toString(),
+            type: 'email',
+            captcha_value: this.verifyCode,
+            usage: 'register'
+          }
+        })
         this.$message.open({
-          message: 'valid form, go register Herry!',
+          message: 'Succeed',
           type: 'is-success'
         })
+        this.$router.replace({ path: '/auth/login' })
       } else {
         this.$message.open({
           message: 'Please provide valid info.',

@@ -3,7 +3,7 @@
     <Faq v-for="issue in issues" :key="issue.question" :issue="issue" />
     <span
       >Still encountering problems? Contact us at
-      <a href="mailto:info@heytico.com">info@heytico.com</a></span
+      <a href="mailto:info@mail.heytico.ai">info@mail.heytico.ai</a></span
     >
   </div>
 </template>

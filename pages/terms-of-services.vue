@@ -475,7 +475,7 @@
         Additional Assistance. If you do not understand any of the foregoing
         Terms of Services or if you have any questions or comments, we invite
         you to contact our Customer Service Department by email at
-        <a href="mailto:info@heytico.com">info@heytico.com</a>.
+        <a href="mailto:info@mail.heytico.ai">info@mail.heytico.ai</a>.
       </li>
       <li>
         Copyright Notice. All design, graphics, text selections, arrangements,

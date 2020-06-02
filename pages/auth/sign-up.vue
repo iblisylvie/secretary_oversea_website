@@ -171,6 +171,10 @@ export default {
             usage: 'register'
           }
         })
+        this.$message.open({
+          message: 'Succeed',
+          type: 'is-success'
+        })
         this.$router.replace({ path: '/auth/login' })
       } else {
         this.$message.open({

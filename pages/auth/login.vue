@@ -140,6 +140,10 @@ export default {
           maxAge: 60 * 60 * 0.5,
           sameSite: true
         })
+        this.$message.open({
+          message: 'Succeed',
+          type: 'is-success'
+        })
         this.$router.push({ path: '/call-history' })
       } else {
         this.$message.open({

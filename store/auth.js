@@ -49,7 +49,7 @@ export default {
         await dispatch('INIT_PREQ_INFO')
         return
       }
-      redirect(301, '/auth/login')
+      redirect('/auth/login')
       // Lead to dashboard route if login after landing page
       // let redirectRoutePath = route.path
       // if (route.path === '/') {
@@ -78,7 +78,7 @@ export default {
         }
       })
       this.$cookies.remove('ww_token')
-      redirect(301, '/auth/login')
+      redirect('/auth/login')
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       // commit('POST_LOGIN_CERT', '')

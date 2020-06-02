@@ -6,7 +6,7 @@ export default {
   mutations: {},
   actions: {
     async nuxtServerInit({ dispatch, commit, state }, { app, req }) {
-      const token = get(state, 'auth.token', '')
+      const token = get(state, 'auth.token', '') || app.$cookies.get('ww_token')
       const host = req.headers.host
       if (host) {
         const domain =

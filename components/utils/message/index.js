@@ -36,3 +36,5 @@ Message.install = function(Vue) {
 }
 
 export default Message
+
+export { MessageProgrammatic }

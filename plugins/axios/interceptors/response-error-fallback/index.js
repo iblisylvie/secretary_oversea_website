@@ -10,8 +10,8 @@ export default function useFeedStoreAfterRequest(instances) {
   instances.forEach((ins) => {
     ins.interceptors.response.use(
       (response) => {
-        const data = response.data
-        const { err_code: errCode, err_msg: errMsg } = data
+        const data = get(response, 'data')
+        const { err_code: errCode, err_msg: errMsg } = data || {}
         if (isObject(data) && errCode && errCode !== 0) {
           const msg = errMsg || ERROR_CODE_MAP_MSG[String(errCode)]
           if (msg) {

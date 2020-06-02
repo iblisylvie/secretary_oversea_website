@@ -95,70 +95,117 @@
         </p>
 
         <div class="bind-number-ISP-desc">
-          <p
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-title"
-          >
-            From Your Mobile Device
-          </p>
-          <ul
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-content"
-          >
-            <li>&nbsp;Enter *72.</li>
-            <li>
-              Enter +1(938) 253-2388 Tap the Call button and wait for
-              confirmation.
-            </li>
-            <li>&nbsp;You should hear a confirmation tone or message.</li>
-            <li>&nbsp;End your call.</li>
-          </ul>
-          <ul
-            v-show="activeISP !== 'Verizion'"
-            class="bind-number-ISP-desc-content"
-          >
-            <li>Enter *72.</li>
-            <li>Enter +1(938) 253-2388</li>
-          </ul>
-          <p
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-title"
-          >
-            From Your Computer
-          </p>
-          <ul
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-content"
-          >
-            <li>
-              In My Business Account, click the number for which you wish to
-              activate call forwarding. This brings you to the Wireless Number
-              Center page.
-            </li>
-            <li>
-              In the User Information section, click Manage Call Forwarding next
-              to the mobile number.
-            </li>
-            <li>
-              Enter +1(938) 253-2388 in the Forward Mobile Number To field.
-            </li>
-            <li>
-              Select your preferred option in the Options section:
-              <ul>
-                <li>Forward all calls</li>
-                <li>
-                  {{
-                    'Forward calls when my line is busy or there is no answer'
-                  }}
-                </li>
-              </ul>
-            </li>
-            <li>Click Submit.</li>
-          </ul>
-          <p class="bind-number-ISP-desc-note">
-            *Please note that airtime charges may apply to all forwarded calls
-            according to your current calling plan from your service provider
-          </p>
+          <!-- Verizon  -->
+          <template v-if="activeISP === 'Verizon'">
+            <p class="bind-number-ISP-desc-title">
+              From Your Mobile Device
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>&nbsp;Enter *71-938-253-2388</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+              <li>&nbsp;End your call.</li>
+            </ul>
+            <p class="bind-number-ISP-desc-title">
+              From Your Computer
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                In My Business Account, click the number for which you wish to
+                activate call forwarding. This brings you to the Wireless Number
+                Center page.
+              </li>
+              <li>
+                In the User Information section, click Manage Call Forwarding
+                next to the mobile number.
+              </li>
+              <li>
+                Enter +1(938) 253-2388 in the Forward Mobile Number To field.
+              </li>
+              <li>Select your preferred option in the Options section:</li>
+              <li>Forward all calls</li>
+              <li>Forward calls when my line is busy or there is no answer</li>
+              <li>Click Submit.</li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              *Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider
+            </p>
+          </template>
+
+          <!-- AT&T  -->
+          <template v-if="activeISP === 'AT&T'">
+            <ul class="bind-number-ISP-desc-content">
+              <li>Enable call forwarding for busy situations</li>
+              <li>Enter *62-938-253-2388</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+              <li>Enable call forwarding for no answer situations</li>
+              <li>Enter *92-938-253-2388</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+              <li>Enable call forwarding for non-reachable situations</li>
+              <li>Enter *94-938-253-2388</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              *Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider
+            </p>
+          </template>
+
+          <!-- Sprint  -->
+          <template v-if="activeISP === 'Sprint'">
+            <ul class="bind-number-ISP-desc-content">
+              <li>Enable call forwarding for busy, no answer situations</li>
+              <li>Enter *28-938-253-2388</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              *Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider
+            </p>
+          </template>
+
+          <!-- T-Mobile  -->
+          <template v-if="activeISP === 'T-Mobile'">
+            <ul class="bind-number-ISP-desc-content">
+              <li>Enable call forwarding for busy situations</li>
+              <li>Enter **67*1-938- 253-2388#</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+              <li>Enable call forwarding for non-reachable situations</li>
+              <li>Enter **62*1-938-253-2388#</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+              <li>Enable call forwarding for no answer situations</li>
+              <li>Enter **61*1-938-253-2388#</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              *Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider
+            </p>
+          </template>
         </div>
       </template>
 
@@ -231,9 +278,9 @@ export default {
       { title: 'Test Services' },
       { title: 'All Set!' }
     ],
-    ISPs: ['Verizion', 'AT&T', 'T-Mobile', 'Sprint'],
+    ISPs: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint'],
     activeStep: 0,
-    activeISP: 'Verizion',
+    activeISP: 'Verizon',
     phoneModel: '',
     captchaModel: '',
     // activatePolling: false

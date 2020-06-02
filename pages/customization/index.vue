@@ -1,6 +1,5 @@
 <template>
-  <section class="custom">
-    <!-- Choose your voice -->
+  <!-- <section class="custom">
     <h3 class="primary-heading">Choose your voice</h3>
     <div v-for="typeVoice of voicesForOverseas" :key="typeVoice.type">
       <div class="sub-heading">{{ typeVoice.newTag }}</div>
@@ -19,7 +18,6 @@
       </div>
     </div>
     <hr class="seprate" />
-    <!-- Set you opening remark  -->
     <h3 class="primary-heading">Set you opening remark</h3>
     <div class="sub-heading">
       Opening for Friends
@@ -111,7 +109,6 @@
     </div>
 
     <hr class="seprate" />
-    <!-- Set your replies  -->
     <h3 class="primary-heading">Set your replies</h3>
     <div class="sub-heading">TakeOut</div>
     <div class="voice-wrap opt">
@@ -172,7 +169,6 @@
       </div>
     </div>
     <hr class="seprate" />
-    <!-- Set your refusal replies  -->
     <h3 class="primary-heading">
       Set your refusal replies
       <span class="link"
@@ -196,7 +192,18 @@
         />
       </div>
     </div>
-  </section>
+  </section> -->
+  <div
+    style="    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;"
+  >
+    Comming soon
+  </div>
 </template>
 
 <script>

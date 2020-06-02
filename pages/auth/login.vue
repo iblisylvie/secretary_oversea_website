@@ -94,57 +94,62 @@ export default {
         //   type: 'is-success'
         // })
         const timestamp = Date.now()
-        await this.$accountAxios({
-          method: 'POST',
-          url: '/api/captcha/verify',
-          data: {
-            key: this.randomCode,
-            type: 0,
-            usage: 3,
-            value: this.captcha
-          },
-          headers: {
-            appkey: process.env.APP_KEY,
-            sign: CryptoJS.SHA256(
-              `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
-            ).toString(CryptoJS.enc.Hex),
-            timestamp
+        try {
+          const verifyRes = await this.$accountAxios({
+            method: 'POST',
+            url: '/api/captcha/verify',
+            data: {
+              key: this.randomCode,
+              type: 0,
+              usage: 3,
+              value: this.captcha
+            },
+            headers: {
+              appkey: process.env.APP_KEY,
+              sign: CryptoJS.SHA256(
+                `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+              ).toString(CryptoJS.enc.Hex),
+              timestamp
+            }
+          })
+          if (verifyRes.err_code !== 0) {
+            return
           }
-        })
-        const res = await this.$accountAxios({
-          method: 'POST',
-          url: '/v2/login',
-          params: {
-            origin: process.env.APP_KEY
-          },
-          data: {
-            need_captcha: false,
-            email: this.email,
-            origin: process.env.APP_KEY,
-            password: CryptoJS.MD5(this.password).toString(),
-            usage: 'login'
-            // need_captcha: true,
-            // random_code: this.randomCode,
-            // captcha_value: this.captcha,
-            // type: 0
-          }
-        })
-        this.$store.commit('auth/PUT_USER_INFO', {
-          ...get(res, 'base_info', {}),
-          token: get(res, 'token')
-        })
-        // @workaround
-        // Sync login session to server side
-        this.$cookies.set('ww_token', get(res, 'token'), {
-          path: '/',
-          maxAge: 60 * 60 * 0.5,
-          sameSite: true
-        })
-        this.$message.open({
-          message: 'Succeed',
-          type: 'is-success'
-        })
-        this.$router.push({ path: '/call-history' })
+          const res = await this.$accountAxios({
+            method: 'POST',
+            url: '/v2/login',
+            params: {
+              origin: process.env.APP_KEY
+            },
+            data: {
+              need_captcha: false,
+              email: this.email,
+              origin: process.env.APP_KEY,
+              password: CryptoJS.MD5(this.password).toString(),
+              usage: 'login'
+              // need_captcha: true,
+              // random_code: this.randomCode,
+              // captcha_value: this.captcha,
+              // type: 0
+            }
+          })
+          this.$store.commit('auth/PUT_USER_INFO', {
+            ...get(res, 'base_info', {}),
+            token: get(res, 'token')
+          })
+          // @workaround
+          // Sync login session to server side
+          this.$cookies.set('ww_token', get(res, 'token'), {
+            path: '/',
+            maxAge: 60 * 60 * 1,
+            sameSite: true
+          })
+          this.$message.open({
+            message: 'Succeed',
+            type: 'is-success'
+          })
+          this.$router.push({ path: '/call-history' })
+        } catch (_) {}
       } else {
         this.$message.open({
           message: 'Please provide valid info.',

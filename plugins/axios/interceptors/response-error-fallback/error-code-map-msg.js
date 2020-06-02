@@ -7,7 +7,7 @@
  * findResponse('100')  OR  findResponse(100)     // Invalid request parameter.
  */
 
-const wordings = {
+const ERROR_CODE_MAP_MSG = {
   '0': 'success',
   '-1': 'Server error, please try later.',
   '100': 'Invalid request parameter.',
@@ -100,4 +100,4 @@ const wordings = {
   '9001': 'This voice is already purchased.'
 }
 
-export default (target) => wordings[target.toString()]
+export { ERROR_CODE_MAP_MSG }

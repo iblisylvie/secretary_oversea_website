@@ -46,7 +46,15 @@
       <b-input v-model="verifyCode" required placeholder="Email Verification">
       </b-input>
       <p class="control">
-        <span @click="sendCode">Send Code</span>
+        <t-button
+          type="secondary"
+          class="send-code"
+          :disabled="!sendCodeAvaliable"
+          @click="sendCode"
+        >
+          {{ sendCodeText }}
+        </t-button>
+        <!-- <span @click="sendCode">Send Code</span> -->
       </p>
     </b-field>
 
@@ -86,44 +94,69 @@ export default {
       rePassword: '',
       // captcha: '',
       verifyCode: '',
-      agreeItem: false
+      agreeItem: false,
+
+      // @TODO
+      // extract send code component
+      sendCodePending: false,
+      sendCodeCountdown: 60,
+      sendCodeText: 'Send Code'
     }
   },
   computed: {
     samePassword() {
       return this.password === this.rePassword
+    },
+    sendCodeAvaliable() {
+      return validEmail(this.email) && this.sendCodeCountdown === 60
+    }
+  },
+  watch: {
+    sendCodePending(newVal) {
+      if (newVal) {
+        const timer = setInterval(() => {
+          if (this.sendCodeCountdown === 0) {
+            timer && clearInterval(timer)
+            this.sendCodeText = 'Send Code'
+            this.sendCodeCountdown = 60
+            return
+          }
+          this.sendCodeText = `Sent ${this.sendCodeCountdown--}s`
+        }, 1000)
+      }
     }
   },
   methods: {
-    sendCode() {
-      if (validEmail(this.email)) {
-        // this.$message.open({
-        //   message: 'valid email, go send code Herry!',
-        //   type: 'is-success'
-        // })
-        const timestamp = Date.now()
-        this.$accountAxios({
-          method: 'GET',
-          url: '/api/captcha/email',
-          params: {
-            email: this.email,
-            usage: 1,
-            lang: 2
-          },
-          headers: {
-            appkey: process.env.APP_KEY,
-            sign: CryptoJS.SHA256(
-              `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
-            ).toString(CryptoJS.enc.Hex),
-            timestamp
-          }
-        })
-      } else {
+    async sendCode() {
+      if (this.sendCodePending) {
+        return
+      }
+      if (!validEmail(this.email)) {
         this.$message.open({
           message: 'Please provide valid info.',
           type: 'is-warning'
         })
+        return
       }
+      this.sendCodePending = true
+      const timestamp = Date.now()
+      await this.$accountAxios({
+        method: 'GET',
+        url: '/api/captcha/email',
+        params: {
+          email: this.email,
+          usage: 1,
+          lang: 2
+        },
+        headers: {
+          appkey: process.env.APP_KEY,
+          sign: CryptoJS.SHA256(
+            `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+          ).toString(CryptoJS.enc.Hex),
+          timestamp
+        }
+      })
+      this.sendCodePending = false
     },
     async submit() {
       if (

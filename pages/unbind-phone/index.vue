@@ -42,55 +42,76 @@
         </p>
 
         <div class="desc">
-          <p v-show="activeISP === 'Verizion'" class="title">
-            From Your Mobile Device
-          </p>
-          <ul v-show="activeISP === 'Verizion'" class="content">
-            <li>&nbsp;Enter *72.</li>
-            <li>
-              Enter +1(938) 253-2388 Tap the Call button and wait for
-              confirmation.
-            </li>
-            <li>&nbsp;You should hear a confirmation tone or message.</li>
-            <li>&nbsp;End your call.</li>
-          </ul>
-          <ul v-show="activeISP !== 'Verizion'" class="content">
-            <li>Enter *72.</li>
-            <li>Enter +1(938) 253-2388</li>
-          </ul>
-          <p v-show="activeISP === 'Verizion'" class="title">
-            From Your Computer
-          </p>
-          <ul v-show="activeISP === 'Verizion'" class="content">
-            <li>
-              In My Business Account, click the number for which you wish to
-              activate call forwarding. This brings you to the Wireless Number
-              Center page.
-            </li>
-            <li>
-              In the User Information section, click Manage Call Forwarding next
-              to the mobile number.
-            </li>
-            <li>
-              Enter +1(938) 253-2388 in the Forward Mobile Number To field.
-            </li>
-            <li>
-              Select your preferred option in the Options section:
-              <ul>
-                <li>Forward all calls</li>
-                <li>
-                  {{
-                    'Forward calls when my line is busy or there is no answer'
-                  }}
-                </li>
-              </ul>
-            </li>
-            <li>Click Submit.</li>
-          </ul>
-          <p class="note">
-            *Please note that airtime charges may apply to all forwarded calls
-            according to your current calling plan from your service provider
-          </p>
+          <!-- Verizon  -->
+          <template v-if="activeISP === 'Verizon'">
+            <p class="title">
+              From Your Mobile Device
+            </p>
+            <ul class="content">
+              <li>Enter *73.</li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+              <li>End your call.</li>
+            </ul>
+            <p class="title">
+              From Your Computer
+            </p>
+            <ul class="content">
+              <li>
+                In My Business Account, click the number for which you wish to
+                turn off or modify call forwarding. This brings you to the
+                Wireless Number Center page.
+              </li>
+              <li>
+                In the User Information section, click Manage Call Forwarding
+                next to the wireless number.
+              </li>
+              <li>
+                Select your desired option for modifying or cancelling call
+                forwarding:
+              </li>
+              <li>Click Cancel Call Forwarding</li>
+              <li>Enter the new number you’d like your calls forwarded to.</li>
+              <li>Change when you want your calls forwarded.</li>
+              <li>Click Submit.</li>
+            </ul>
+          </template>
+
+          <!-- AT&T  -->
+          <template v-if="activeISP === 'AT&T'">
+            <ul class="content">
+              <li>Enter *63 Disable call forwarding for busy situation</li>
+              <li>Enter *93 Disable call forwarding for no answer situation</li>
+              <li>
+                Enter *95 Disable call forwarding for not reachable situation
+              </li>
+            </ul>
+          </template>
+
+          <!-- Sprint  -->
+          <template v-if="activeISP === 'Sprint'">
+            <ul class="content">
+              <li>
+                Enter *38. Disable call forwarding for busy situation and no
+                Answer situation
+              </li>
+            </ul>
+          </template>
+
+          <!-- T-Mobile  -->
+          <template v-if="activeISP === 'T-Mobile'">
+            <ul class="content">
+              <li>Enter ##67# for busy situation</li>
+              <li>
+                Enter ##61# Disable call forwarding for no answer situation
+              </li>
+              <li>
+                Enter ##62# Disable call forwarding for not reachable situation
+              </li>
+            </ul>
+          </template>
         </div>
       </template>
       <div class="groups">
@@ -112,8 +133,8 @@ export default {
   data: () => ({
     steps: [{ title: 'Confirm' }, { title: 'Cancel Services' }],
     activeStep: 0,
-    ISPs: ['Verizion', 'AT&T', 'T-Mobile', 'Sprint'],
-    activeISP: 'Verizion'
+    ISPs: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint'],
+    activeISP: 'Verizon'
   }),
   computed: {
     ...mapState({

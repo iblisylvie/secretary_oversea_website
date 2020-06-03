@@ -21,7 +21,8 @@ export default {
         'scheduling',
         'spam',
         'fraud'
-      ]
+      ],
+      interval: null
     }
   },
   computed: {
@@ -29,11 +30,19 @@ export default {
       return this.list[this.index]
     }
   },
-  created() {
-    setInterval(() => {
-      this.index++
-      if (this.index >= this.list.length) this.index = 0
-    }, 3000)
+  mounted() {
+    this.startInterval()
+  },
+  destroyed() {
+    clearInterval(this.interval)
+  },
+  methods: {
+    startInterval() {
+      this.interval = setInterval(() => {
+        this.index++
+        if (this.index >= this.list.length) this.index = 0
+      }, 3000)
+    }
   }
 }
 </script>

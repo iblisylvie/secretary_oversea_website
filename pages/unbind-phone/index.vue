@@ -21,9 +21,9 @@
         </p>
         <p class="tip">
           Once you unbind this number, it will no longer forward unanswered
-          calls to HeyTico AI-assistant. Your previous call histroy will still
-          be avaible to check in your account. Feel free to bind another number
-          or bind again in the future.
+          calls to HeyTico AI-assistant. Your previous call history will still
+          be available to check in your account. Feel free to bind another
+          number or bind again in the future.
         </p>
       </template>
       <!-- Cancel Services  -->

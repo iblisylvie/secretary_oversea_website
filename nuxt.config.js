@@ -6,7 +6,11 @@ export default {
    * Environment Variable
    */
   env: {
-    returnUrl: process.env.RETURN_URL || 'http://test.mobvoi.com'
+    APP_KEY: process.env.APP_KEY || 'secretary-oversea',
+    APP_SECRET: process.env.APP_SECRET || 'SYw6prGbytiVaIwzyZUvUddQNjb91YZg',
+    APP_API_BASE_URL: process.env.APP_API_BASE_URL || 'http://durian/',
+    APP_ACCOUNT_API_BASE_URL:
+      process.env.APP_ACCOUNT_API_BASE_URL || 'http://106.75.81.82:8891'
   },
   /*
    ** Headers of the page

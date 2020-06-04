@@ -1,14 +1,14 @@
 [
   {
     "question": "What should I do if binding fails?",
-    "answer": "<ol><li>Copy this number on your phone: +1(938) 253-2388.</li><li>Find Settings ⇒ Phone ⇒ Call Forwarding ⇒ Select “When Busy”.</li><li>Paste in the number you have copied.</li><li>Dial your phone number to check if set up has succeeded.</li></ol>"
+    "answer": "<ol><li>Go to Settings ⇒ Find Call Forwarding ⇒ Select “When Busy”. </li><li>Put in this number for call forwarding: +1(938) 253-2388 and save changes.</li><li>Call your own phone number to see if call forwarding has succeeded.</li></ol>"
+  },
+  {
+    "question": "After I set up my HeyTico AI-assistant, my unanswered calls still go into my voicemail.",
+    "answer": "Your HeyTico AI-assistant is meant to replace your voicemail and take down messages for you. You will need to disable your voicemail function in order to use HeyTico. If you still experience problems, please contact your service provider and ask for technical support to disable it for you."
   },
   {
     "question": "Is my data protected?",
-    "answer": "Your data is always protected at HeyTico. Only you are able to view your call dialogues."
-  },
-  {
-    "question": "After call forwarding set up, it goes to my voicemail when I am calling myself.",
-    "answer": "Please stop your voicemail. If you still experience problems, please contact your service provider and ask for technical support to solve this problem."
+    "answer": "Your data is always protected at HeyTico. All of your data and calling transcripts are encrypted."
   }
 ]

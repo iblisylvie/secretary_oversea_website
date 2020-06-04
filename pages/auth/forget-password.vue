@@ -99,7 +99,7 @@ export default {
           params: {
             email: this.email,
             usage: 6,
-            lang: 2
+            lang: 4
           },
           headers: {
             appkey: process.env.APP_KEY,

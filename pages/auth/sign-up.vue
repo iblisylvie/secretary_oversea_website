@@ -146,7 +146,7 @@ export default {
         params: {
           email: this.email,
           usage: 1,
-          lang: 2
+          lang: 4
         },
         headers: {
           appkey: process.env.APP_KEY,

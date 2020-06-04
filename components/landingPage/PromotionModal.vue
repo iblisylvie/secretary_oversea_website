@@ -12,8 +12,8 @@
         </span>
         <div class="buttonWrapper">
           <Button
-            tag="a"
-            :href="url"
+            tag="router-link"
+            to="/auth/sign-up"
             text="FREE PREMIUM ACCOUNT"
             class="promotionBtn"
           />
@@ -29,12 +29,6 @@ import Button from '~/components/utils/Button.vue'
 
 export default {
   components: { Button },
-  props: {
-    url: {
-      type: String,
-      default: ''
-    }
-  },
   data() {
     return {
       isModalActive: false

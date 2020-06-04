@@ -13,9 +13,9 @@
       <Button v-if="user" tag="router-link" to="/call-history" text="Start" /> -->
 
       <div class="content">
-        <DotText text="Call Answering" />
-        <DotText text="Choose Your Voice - 4 voices" />
+        <DotText text="Answer Your Calls" />
         <DotText text="Service 1 Number" />
+        <DotText text="AI Voice at Your Service" />
       </div>
     </article>
 
@@ -31,15 +31,15 @@
       <!-- <p class="coming">Coming Soon</p> -->
 
       <div class="content">
-        <DotText premium text="Call Answering" />
-        <DotText premium text="Choose Your Voice - 6 voices" />
-        <DotText premium text="Change Your Name" />
-        <DotText premium text="Change Your HeyTico Assistant’s Name" />
-        <DotText premium text="Set You Opening Remarks" />
-        <DotText premium text="Set Replies For Your Contacts" />
-        <DotText premium text="Set Specific Replies" />
-        <DotText premium text="Set Your Refusal Replies" />
-        <DotText premium text="Servicing Multiple Numbers" />
+        <DotText premium text="Answer Your Calls" />
+        <DotText premium text="Service Multiple Numbers" />
+        <DotText premium text="Choose Your Voice - 4 voices" />
+        <DotText premium text="Customize Your Name" />
+        <DotText premium text="Customize Your HeyTico AI-Assistant’s Name" />
+        <DotText premium text="Customize Opening Remarks" />
+        <DotText premium text="Customize Your Replies For Your Contacts" />
+        <DotText premium text="Customize Specific Replies" />
+        <DotText premium text="Customize Your Refusal Replies" />
       </div>
     </article>
   </div>
@@ -54,10 +54,6 @@ export default {
   props: {
     user: {
       type: Boolean
-    },
-    signup: {
-      type: String,
-      default: ''
     }
   }
 }

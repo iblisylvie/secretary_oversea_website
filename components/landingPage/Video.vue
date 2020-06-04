@@ -31,7 +31,7 @@ export default {
         sources: [
           {
             type: 'video/mp4',
-            src: 'https://www.w3schools.com/html/mov_bbb.mp4'
+            src: require('~/assets/images/HeyTico-compressed.mp4')
           }
         ]
       }

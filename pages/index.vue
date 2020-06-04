@@ -18,8 +18,8 @@
             </h2>
             <Button
               v-if="!user"
-              tag="a"
-              :href="signup"
+              tag="router-link"
+              to="/auth/sign-up"
               text="Try Now"
               sub-text="It's free"
             />
@@ -96,7 +96,7 @@
     <section id="how-it-works" class="section video-section">
       <div class="container">
         <h2 class="title m-b-60 has-text-centered">
-          How Does HeyTico Work?
+          How It Works?
         </h2>
         <div class="wrapper m-b-60">
           <div class="video">
@@ -128,7 +128,7 @@
           Plans and Pricing
         </h2>
         <div class="wrapper m-b-60">
-          <Plans :user="user" :signup="signup" />
+          <Plans :user="user" />
         </div>
       </div>
     </section>
@@ -146,8 +146,8 @@
           </p>
           <Button
             v-if="!user"
-            tag="a"
-            :href="signup"
+            tag="router-link"
+            to="/auth/sign-up"
             text="Try Now"
             sub-text="It's free"
           />
@@ -163,7 +163,7 @@
     </section>
 
     <!-- Promotion Modal -->
-    <Modal v-if="!user" :url="signup" />
+    <Modal v-if="!user" />
   </div>
 </template>
 
@@ -181,8 +181,7 @@ export default {
   components: { Button, Slogan, TextImage, Video, Testimonials, Plans, Modal },
   data() {
     return {
-      user: this.$store.getters['auth/loggedIn'],
-      signup: `https://passport.mobvoi.com/pages/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
+      user: this.$store.getters['auth/loggedIn']
     }
   }
 }

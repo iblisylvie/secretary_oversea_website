@@ -169,7 +169,7 @@
           Test Services
         </p>
         <p class="all-set-sub-title">
-          You Are Ready to Go!
+          Please activate your assistant
         </p>
         <p class="all-set-tip">
           To ensure that you have successfully setup your HeyTico assistant,
@@ -184,7 +184,7 @@
           All Set!
         </p>
         <p class="all-set-sub-title">
-          Once you have called… You Are Ready to Go!
+          Once you have called… Please activate your assistant
         </p>
         <p class="all-set-tip">
           You have successfully set up your number and it is now equipped with

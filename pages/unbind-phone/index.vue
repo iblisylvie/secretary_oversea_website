@@ -20,10 +20,10 @@
           {{ `Do you confirm to unbind ${phone}?` }}
         </p>
         <p class="tip">
-          If you unbind this number, all the ipsum dolor sit amet, consectetur
-          adipiscing elit. Malesuada neque, in vestibulum ultrices felis. Velit,
-          sit nascetur vulputate lobortis tempus, elit. Tempor scelerisque et
-          turpis vehicula. Eget sed gravida et odio ultrices a risus.
+          Once you unbind this number, it will no longer forward unanswered
+          calls to HeyTico AI-assistant. Your previous call histroy will still
+          be avaible to check in your account. Feel free to bind another number
+          or bind again in the future.
         </p>
       </template>
       <!-- Cancel Services  -->

@@ -183,9 +183,6 @@ export default {
     return {
       user: this.$store.getters['auth/loggedIn']
     }
-  },
-  mounted() {
-    console.log(process.env.APP_KEY)
   }
 }
 </script>

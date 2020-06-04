@@ -59,8 +59,8 @@ export default function({ $axios, store }, inject) {
 
   // Change URL only for server
   if (process.server) {
-    axios.setBaseURL('http://106.75.81.82:8434')
-    accountAxios.setBaseURL('http://106.75.81.82:8891')
+    axios.setBaseURL(process.env.APP_API_BASE_URL)
+    accountAxios.setBaseURL(process.env.APP_ACCOUNT_API_BASE_URL)
   }
 
   //   Use interceptors

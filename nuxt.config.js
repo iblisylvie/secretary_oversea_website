@@ -8,9 +8,12 @@ export default {
   env: {
     APP_KEY: process.env.APP_KEY || 'secretary-oversea',
     APP_SECRET: process.env.APP_SECRET || 'SYw6prGbytiVaIwzyZUvUddQNjb91YZg',
-    APP_API_BASE_URL: process.env.APP_API_BASE_URL || 'http://durian/',
+    APP_API_BASE_URL:
+      process.env.APP_API_BASE_URL || 'http://106.75.81.82:8434',
     APP_ACCOUNT_API_BASE_URL:
-      process.env.APP_ACCOUNT_API_BASE_URL || 'http://106.75.81.82:8891'
+      process.env.APP_ACCOUNT_API_BASE_URL || 'http://106.75.81.82:8891',
+    APP_ACTIVATE_VERIFY_API_BASE_URL:
+      process.env.APP_ACTIVATE_VERIFY_API_BASE_URL || 'http://106.75.64.52:8722'
   },
   /*
    ** Headers of the page
@@ -92,7 +95,8 @@ export default {
     'http://106.75.81.82:8891/v2',
     'http://106.75.81.82:8891/account/info',
     'http://106.75.81.82:8891/api/captcha',
-    'http://106.75.81.82:8891/logout'
+    'http://106.75.81.82:8891/logout',
+    'http://106.75.64.52:8722/api/v1/verify'
   ],
   /*
    ** style-resources-module

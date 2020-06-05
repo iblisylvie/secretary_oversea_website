@@ -197,7 +197,7 @@ export default {
         //   message: 'valid form, go reset password Herry!',
         //   type: 'is-success'
         // })
-        await this.$accountAxios({
+        const res = await this.$accountAxios({
           method: 'POST',
           url: '/v2/password/reset',
           params: {
@@ -212,6 +212,9 @@ export default {
             new_password: CryptoJS.MD5(this.password).toString()
           }
         })
+        if (get(res, 'err_code') === 0) {
+          this.$router.push({ path: '/auth/login' })
+        }
       } else {
         this.$message.open({
           message: 'Please provide valid info.',

@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import validEmail from '~/components/utils/validEmail'
 import Button from '~/components/utils/Button.vue'
 
 export default {
@@ -38,14 +39,12 @@ export default {
       name: '',
       email: '',
       content: '',
-      message: '',
-      success: false,
-      fail: false
+      message: ''
     }
   },
   methods: {
     submit() {
-      if (this.email && this.name && this.content) {
+      if (validEmail(this.email) && this.name && this.content) {
         this.$axios({
           method: 'post',
           data: {
@@ -54,31 +53,23 @@ export default {
             content: this.content
           },
           url: `overseas/feedback`
+        }).then((response) => {
+          if (response.err_code === 0) {
+            this.name = ''
+            this.email = ''
+            this.content = ''
+            this.$message.open({
+              message: 'Thanks, we will contact you shortly.',
+              type: 'is-success'
+            })
+          }
         })
-          .then((response) => {
-            if (response.err_msg === 'success') {
-              this.throwSuccess('Thanks, we will contact you soon.')
-            } else {
-              this.throwError(response.err_msg)
-            }
-          })
-          .catch((error) => {
-            this.throwError(error.toString())
-          })
       } else {
-        // this.$message.open('Please put valid info.')
-        this.throwError('Please put valid info.')
+        this.$message.open({
+          message: 'Please provide valid info.',
+          type: 'is-warning'
+        })
       }
-    },
-    throwError(message) {
-      this.success = false
-      this.fail = true
-      this.message = message
-    },
-    throwSuccess(message) {
-      this.success = true
-      this.fail = false
-      this.message = message
     }
   }
 }

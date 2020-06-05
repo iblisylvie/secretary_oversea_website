@@ -205,7 +205,7 @@ export default {
           }
         })
         this.$message.open({
-          message: 'Succeed',
+          message: 'Success',
           type: 'is-success'
         })
         this.$router.replace({ path: '/auth/login' })

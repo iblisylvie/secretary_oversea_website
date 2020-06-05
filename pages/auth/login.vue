@@ -145,7 +145,7 @@ export default {
             sameSite: true
           })
           this.$message.open({
-            message: 'Succeed',
+            message: 'Success',
             type: 'is-success'
           })
           this.$router.push({ path: '/call-history' })

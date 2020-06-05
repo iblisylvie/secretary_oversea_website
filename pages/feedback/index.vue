@@ -51,14 +51,14 @@ export default {
         data: {
           name: this.nickname,
           email: this.email,
-          content: `source: feedback form
+          content: `source: feedback form dashboard
 ===========================================
 ${this.feedbackModel}`
         }
       })
       this.feedbackModel = ''
       this.$message.open({
-        message: 'Send success',
+        message: 'Thanks, we will contact you shortly.',
         type: 'is-success'
       })
     }

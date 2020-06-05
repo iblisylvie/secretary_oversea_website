@@ -7,7 +7,13 @@
       </div>
 
       <b-field>
-        <b-input v-model="email" type="email" required placeholder="Email">
+        <b-input
+          key="email"
+          v-model="email"
+          type="email"
+          required
+          placeholder="Email"
+        >
         </b-input>
       </b-field>
 
@@ -15,7 +21,15 @@
         <b-input v-model="verifyCode" required placeholder="Email Verification">
         </b-input>
         <p class="control">
-          <span @click="sendCode">Send Code</span>
+          <t-button
+            type="secondary"
+            class="send-code"
+            :disabled="!sendCodeAvaliable"
+            @click="sendCode"
+          >
+            {{ sendCodeText }}
+          </t-button>
+          <!-- <span @click="sendCode">Send Code</span> -->
         </p>
       </b-field>
 
@@ -32,6 +46,7 @@
 
       <b-field>
         <b-input
+          key="password"
           v-model="password"
           type="password"
           password-reveal
@@ -46,6 +61,7 @@
         :message="samePassword ? '' : 'The passwords are not the same.'"
       >
         <b-input
+          key="rePassword"
           v-model="rePassword"
           type="password"
           password-reveal
@@ -63,12 +79,14 @@
 </template>
 
 <script>
+import { get } from 'lodash-es'
 import CryptoJS from 'crypto-js'
 
 import validEmail from '~/components/utils/validEmail'
 import Button from '~/components/utils/Button.vue'
 
 export default {
+  name: 'ForgetPassword',
   layout: 'auth',
   components: { Button },
   data() {
@@ -77,53 +95,76 @@ export default {
       email: '',
       verifyCode: '',
       password: '',
-      rePassword: ''
+      rePassword: '',
+
+      sendCodePending: false,
+      sendCodeCountdown: 60,
+      sendCodeText: 'Send Code'
     }
   },
   computed: {
     samePassword() {
       return this.password === this.rePassword
+    },
+    sendCodeAvaliable() {
+      return validEmail(this.email) && this.sendCodeCountdown === 60
+    }
+  },
+  watch: {
+    sendCodePending(newVal) {
+      if (newVal) {
+        const timer = setInterval(() => {
+          if (this.sendCodeCountdown === 0) {
+            timer && clearInterval(timer)
+            this.sendCodeText = 'Send Code'
+            this.sendCodeCountdown = 60
+            return
+          }
+          this.sendCodeText = `Sent ${this.sendCodeCountdown--}s`
+        }, 1000)
+      }
     }
   },
   methods: {
     async sendCode() {
-      if (validEmail(this.email)) {
-        // this.$message.open({
-        //   message: 'valid email, go send code Herry!',
-        //   type: 'is-success'
-        // })
-        const timestamp = Date.now()
-        await this.$accountAxios({
-          method: 'GET',
-          url: '/api/captcha/email',
-          params: {
-            email: this.email,
-            usage: 6,
-            lang: 4
-          },
-          headers: {
-            appkey: process.env.APP_KEY,
-            sign: CryptoJS.SHA256(
-              `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
-            ).toString(CryptoJS.enc.Hex),
-            timestamp
-          }
-        })
-      } else {
+      if (this.sendCodePending) {
+        return
+      }
+      if (!validEmail(this.email)) {
         this.$message.open({
-          message: 'Please provide valid Email.',
+          message: 'Please provide valid info.',
           type: 'is-warning'
         })
+        return
       }
+      this.sendCodePending = true
+      const timestamp = Date.now()
+      await this.$accountAxios({
+        method: 'GET',
+        url: '/api/captcha/email',
+        params: {
+          email: this.email,
+          usage: 6,
+          lang: 4
+        },
+        headers: {
+          appkey: process.env.APP_KEY,
+          sign: CryptoJS.SHA256(
+            `${process.env.APP_KEY}${process.env.APP_SECRET}${timestamp}`
+          ).toString(CryptoJS.enc.Hex),
+          timestamp
+        }
+      })
+      this.sendCodePending = false
     },
     async goNext() {
       if (validEmail(this.email) && this.verifyCode) {
-        this.$message.open({
-          message: 'valid email, go verify code Herry!',
-          type: 'is-success'
-        })
+        // this.$message.open({
+        //   message: 'valid email, go verify code Herry!',
+        //   type: 'is-success'
+        // })
         const timestamp = Date.now()
-        await this.$accountAxios({
+        const res = await this.$accountAxios({
           method: 'POST',
           url: '/api/captcha/verify',
           data: {
@@ -140,7 +181,9 @@ export default {
             timestamp
           }
         })
-        this.nextStep = true
+        if (get(res, 'err_code') === 0) {
+          this.nextStep = true
+        }
       } else {
         this.$message.open({
           message: 'Please provide valid info.',

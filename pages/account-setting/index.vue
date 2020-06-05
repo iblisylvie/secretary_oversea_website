@@ -62,12 +62,13 @@
             Receive cool updates and discount information from HeyTico
           </b-checkbox>
         </div> -->
-        <a
+        <!-- <a
           href="https://passport.mobvoi.com/pages/user-edit?lang=en-us"
           target="_blank"
         >
           <t-button class="submit">Edit</t-button>
-        </a>
+        </a> -->
+        <t-button disabled class="submit">Edit</t-button>
       </section>
       <hr class="seprate" />
       <!-- Subscription  -->

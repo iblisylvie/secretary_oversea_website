@@ -38,6 +38,20 @@
       </div>
     </section>
 
+    <!-- HOW IT WORKS SECTION -->
+    <section id="how-it-works" class="section video-section">
+      <div class="container">
+        <h2 class="title m-b-60 has-text-centered">
+          How It Works?
+        </h2>
+        <div class="wrapper m-b-60">
+          <div class="video">
+            <Video />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- PRODUCT SECTION -->
     <section id="product" class="section product-section">
       <div class="container">
@@ -92,20 +106,6 @@
       </div>
     </section>
 
-    <!-- HOW IT WORKS SECTION -->
-    <section id="how-it-works" class="section video-section">
-      <div class="container">
-        <h2 class="title m-b-60 has-text-centered">
-          How It Works?
-        </h2>
-        <div class="wrapper m-b-60">
-          <div class="video">
-            <Video />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- TESTIMONIAL SECTION -->
     <section class="section testimonial-section">
       <div class="container">
@@ -117,7 +117,7 @@
         </div>
       </div>
       <div class="shape-1">
-        <img src="~assets/images/shape-1.png" alt="shape" />
+        <img src="~assets/images/shape.png" alt="shape" />
       </div>
     </section>
 
@@ -163,7 +163,7 @@
     </section>
 
     <!-- Promotion Modal -->
-    <Modal v-if="!user" />
+    <!-- <Modal v-if="!user" /> -->
   </div>
 </template>
 
@@ -174,11 +174,11 @@ import TextImage from '~/components/landingPage/TextImage.vue'
 import Video from '~/components/landingPage/Video.vue'
 import Testimonials from '~/components/landingPage/Testimonials.vue'
 import Plans from '~/components/landingPage/Plans.vue'
-import Modal from '~/components/landingPage/PromotionModal.vue'
+// import Modal from '~/components/landingPage/PromotionModal.vue'
 
 export default {
   name: 'HomePage',
-  components: { Button, Slogan, TextImage, Video, Testimonials, Plans, Modal },
+  components: { Button, Slogan, TextImage, Video, Testimonials, Plans },
   data() {
     return {
       user: this.$store.getters['auth/loggedIn']
@@ -325,8 +325,6 @@ p {
 }
 
 .product-section {
-  padding-top: 5rem;
-
   .product-logo {
     width: 325px;
 
@@ -367,36 +365,30 @@ p {
   }
 }
 
-@include mobile {
-  .pricing-section {
-    margin-top: -8rem;
+.pricing-section {
+  margin-top: 5rem;
+
+  @include mobile {
+    margin-top: -3rem;
   }
 }
 
 .video-section {
   z-index: 2;
+
+  @include mobile {
+    padding-top: 5rem;
+  }
 }
 
 .testimonial-section .shape-1 {
   position: absolute;
   z-index: -2;
-  top: -30rem;
+  top: -3rem;
   left: 0;
 
-  @include touch {
-    top: -22rem;
-  }
-
-  @include mobile {
-    top: -17rem;
-  }
-
   @media (max-width: 500px) {
-    top: -12rem;
-  }
-
-  @media (max-width: 380px) {
-    top: -10rem;
+    top: 0;
   }
 }
 

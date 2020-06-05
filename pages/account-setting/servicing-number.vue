@@ -184,7 +184,7 @@
           All Set!
         </p>
         <p class="all-set-sub-title">
-          Once you have called… Please activate your assistant
+          Once you have called you are ready to go.
         </p>
         <p class="all-set-tip">
           You have successfully set up your number and it is now equipped with

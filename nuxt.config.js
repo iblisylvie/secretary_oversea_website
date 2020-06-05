@@ -1,6 +1,25 @@
 import path from 'path'
 require('dotenv').config()
 
+const proxyConfig = () => {
+  const config = []
+  const appApiBaseUrl =
+    process.env.APP_API_BASE_URL || 'http://106.75.81.82:8434/'
+  const appAccountApiBaseUrl =
+    process.env.APP_ACCOUNT_API_BASE_URL || 'http://106.75.81.82:8891/'
+  const appActivateVerifyApiBaseUrl =
+    process.env.APP_ACTIVATE_VERIFY_API_BASE_URL || 'http://106.75.64.52:8722/'
+  config.push(
+    `${appApiBaseUrl}overseas`,
+    `${appAccountApiBaseUrl}v2`,
+    `${appAccountApiBaseUrl}account/info`,
+    `${appAccountApiBaseUrl}api/captcha`,
+    `${appAccountApiBaseUrl}logout`,
+    `${appActivateVerifyApiBaseUrl}api/v1/verify`
+  )
+  return config
+}
+
 export default {
   mode: 'universal',
   /**
@@ -87,18 +106,8 @@ export default {
   axios: {
     proxy: true,
     prefix: '/'
-    // host: '106.75.81.82',
-
-    // port: '8434'
   },
-  proxy: [
-    'http://106.75.81.82:8434/overseas',
-    'http://106.75.81.82:8891/v2',
-    'http://106.75.81.82:8891/account/info',
-    'http://106.75.81.82:8891/api/captcha',
-    'http://106.75.81.82:8891/logout',
-    'http://106.75.64.52:8722/api/v1/verify'
-  ],
+  proxy: proxyConfig(),
   /*
    ** style-resources-module
    */

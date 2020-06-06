@@ -26,6 +26,16 @@ export default function({ $axios, store }, inject) {
     }
   })
 
+  const activateVerifyAxios = $axios.create({
+    withCredentials: true,
+    timeout,
+    headers: {
+      common: {
+        'Content-Type': 'application/json'
+      }
+    }
+  })
+
   axios.interceptors.request.use((config) => {
     const token = get(store, 'state.auth.token', '')
     if (token) {
@@ -61,13 +71,15 @@ export default function({ $axios, store }, inject) {
   if (process.server) {
     axios.setBaseURL(process.env.APP_API_BASE_URL)
     accountAxios.setBaseURL(process.env.APP_ACCOUNT_API_BASE_URL)
+    activateVerifyAxios.setBaseURL(process.env.APP_ACTIVATE_VERIFY_API_BASE_URL)
   }
 
   //   Use interceptors
-  useLog([axios, accountAxios])
+  useLog([axios, accountAxios, activateVerifyAxios])
   useResponseErrorFallback([axios, accountAxios])
 
   // Inject to context as $api
   inject('axios', axios)
   inject('accountAxios', accountAxios)
+  inject('activateVerifyAxios', activateVerifyAxios)
 }

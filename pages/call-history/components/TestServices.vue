@@ -103,6 +103,12 @@
             according to your current calling plan from your service provider
           </p>
         </div>
+        <!-- button groups  -->
+        <div class="groups">
+          <t-button class="acc-setup-nav-btn" @click="activeStep++">
+            Continue
+          </t-button>
+        </div>
       </template>
 
       <!-- Test Services  -->
@@ -119,6 +125,22 @@
           please call your phone number to test out your assistant. This will
           take about 1min.
         </p>
+        <div class="groups">
+          <t-button
+            class="acc-setup-back-btn"
+            type="secondary"
+            @click="activeStep = 1"
+          >
+            Back
+          </t-button>
+          <t-button
+            class="acc-setup-nav-btn"
+            :disabled="!activateMeAvaliable"
+            @click="onActivateMe"
+          >
+            {{ activateMeText }}
+          </t-button>
+        </div>
       </template>
       <!-- All Set! -->
       <template v-if="activeStep === 2">
@@ -136,46 +158,23 @@
           Go ahead and explore its awesome features, if you have any questions
           please refer to FAQ or contact us.
         </p>
+        <div class="groups">
+          <t-button class="acc-setup-nav-btn" @click="reload">
+            Done
+          </t-button>
+        </div>
       </template>
-
-      <!-- button groups  -->
-      <div class="groups">
-        <t-button
-          v-if="activeStep === 2"
-          class="acc-setup-back-btn"
-          type="secondary"
-          @click="activeStep = 1"
-        >
-          Back
-        </t-button>
-        <t-button class="acc-setup-nav-btn" @click="onContinue">
-          {{ activeStep === 3 ? 'Done' : 'Continue' }}
-        </t-button>
-      </div>
     </main>
   </section>
 </template>
 
 <script>
-// import { get } from 'lodash-es'
-// import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
+import { get } from 'lodash-es'
 
 export default {
-  name: 'GetStart',
+  name: 'TestServices',
   layout: 'dashboard',
-  // asyncData({ redirect, store, params }) {
-  // @workaround add servicing number
-  // const { refer } = params
-  // if (refer) {
-  //   return { refer }
-  // }
-  // await store.dispatch('relation/FETCH_RELATION')
-  // const skipGetStarted = store.getters['relation/skipGetStarted']
-  // if (!skipGetStarted) {
-  //   return { refer: '' }
-  // }
-  // redirect(301, '/call-history')
-  // },
   data: () => ({
     steps: [
       { title: 'Account Setup' },
@@ -190,113 +189,57 @@ export default {
     captchaModel: '',
     // activatePolling: false
 
-    sendCodePending: false,
-    sendCodeCountdown: 60,
-    sendCodeText: 'Send Code'
+    activateMePending: false,
+    activateMeCountdown: 30,
+    activateMeText: 'Activate Me'
   }),
   computed: {
-    // ...mapGetters('relation', ['skipGetStarted']),
-    // continueDisabled() {
-    //   if (this.activeStep === 0) {
-    //     return !this.phoneModel || !this.captchaModel
-    //   }
-    //   return false
-    // },
-    // sendCodeAvaliable() {
-    //   return (
-    //     get(this, 'phoneModel.length') === 12 && this.sendCodeCountdown === 60
-    //   )
-    // }
-    // sendCodeText() {
-    //   if (this.sendCodePending) {
-    //     return `sent ${}`
-    //   } else {
-    //     return 'Send Code'
-    //   }
-    // }
+    ...mapState({
+      phoneNumber(state) {
+        return get(state, 'relation.relation.phone')
+      }
+    }),
+    activateMeAvaliable() {
+      return this.activateMeCountdown === 30
+    }
   },
   watch: {
-    sendCodePending(newVal) {
+    activateMePending(newVal) {
       if (newVal) {
         const timer = setInterval(() => {
-          if (this.sendCodeCountdown === 0) {
+          if (this.activateMeCountdown === 0) {
             timer && clearInterval(timer)
-            this.sendCodeText = 'Send Code'
-            this.sendCodeCountdown = 60
+            this.activateMeText = 'Activate Me'
+            this.activateMeCountdown = 30
             return
           }
-          this.sendCodeText = `Sent ${this.sendCodeCountdown--}s`
+          this.activateMeText = `Sent ${this.activateMeCountdown--}s`
         }, 1000)
       }
     }
   },
   methods: {
-    onPhoneInput(phone) {
-      phone = phone || ''
-      this.$nextTick(() => {
-        this.phoneModel = phone
-          .substring(0, 12)
-          .replace(/\D/g, '')
-          .replace(/(\d)(?=((?:\d{4})|(?:\d{7}))$)/g, '$1-')
-      })
-    },
-    // async sendCode() {
-    //   if (this.sendCodePending) {
-    //     return
-    //   }
-    //   this.sendCodePending = true
-    //   await this.$axios({
-    //     url: '/overseas/captcha',
-    //     method: 'GET',
-    //     params: {
-    //       phone: `+1${this.phoneModel.replace(/\D/g, '')}`
-    //     }
-    //   })
-    //   this.sendCodePending = false
-    // },
-    onContinue() {
-      if (this.activeStep === 2) {
-        window.location.reload()
+    async onActivateMe() {
+      if (this.activateMePending) {
         return
       }
-      //   if (this.activeStep === 0) {
-      //     const result = await this.$axios({
-      //       method: 'POST',
-      //       url: '/overseas/relation/phone',
-      //       params: {
-      //         phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
-      //         captcha: this.captchaModel
-      //       }
-      //     })
-      //     this.$store.dispatch('relation/FETCH_RELATION')
-      //     if (get(result, 'err_code') && get(result, 'err_msg')) {
-      //       this.$message.open(get(result, 'err_msg'))
-      //       return
-      //     }
-      //   }
-      //   const activated = get(result, 'activated', '')
-      //   if (activated) {
-      //     this.activatePolling = false
-      //   } else {
-      //     this.activatePolling = true
-      //     let attempts = 0
-      //     const timer = setInterval(async () => {
-      //       if (attempts >= 3) {
-      //         timer && clearInterval(timer)
-      //         this.activatePolling = false
-      //         this.$message.open('')
-      //         return
-      //       }
-      //       await this.$store.dispatch('relation/FETCH_RELATION')
-      //       attempts++
-      //       if (this.activated) {
-      //         this.activatePolling = false
-      //         timer && clearInterval(timer)
-      //       }
-      //     }, 5000)
-      //   }
-      // }
-      this.activeStep++
+      this.activateMePending = true
+      const response = await this.$activateVerifyAxios({
+        method: 'GET',
+        url: `/api/v1/verify/${this.phoneNumber}`
+      })
+      this.activateMePending = false
+      if (get(response, 'data.code') === 200) {
+        this.activeStep++
+      } else {
+        this.$message.open({
+          message: get(response, 'data.message'),
+          type: 'is-warning'
+        })
+      }
+    },
+    reload() {
+      window.location.reload()
     }
   }
 }

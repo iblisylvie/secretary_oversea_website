@@ -59,12 +59,6 @@
             >
               {{ sendCodeText }}
             </t-button>
-            <!-- <b-button
-              rounded
-              class="acc-setup-form-btn send-code"
-              @click="sendCode"
-              >Send Code</b-button
-            > -->
           </div>
         </div>
         <div class="acc-setup-form-row">
@@ -76,6 +70,16 @@
               class="acc-setup-form-input"
             ></b-input>
           </div>
+        </div>
+        <!-- button groups  -->
+        <div class="groups">
+          <t-button
+            class="acc-setup-nav-btn"
+            :disabled="continueDisabled"
+            @click="onContinue"
+          >
+            Continue
+          </t-button>
         </div>
       </template>
       <!-- Bind Number  -->
@@ -160,6 +164,16 @@
             according to your current calling plan from your service provider
           </p>
         </div>
+        <!-- button groups  -->
+        <div class="groups">
+          <t-button
+            class="acc-setup-nav-btn"
+            :disabled="continueDisabled"
+            @click="activeStep++"
+          >
+            Continue
+          </t-button>
+        </div>
       </template>
 
       <!-- Test Services  -->
@@ -169,13 +183,30 @@
           Test Services
         </p>
         <p class="all-set-sub-title">
-          Please activate your assistant
+          Please activate your HeyIico AI-assistant to start your service by
+          clicking the button below.
         </p>
-        <p class="all-set-tip">
+        <!-- <p class="all-set-tip">
           To ensure that you have successfully setup your HeyTico assistant,
           please call your phone number to test out your assistant. This will
           take about 1min.
-        </p>
+        </p> -->
+        <div class="groups">
+          <t-button
+            class="acc-setup-back-btn"
+            type="secondary"
+            @click="activeStep = 1"
+          >
+            Back
+          </t-button>
+          <t-button
+            class="acc-setup-nav-btn"
+            :disabled="!activateMeAvaliable"
+            @click="onActivateMe"
+          >
+            {{ activateMeText }}
+          </t-button>
+        </div>
       </template>
       <!-- All Set! -->
       <template v-if="activeStep === 3">
@@ -193,26 +224,16 @@
           Go ahead and explore its awesome features, if you have any questions
           please refer to FAQ or contact us.
         </p>
+        <div class="groups">
+          <t-button
+            class="acc-setup-nav-btn"
+            :disabled="continueDisabled"
+            @click="$router.push({ path: '/call-history' })"
+          >
+            Done
+          </t-button>
+        </div>
       </template>
-
-      <!-- button groups  -->
-      <div class="groups">
-        <t-button
-          v-if="activeStep === 2"
-          class="acc-setup-back-btn"
-          type="secondary"
-          @click="activeStep = 1"
-        >
-          Back
-        </t-button>
-        <t-button
-          class="acc-setup-nav-btn"
-          :disabled="continueDisabled"
-          @click="onContinue"
-        >
-          {{ activeStep === 3 ? 'Done' : 'Continue' }}
-        </t-button>
-      </div>
     </main>
   </section>
 </template>
@@ -241,7 +262,11 @@ export default {
 
     sendCodePending: false,
     sendCodeCountdown: 60,
-    sendCodeText: 'Send Code'
+    sendCodeText: 'Send Code',
+
+    activateMePending: false,
+    activateMeCountdown: 30,
+    activateMeText: 'Activate Me'
   }),
   computed: {
     ...mapGetters('relation', ['skipGetStarted']),
@@ -255,15 +280,10 @@ export default {
       return (
         get(this, 'phoneModel.length') === 12 && this.sendCodeCountdown === 60
       )
+    },
+    activateMeAvaliable() {
+      return this.activateMeCountdown === 30
     }
-    // sendCodeText() {
-    //   if (this.sendCodePending) {
-
-    //     return `sent ${}`
-    //   } else {
-    //     return 'Send Code'
-    //   }
-    // }
   },
   watch: {
     sendCodePending(newVal) {
@@ -276,6 +296,19 @@ export default {
             return
           }
           this.sendCodeText = `Sent ${this.sendCodeCountdown--}s`
+        }, 1000)
+      }
+    },
+    activateMePending(newVal) {
+      if (newVal) {
+        const timer = setInterval(() => {
+          if (this.activateMeCountdown === 0) {
+            timer && clearInterval(timer)
+            this.activateMeText = 'Activate Me'
+            this.activateMeCountdown = 30
+            return
+          }
+          this.activateMeText = `Sent ${this.activateMeCountdown--}s`
         }, 1000)
       }
     }
@@ -304,51 +337,40 @@ export default {
       })
       this.sendCodePending = false
     },
-    async onContinue() {
-      if (this.activeStep === 3) {
-        this.$router.push({ path: '/call-history' })
+    async onActivateMe() {
+      if (this.activateMePending) {
         return
       }
-      if (this.activeStep === 0) {
-        const result = await this.$axios({
-          method: 'POST',
-          url: '/overseas/relation/phone/attach',
-          data: {
-            phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
-            captcha: this.captchaModel
-          }
+      this.activateMePending = true
+      const response = await this.$activateVerifyAxios({
+        method: 'GET',
+        url: `/api/v1/verify/${this.phoneNumber}`
+      })
+      this.activateMePending = false
+      if (get(response, 'data.code') === 200) {
+        this.activeStep++
+      } else {
+        this.$message.open({
+          message: get(response, 'data.message'),
+          type: 'is-warning'
         })
+      }
+    },
+    async onContinue() {
+      const result = await this.$axios({
+        method: 'POST',
+        url: '/overseas/relation/phone/attach',
+        data: {
+          phone: `+1${this.phoneModel.replace(/\D/g, '')}`,
+          captcha: this.captchaModel
+        }
+      })
+      if (get(result, 'err_code') === 0) {
         this.$store.dispatch('phone-attach/FETCH_PHONE_ATTACH', {
           reFetch: true
         })
-        if (get(result, 'err_code') && get(result, 'err_msg')) {
-          this.$message.open(get(result, 'err_msg'))
-          return
-        }
+        this.activeStep++
       }
-      //   const activated = get(result, 'activated', '')
-      //   if (activated) {
-      //     this.activatePolling = false
-      //   } else {
-      //     this.activatePolling = true
-      //     let attempts = 0
-      //     const timer = setInterval(async () => {
-      //       if (attempts >= 3) {
-      //         timer && clearInterval(timer)
-      //         this.activatePolling = false
-      //         this.$message.open('')
-      //         return
-      //       }
-      //       await this.$store.dispatch('relation/FETCH_RELATION')
-      //       attempts++
-      //       if (this.activated) {
-      //         this.activatePolling = false
-      //         timer && clearInterval(timer)
-      //       }
-      //     }, 5000)
-      //   }
-      // }
-      this.activeStep++
     }
   }
 }

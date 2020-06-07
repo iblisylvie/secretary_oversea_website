@@ -14,7 +14,7 @@ export default {
     nickname: '',
     pii: false,
     referral_code: '',
-    sex: 0,
+    sex: 1,
     true_name: '',
     update_time: '',
     wwid: '',

@@ -6,11 +6,14 @@
       alt="avatar"
       @error="loadFailed = true"
     />
-    <svg-icon v-else :icon-class="avatar" class-name="default" />
+    <svg-icon v-else :icon-class="actualAvatar" class-name="default" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { get } from 'lodash-es'
+
 export default {
   name: 'Avatar',
   props: {
@@ -20,12 +23,21 @@ export default {
     },
     avatar: {
       type: String,
-      default: 'default-avatar'
+      default: ''
     }
   },
+
   data: () => ({
     loadFailed: false
-  })
+  }),
+  computed: {
+    ...mapState({
+      sex: (state) => get(state, 'auth.sex')
+    }),
+    actualAvatar() {
+      return this.avatar || this.sex === 1 ? 'male' : 'female'
+    }
+  }
 }
 </script>
 

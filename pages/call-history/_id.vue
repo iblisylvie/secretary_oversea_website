@@ -66,7 +66,6 @@
           <div v-if="msg.user_query" class="call-record-history-session caller">
             <avatar
               class="call-record-history-avatar caller"
-              avatar="caller"
               :src="userAvatar"
             />
             <!-- <img

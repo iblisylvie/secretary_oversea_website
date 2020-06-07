@@ -16,7 +16,7 @@ export default {
         commit('app/POST_APP_INFO', { domain })
       }
       if (token) {
-        commit('auth/PUT_USER_INFO', { token })
+        commit('auth/PUT_AUTH_INFO', { token })
         await dispatch('auth/INIT_PREQ_INFO')
       }
     }

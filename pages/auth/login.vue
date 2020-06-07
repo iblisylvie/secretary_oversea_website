@@ -133,7 +133,7 @@ export default {
               // type: 0
             }
           })
-          this.$store.commit('auth/PUT_USER_INFO', {
+          this.$store.commit('auth/PUT_AUTH_INFO', {
             ...get(res, 'base_info', {}),
             token: get(res, 'token')
           })

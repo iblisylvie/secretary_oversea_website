@@ -2,22 +2,22 @@ import { isObject, get, isEmpty } from 'lodash-es'
 export default {
   state: () => ({
     // See doc https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-    accountId: null,
-    account_id: null,
-    agree: false,
-    birthday: '',
-    company: '',
-    create_time: '',
-    email: '',
-    head_image_url: '',
-    home: '',
-    nickname: '',
-    pii: false,
-    referral_code: '',
-    sex: 0,
-    true_name: '',
-    update_time: '',
-    wwid: '',
+    // accountId: null,
+    // account_id: null,
+    // agree: false,
+    // birthday: '',
+    // company: '',
+    // create_time: '',
+    // email: '',
+    // head_image_url: '',
+    // home: '',
+    // nickname: '',
+    // pii: false,
+    // referral_code: '',
+    // sex: 1,
+    // true_name: '',
+    // update_time: '',
+    // wwid: '',
     token: ''
   }),
   getters: {
@@ -29,9 +29,9 @@ export default {
     POST_LOGIN_CERT: (state, { token }) => {
       state.token = token
     },
-    PUT_USER_INFO: (state, userInfo) => {
-      if (!isObject(userInfo)) return
-      for (const [prop, value] of Object.entries(userInfo)) {
+    PUT_AUTH_INFO: (state, authInfo) => {
+      if (!isObject(authInfo)) return
+      for (const [prop, value] of Object.entries(authInfo)) {
         if (Object.prototype.hasOwnProperty.call(state, prop)) {
           state[prop] = value
         }
@@ -44,7 +44,7 @@ export default {
       const redirect = get(this, 'app.context.redirect', () => {})
       const loginCert = this.$cookies.get('ww_token')
       if (loginCert) {
-        commit('PUT_USER_INFO', { token: loginCert })
+        commit('PUT_AUTH_INFO', { token: loginCert })
         // Fetch user info immediately after login
         await dispatch('INIT_PREQ_INFO')
         return
@@ -68,7 +68,7 @@ export default {
     },
     async LOGOUT({ commit, state }) {
       const redirect = get(this, 'app.context.redirect', () => {})
-      commit('PUT_USER_INFO', { token: '' })
+      commit('PUT_AUTH_INFO', { token: '' })
       await this.$accountAxios({
         method: 'POST',
         url: '/logout',
@@ -82,7 +82,7 @@ export default {
       // Logout using Mobvoi way
       // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
       // commit('POST_LOGIN_CERT', '')
-      // commit('PUT_USER_INFO', { wwid: '' })
+      // commit('PUT_AUTH_INFO', { wwid: '' })
       // const context = get(this, 'app.context', {})
       // const { redirect } = context
       // const redirectDomain =
@@ -103,8 +103,8 @@ export default {
      * @param {*} param0
      */
     async INIT_PREQ_INFO({ dispatch, state, rootState }) {
-      if (!state.wwid) {
-        await dispatch('FETCH_USER')
+      if (!get(rootState, 'account.wwid')) {
+        await dispatch('account/FETCH_ACCOUNT', {}, { root: true })
       }
       if (isEmpty(get(rootState, 'relation.relation'))) {
         await dispatch('relation/FETCH_RELATION', {}, { root: true })
@@ -115,26 +115,6 @@ export default {
       if (!get(rootState, 'vip.fetchedVipInfo')) {
         await dispatch('vip/FETCH_VIP_INFO', {}, { root: true })
       }
-    },
-    async FETCH_USER({ commit, state }) {
-      // @Note
-      // Not necessary for server side
-      const res = await this.$accountAxios({
-        method: 'GET',
-        url: '/account/info/token',
-        params: {
-          origin: process.env.APP_KEY,
-          token: state.token
-        }
-      })
-      // const result = await this.$axios({
-      //   url: 'https://passport.mobvoi.com/v1/api/users/me/info',
-      //   method: 'GET'
-      // })
-      commit('PUT_USER_INFO', {
-        ...get(res, 'base_info', {}),
-        token: get(res, 'token')
-      })
     }
   }
 }

@@ -32,7 +32,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      sex: (state) => get(state, 'auth.sex')
+      sex: (state) => get(state, 'account.sex')
     }),
     actualAvatar() {
       return this.avatar || this.sex === 1 ? 'male' : 'female'

@@ -131,7 +131,7 @@ export default {
   data() {
     return {
       user: this.$store.getters['auth/loggedIn'],
-      avatar: this.$store.state.auth.head_image_url,
+      avatar: this.$store.state.account.head_image_url,
       signup: `https://passport.mobvoi.com/pages/register?lang=en-us&from=secretary-oversea&redirect_url=${process.env.returnUrl}/get-started`
     }
   },

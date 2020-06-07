@@ -156,7 +156,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userAvatar: (state) => get(state, 'auth.head_image_url')
+      userAvatar: (state) => get(state, 'account.head_image_url')
     }),
     bubbleSession() {
       return get(this, 'detail.call_detail', [])

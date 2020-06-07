@@ -91,9 +91,8 @@ export default {
   computed: {
     ...mapGetters('relation', ['skipGetStarted']),
     ...mapState({
-      userInfo: (state) => pick(state.auth, ['nickname', 'head_image_url']),
-      activated: (state) => get(state, 'relation.relation.activated'),
-      availableRoutes: (state) => get(state, 'auth.availableRoutes', [])
+      userInfo: (state) => pick(state.account, ['nickname', 'head_image_url']),
+      activated: (state) => get(state, 'relation.relation.activated')
     }),
     asideMenu() {
       const asideMenu = [
@@ -185,7 +184,7 @@ export default {
     pageTitle() {
       const currentRoute = this.$route.path
       return get(
-        this.availableRoutes.find((route) => route.path === currentRoute),
+        this.asideMenu.find((route) => route.path === currentRoute),
         'meta.title',
         ''
       )

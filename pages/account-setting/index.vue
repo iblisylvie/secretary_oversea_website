@@ -17,17 +17,59 @@
         <h3 class="title">Account Settings</h3>
         <div class="label">Name</div>
         <div class="form">
-          <p>{{ nickname }}</p>
-          <!-- <button class="opt">
-            Edit
-          </button> -->
+          <p v-show="!editingName">{{ nickname }}</p>
+          <b-input
+            v-show="editingName"
+            v-model="nameModel"
+            rounded
+            class="input-field"
+          />
+          <div>
+            <button class="primary-opt" @click="onTriggerEditingName">
+              {{ editingName ? 'Save' : 'Edit' }}
+            </button>
+            <button
+              v-show="editingName"
+              class="secondary-opt"
+              @click="editingName = false"
+            >
+              cancel
+            </button>
+          </div>
         </div>
         <div class="label">Gender</div>
         <div class="form">
-          <p>{{ gender ? 'Female' : 'Male' }}</p>
-          <!-- <button class="opt">
-            Edit
-          </button> -->
+          <p v-show="!editingGender">{{ gender ? 'Female' : 'Male' }}</p>
+          <div v-show="editingGender">
+            <b-radio
+              v-model="genderModel"
+              size="is-small"
+              name="name"
+              native-value="1"
+            >
+              Male
+            </b-radio>
+            <b-radio
+              v-model="genderModel"
+              size="is-small"
+              name="name"
+              native-value="0"
+            >
+              Female
+            </b-radio>
+          </div>
+          <div>
+            <button class="primary-opt" @click="onTriggerEditingGender">
+              {{ editingGender ? 'Save' : 'Edit' }}
+            </button>
+            <button
+              v-show="editingGender"
+              class="secondary-opt"
+              @click="editingGender = false"
+            >
+              cancel
+            </button>
+          </div>
         </div>
         <div class="label">Email</div>
         <div class="form">
@@ -68,7 +110,7 @@
         >
           <t-button class="submit">Edit</t-button>
         </a> -->
-        <t-button disabled class="submit">Edit</t-button>
+        <!-- <t-button disabled class="submit">Edit</t-button> -->
       </section>
       <hr class="seprate" />
       <!-- Subscription  -->
@@ -140,9 +182,6 @@
             >
               Unbind
             </t-button>
-            <!-- <button class="opt" >
-              Unbind
-            </button> -->
           </p>
         </div>
         <!-- <div class="form" style="margin-top: 16px">
@@ -186,22 +225,22 @@ export default {
   name: 'AccountSettings',
   layout: 'dashboard',
   middleware: ['bind-number-checker'],
-  data: () => ({
-    navs: ['Profile', 'Subscription', 'Servicing Number', 'Got Any Feedback?'],
-    activeNav: 0,
+  data() {
+    return {
+      emailPreferenceModel: true,
 
-    emailPreferenceModel: true,
-    editingName: false,
-    editingEmail: false,
+      nameModel: '',
+      editingName: false,
 
-    nameModel: '',
-    emailModel: ''
-  }),
+      genderModel: this.sex,
+      editingGender: false
+    }
+  },
   computed: {
     ...mapState({
-      nickname: (state) => get(state, 'auth.nickname'),
-      email: (state) => get(state, 'auth.email'),
-      gender: (state) => get(state, 'auth.sex'),
+      nickname: (state) => get(state, 'account.nickname'),
+      email: (state) => get(state, 'account.email'),
+      gender: (state) => get(state, 'account.sex'),
       phone: (state) => get(state, 'relation.relation.phone'),
       token: (state) => get(state, 'auth.token'),
       redirectDomain: (state) => get(state, 'app.domain'),
@@ -232,6 +271,45 @@ export default {
           isPrimaryPhone: phone === this.phone
         }
       })
+    },
+    async onTriggerEditingName() {
+      if (!this.editingName) {
+        this.nameModel = this.nickname
+        this.editingName = true
+        return
+      }
+      await this.postProfile({
+        nickname: this.nameModel
+      })
+      this.editingName = false
+    },
+    async onTriggerEditingGender() {
+      if (!this.editingGender) {
+        this.genderModel = this.gender
+        this.editingGender = true
+        return
+      }
+      await this.postProfile({
+        gender: Number(this.genderModel)
+      })
+      this.editingGender = false
+    },
+    async postProfile(payload) {
+      const res = await this.$accountAxios({
+        method: 'POST',
+        url: `/account/info/token`,
+        params: {
+          origin: process.env.APP_KEY,
+          token: this.token
+        },
+        data: {
+          ...get(this, `$store.state.account`),
+          ...payload
+        }
+      })
+      if (get(res, 'err_code') === 0) {
+        await this.$store.dispatch('account/FETCH_ACCOUNT')
+      }
     }
   }
 }
@@ -303,9 +381,16 @@ export default {
           margin-left: 8px;
         }
       }
-      .opt {
+      .primary-opt {
         @include text-button;
-        @include secondary-text;
+        @include primary-text($font-size: 14px);
+      }
+      .secondary-opt {
+        margin-left: 8px;
+        @include text-button;
+        @include secondary-text($font-size: 14px);
+      }
+      .input-field {
       }
       .submit {
         margin-top: 16px;

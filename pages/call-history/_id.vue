@@ -31,14 +31,29 @@
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[0].flexGrow }"
             >{{
-              detail.call_phone === '+1' ? 'Unavailable ' : detail.call_phone
+              `${
+                detail.call_phone === '+1' ? 'Unavailable ' : detail.call_phone
+              }
+              ${detail.location}`
             }}</span
           >
           <span
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[1].flexGrow }"
-            >{{ detail.tags && detail.tags.toString() }}</span
           >
+            <div
+              v-for="tag of detail.user_defined_tags"
+              :key="tag"
+              :style="{
+                color: tagsColorPattern[tag] && tagsColorPattern[tag].color,
+                backgroundColor:
+                  tagsColorPattern[tag] && tagsColorPattern[tag].bgColor
+              }"
+              class="tag"
+            >
+              {{ tag }}
+            </div>
+          </span>
           <span
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[2].flexGrow }"
@@ -104,6 +119,8 @@ import { get } from 'lodash-es'
 import { Howl } from 'howler'
 import dayjs from 'dayjs'
 
+import tagsColorPattern from './utils/tags-color-pattern'
+
 export default {
   layout: 'dashboard',
   name: 'CallRecord',
@@ -151,7 +168,9 @@ export default {
       fullVoiceAvailable: false,
 
       // Detail from Server
-      detail: {}
+      detail: {},
+
+      tagsColorPattern
     }
   },
   computed: {
@@ -320,6 +339,7 @@ export default {
     &-fields {
       margin-bottom: 24px;
       display: flex;
+      align-items: center;
       flex: 1;
     }
     &-field {
@@ -392,5 +412,13 @@ export default {
       }
     }
   }
+}
+
+.tag {
+  margin-left: 6px;
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 14px;
+  font-weight: bold;
 }
 </style>

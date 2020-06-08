@@ -52,7 +52,18 @@
               <span
                 class="call-history-row-card-field"
                 :style="{ width: row.flexGrowRates[1] }"
-                >{{ row.tags.toString() }}</span
+                ><div
+                  v-for="tag of row.tags"
+                  :key="tag"
+                  :style="{
+                    color: tagsColorPattern[tag] && tagsColorPattern[tag].color,
+                    backgroundColor:
+                      tagsColorPattern[tag] && tagsColorPattern[tag].bgColor
+                  }"
+                  class="tag"
+                >
+                  {{ tag }}
+                </div></span
               >
               <span
                 class="call-history-row-card-field"
@@ -159,6 +170,7 @@ import { mapState } from 'vuex'
 import * as dayjs from 'dayjs'
 
 import TestServices from './components/TestServices'
+import tagsColorPattern from './utils/tags-color-pattern'
 
 export default {
   name: 'CallHistory',
@@ -212,10 +224,11 @@ export default {
       callHistoryFetched: false,
 
       // Call history from server
-      callHistory: []
+      callHistory: [],
 
       // Edit
       // selectAllModel: false
+      tagsColorPattern
     }
   },
   computed: {
@@ -257,19 +270,23 @@ export default {
     this.activated && this.fetchCallHistory()
   },
   methods: {
-    async fetchCallHistory() {
-      this.callHistoryFetched = false
-      const result = await this.$axios({
-        method: 'get',
-        url: '/overseas/call-history',
-        params: {
-          page: this.current - 1, // Page number start with 0
-          size: this.perPage
-        }
+    fetchCallHistory() {
+      // @workaround
+      // current.sync prop not working in b-pagination
+      this.$nextTick(async () => {
+        this.callHistoryFetched = false
+        const result = await this.$axios({
+          method: 'get',
+          url: '/overseas/call-history',
+          params: {
+            page: this.current - 1, // Page number start with 0
+            size: this.perPage
+          }
+        })
+        this.callHistory = get(result, 'call_history', [])
+        this.total = get(result, 'sum', 0)
+        this.callHistoryFetched = true
       })
-      this.callHistory = get(result, 'call_history', [])
-      this.total = get(result, 'sum', 0)
-      this.callHistoryFetched = true
     },
     onSelectAll(value) {
       this.callHistoryTableData.forEach(
@@ -352,6 +369,7 @@ export default {
       &-fields {
         display: flex;
         flex: 1;
+        align-items: center;
       }
       .cell {
         display: none;
@@ -430,6 +448,14 @@ export default {
       margin: 0 14px;
     }
   }
+}
+
+.tag {
+  margin-left: 6px;
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 @include mobile {

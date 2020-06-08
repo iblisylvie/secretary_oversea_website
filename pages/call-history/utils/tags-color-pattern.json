@@ -1,0 +1,30 @@
+{
+  "Date": {
+    "color": "#7284F5",
+    "bgColor": "rgba(114, 132, 245, 0.1)"
+  },
+  "Appointment": {
+    "color": "#7284F5",
+    "bgColor": "rgba(114, 132, 245, 0.1)"
+  },
+  "Advertisement": {
+    "color": "#FF9A1E",
+    "bgColor": "rgba(255, 154, 30, 0.1)"
+  },
+  "Delivery": {
+    "color": "#5AD590",
+    "bgColor": "rgba(90, 213, 144, 0.1)"
+  },
+  "Takeout": {
+    "color": "#F55757",
+    "bgColor": "rgba(245, 87, 87, 0.1)"
+  },
+  "Call Back": {
+    "color": "#F55757",
+    "bgColor": "rgba(245, 87, 87, 0.1)"
+  },
+  "Leave Message": {
+    "color": "#18C3E2",
+    "bgColor": "rgba(24, 195, 226, 0.1)"
+  }
+}

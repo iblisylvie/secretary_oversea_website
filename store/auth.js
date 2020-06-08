@@ -36,7 +36,8 @@ export default {
     async LOGOUT({ commit, state }) {
       const redirect = get(this, 'app.context.redirect', () => {})
       commit('PUT_AUTH_INFO', { token: '' })
-      await this.$accountAxios({
+      this.$cookies.remove('ww_token')
+      const res = await this.$accountAxios({
         method: 'POST',
         url: '/logout',
         params: {
@@ -44,8 +45,9 @@ export default {
           origin: process.env.APP_KEY
         }
       })
-      this.$cookies.remove('ww_token')
-      redirect('/auth/login')
+      if (get(res, 'err_code') === 0) {
+        redirect('/auth/login')
+      }
     },
     /**
      * Initialize prerequisite info

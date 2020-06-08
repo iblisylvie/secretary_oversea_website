@@ -19,7 +19,7 @@ export default function useFeedStoreAfterRequest(instances, store) {
       if (isObject(data) && errCode && errCode === 1012) {
         store.dispatch('auth/LOGOUT')
       }
-      return response.data
+      return response
     }, null)
   })
 }

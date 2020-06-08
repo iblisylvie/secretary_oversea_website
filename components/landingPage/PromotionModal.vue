@@ -91,10 +91,11 @@ span {
 
 .buttonWrapper {
   width: 100%;
+  max-width: 410px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
 
   @include mobile {
     margin-top: 4rem;

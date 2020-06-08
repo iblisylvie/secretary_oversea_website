@@ -353,7 +353,7 @@ p {
 }
 
 .video {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 
   @include mobile {

@@ -19,7 +19,7 @@ export default {
       playerOptions: {
         language: 'en',
         fluid: true,
-        poster: require('~/assets/images/messager.png'),
+        preload: 'auto',
         controlBar: {
           children: [
             { name: 'playToggle' },

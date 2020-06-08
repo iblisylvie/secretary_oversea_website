@@ -26,6 +26,10 @@
             class-name="call-record-card-ctrl-btn-shape play"
           />
         </button>
+        <div class="privacy">
+          <svg-icon icon-class="protect" class-name="shape" />
+          Your privacy is protected.
+        </div>
         <div class="call-record-card-fields">
           <span
             class="call-record-card-field"
@@ -308,7 +312,7 @@ export default {
     display: flex;
     flex-flow: column;
     flex: 1;
-    padding: 52px 32px 52px 48px;
+    padding: 16px 32px 52px 48px;
     background: #fff;
     border-radius: 8px;
     &-ctrl-btn {
@@ -420,5 +424,15 @@ export default {
   padding: 4px 16px;
   font-size: 14px;
   font-weight: bold;
+}
+
+.privacy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include secondary-text($font-size: 14px, $font-weight: normal);
+  .shape {
+    margin-right: 10px;
+  }
 }
 </style>

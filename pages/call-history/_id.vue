@@ -26,19 +26,38 @@
             class-name="call-record-card-ctrl-btn-shape play"
           />
         </button>
+        <div class="privacy">
+          <svg-icon icon-class="protect" class-name="shape" />
+          Your privacy is protected.
+        </div>
         <div class="call-record-card-fields">
           <span
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[0].flexGrow }"
             >{{
-              detail.call_phone === '+1' ? 'Unavailable ' : detail.call_phone
+              `${
+                detail.call_phone === '+1' ? 'Unavailable ' : detail.call_phone
+              }
+              ${detail.location}`
             }}</span
           >
           <span
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[1].flexGrow }"
-            >{{ detail.tags && detail.tags.toString() }}</span
           >
+            <div
+              v-for="tag of detail.user_defined_tags"
+              :key="tag"
+              :style="{
+                color: tagsColorPattern[tag] && tagsColorPattern[tag].color,
+                backgroundColor:
+                  tagsColorPattern[tag] && tagsColorPattern[tag].bgColor
+              }"
+              class="tag"
+            >
+              {{ tag }}
+            </div>
+          </span>
           <span
             class="call-record-card-field"
             :style="{ width: THEAD_COLUMNS[2].flexGrow }"
@@ -104,6 +123,8 @@ import { get } from 'lodash-es'
 import { Howl } from 'howler'
 import dayjs from 'dayjs'
 
+import tagsColorPattern from './utils/tags-color-pattern'
+
 export default {
   layout: 'dashboard',
   name: 'CallRecord',
@@ -151,7 +172,9 @@ export default {
       fullVoiceAvailable: false,
 
       // Detail from Server
-      detail: {}
+      detail: {},
+
+      tagsColorPattern
     }
   },
   computed: {
@@ -289,7 +312,7 @@ export default {
     display: flex;
     flex-flow: column;
     flex: 1;
-    padding: 52px 32px 52px 48px;
+    padding: 16px 32px 52px 48px;
     background: #fff;
     border-radius: 8px;
     &-ctrl-btn {
@@ -320,6 +343,7 @@ export default {
     &-fields {
       margin-bottom: 24px;
       display: flex;
+      align-items: center;
       flex: 1;
     }
     &-field {
@@ -391,6 +415,24 @@ export default {
         @include primary-text($font-size: 14px, $font-weight: normal);
       }
     }
+  }
+}
+
+.tag {
+  margin-left: 6px;
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.privacy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include secondary-text($font-size: 14px, $font-weight: normal);
+  .shape {
+    margin-right: 10px;
   }
 }
 </style>

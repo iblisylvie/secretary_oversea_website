@@ -1,23 +1,6 @@
 import { isObject, get, isEmpty } from 'lodash-es'
 export default {
   state: () => ({
-    // See doc https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-    // accountId: null,
-    // account_id: null,
-    // agree: false,
-    // birthday: '',
-    // company: '',
-    // create_time: '',
-    // email: '',
-    // head_image_url: '',
-    // home: '',
-    // nickname: '',
-    // pii: false,
-    // referral_code: '',
-    // sex: 1,
-    // true_name: '',
-    // update_time: '',
-    // wwid: '',
     token: ''
   }),
   getters: {
@@ -39,7 +22,6 @@ export default {
     }
   },
   actions: {
-    // @TODO clean up
     async LOGIN({ commit, dispatch }) {
       const redirect = get(this, 'app.context.redirect', () => {})
       const loginCert = this.$cookies.get('ww_token')
@@ -50,26 +32,12 @@ export default {
         return
       }
       redirect('/auth/login')
-      // Lead to dashboard route if login after landing page
-      // let redirectRoutePath = route.path
-      // if (route.path === '/') {
-      //   redirectRoutePath = '/call-history'
-      // }
-      // const redirectDomain =
-      //   get(rootState, 'app.domain') || process.env.returnUrl
-      // const params = new URLSearchParams({
-      //   lang: 'en-us',
-      //   from: 'secretary-oversea',
-      //   redirect_url: `${redirectDomain}${redirectRoutePath}`
-      // })
-      // try {
-      //   redirect(`https://passport.mobvoi.com/pages/login?${params.toString()}`)
-      // } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
     },
     async LOGOUT({ commit, state }) {
       const redirect = get(this, 'app.context.redirect', () => {})
       commit('PUT_AUTH_INFO', { token: '' })
-      await this.$accountAxios({
+      this.$cookies.remove('ww_token')
+      const res = await this.$accountAxios({
         method: 'POST',
         url: '/logout',
         params: {
@@ -77,26 +45,9 @@ export default {
           origin: process.env.APP_KEY
         }
       })
-      this.$cookies.remove('ww_token')
-      redirect('/auth/login')
-      // Logout using Mobvoi way
-      // See https://docs.google.com/document/d/1IdZlyTY-v3epAOwU1k7nW0UfgUYdyKgcR36BovSbAEo/edit
-      // commit('POST_LOGIN_CERT', '')
-      // commit('PUT_AUTH_INFO', { wwid: '' })
-      // const context = get(this, 'app.context', {})
-      // const { redirect } = context
-      // const redirectDomain =
-      //   get(rootState, 'app.domain') || process.env.returnUrl
-      // const params = new URLSearchParams({
-      //   lang: 'en-us',
-      //   from: 'secretary-oversea',
-      //   redirect_url: `${redirectDomain}/`
-      // })
-      // try {
-      //   redirect(
-      //     `https://passport.mobvoi.com/pages/logout?${params.toString()}`
-      //   )
-      // } catch (_) {} // See https://github.com/nuxt/nuxt.js/blob/f791d786e0996e4cad2b1ddbe244a747e7e700aa/packages/vue-app/template/utils.js#L180
+      if (get(res, 'err_code') === 0) {
+        redirect('/auth/login')
+      }
     },
     /**
      * Initialize prerequisite info

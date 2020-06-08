@@ -1,6 +1,5 @@
-import { get, set } from 'lodash-es'
-
 import useLog from './interceptors/log'
+import useAuthChecker from './interceptors/use-auth-checker'
 import useResponseErrorFallback from './interceptors/response-error-fallback'
 
 export default function({ $axios, store }, inject) {
@@ -36,37 +35,6 @@ export default function({ $axios, store }, inject) {
     }
   })
 
-  axios.interceptors.request.use((config) => {
-    const token = get(store, 'state.auth.token', '')
-    if (token) {
-      set(config, 'headers.common.ww_token', token)
-    }
-    return config
-  }, null)
-  //   const useResInterceptorsAxiosIns = [axios, accountAxios]
-  //   useResInterceptorsAxiosIns.forEach((axiosIns) => {
-  //     axiosIns.interceptors.response.use(
-  //       (response) => {
-  //         const { data } = response
-  //         return data
-  //       },
-  //       (error) => {
-  //         // Handle error over here.
-
-  //         // @TODO using message or other under client side
-  //         // eslint-disable-next-line
-  //         console.log(`
-  // [request url]: ${get(error, 'response.request.path')}
-  // [response error]: ${error}`)
-  //         const status = get(error, 'response.status')
-  //         // Logout under `401`
-  //         if (status === 401) {
-  //           store.dispatch('auth/LOGOUT')
-  //         }
-  //       }
-  //     )
-  //   })
-
   // Change URL only for server
   if (process.server) {
     axios.setBaseURL(process.env.APP_API_BASE_URL)
@@ -75,6 +43,7 @@ export default function({ $axios, store }, inject) {
   }
 
   //   Use interceptors
+  useAuthChecker([axios], store)
   useLog([axios, accountAxios, activateVerifyAxios])
   useResponseErrorFallback([axios, accountAxios])
 

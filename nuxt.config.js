@@ -1,14 +1,20 @@
 import path from 'path'
 require('dotenv').config()
 
+const DEFAULT_APP_KEY = 'secretary-oversea'
+const DEFAULT_APP_SECRET = 'SYw6prGbytiVaIwzyZUvUddQNjb91YZg'
+const DEFAULT_APP_API_BASE_URL = 'http://106.75.81.82:8434/'
+const DEFAULT_APP_ACCOUNT_API_BASE_URL = 'http://106.75.81.82:8891/'
+const DEFAULT_APP_ACTIVATE_VERIFY_API_BASE_URL = 'http://106.75.64.52:8722/'
+
 const proxyConfig = () => {
   const config = []
-  const appApiBaseUrl =
-    process.env.APP_API_BASE_URL || 'http://106.75.81.82:8434/'
+  const appApiBaseUrl = process.env.APP_API_BASE_URL || DEFAULT_APP_API_BASE_URL
   const appAccountApiBaseUrl =
-    process.env.APP_ACCOUNT_API_BASE_URL || 'http://106.75.81.82:8891/'
+    process.env.APP_ACCOUNT_API_BASE_URL || DEFAULT_APP_ACCOUNT_API_BASE_URL
   const appActivateVerifyApiBaseUrl =
-    process.env.APP_ACTIVATE_VERIFY_API_BASE_URL || 'http://106.75.64.52:8722/'
+    process.env.APP_ACTIVATE_VERIFY_API_BASE_URL ||
+    DEFAULT_APP_ACTIVATE_VERIFY_API_BASE_URL
   config.push(
     `${appApiBaseUrl}overseas`,
     `${appAccountApiBaseUrl}v2`,
@@ -26,14 +32,14 @@ export default {
    * Environment Variable
    */
   env: {
-    APP_KEY: process.env.APP_KEY || 'secretary-oversea',
-    APP_SECRET: process.env.APP_SECRET || 'SYw6prGbytiVaIwzyZUvUddQNjb91YZg',
-    APP_API_BASE_URL:
-      process.env.APP_API_BASE_URL || 'http://106.75.81.82:8434',
+    APP_KEY: process.env.APP_KEY || DEFAULT_APP_KEY,
+    APP_SECRET: process.env.APP_SECRET || DEFAULT_APP_SECRET,
+    APP_API_BASE_URL: process.env.APP_API_BASE_URL || DEFAULT_APP_API_BASE_URL,
     APP_ACCOUNT_API_BASE_URL:
-      process.env.APP_ACCOUNT_API_BASE_URL || 'http://106.75.81.82:8891',
+      process.env.APP_ACCOUNT_API_BASE_URL || DEFAULT_APP_ACCOUNT_API_BASE_URL,
     APP_ACTIVATE_VERIFY_API_BASE_URL:
-      process.env.APP_ACTIVATE_VERIFY_API_BASE_URL || 'http://106.75.64.52:8722'
+      process.env.APP_ACTIVATE_VERIFY_API_BASE_URL ||
+      DEFAULT_APP_ACTIVATE_VERIFY_API_BASE_URL
   },
   /*
    ** Headers of the page

@@ -39,7 +39,7 @@
         </div>
         <div class="label">Gender</div>
         <div class="form">
-          <p v-show="!editingGender">{{ gender ? 'Female' : 'Male' }}</p>
+          <p v-show="!editingGender">{{ gender ? 'Male' : 'Female' }}</p>
           <div v-show="editingGender">
             <b-radio
               v-model="genderModel"

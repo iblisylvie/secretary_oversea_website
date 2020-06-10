@@ -202,6 +202,9 @@ export default {
     await this.fetchCallDetail()
     this.intializeFullVoiceAudio()
   },
+  beforeDestroy() {
+    this.fullVoiceHowler.unload()
+  },
   methods: {
     async fetchCallDetail() {
       const result = await this.$axios({

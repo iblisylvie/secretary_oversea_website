@@ -34,7 +34,7 @@
 
 <script>
 import CryptoJS from 'crypto-js'
-import { get, random, isObject } from 'lodash-es'
+import { get, random } from 'lodash-es'
 
 import validEmail from '~/components/utils/validEmail'
 import Button from '~/components/utils/Button.vue'
@@ -85,7 +85,7 @@ export default {
           timestamp
         }
       })
-      if (!isObject(data)) {
+      if (data instanceof Blob) {
         this.captchaUrl = URL.createObjectURL(data)
       } else {
         this.fetchCaptcha()

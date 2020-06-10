@@ -36,7 +36,7 @@ export default {
     },
     autoClose: {
       type: Boolean,
-      default: true
+      default: false
     },
     message: {
       type: String,

@@ -34,7 +34,7 @@
 
 <script>
 import CryptoJS from 'crypto-js'
-import { get, random } from 'lodash-es'
+import { get, random, isObject } from 'lodash-es'
 
 import validEmail from '~/components/utils/validEmail'
 import Button from '~/components/utils/Button.vue'
@@ -85,7 +85,11 @@ export default {
           timestamp
         }
       })
-      this.captchaUrl = URL.createObjectURL(data)
+      if (!isObject(data)) {
+        this.captchaUrl = URL.createObjectURL(data)
+      } else {
+        this.fetchCaptcha()
+      }
     },
     async submit() {
       if (validEmail(this.email) && this.password && this.captcha) {

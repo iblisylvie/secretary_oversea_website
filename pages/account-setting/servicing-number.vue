@@ -245,7 +245,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'GetStart',
   layout: 'dashboard',
-  middleware: ['bind-number-checker'],
+  // middleware: ['bind-number-checker'],
   data: () => ({
     steps: [
       { title: 'Account Setup' },

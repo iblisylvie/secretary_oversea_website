@@ -224,7 +224,7 @@ import dayjs from 'dayjs'
 export default {
   name: 'AccountSettings',
   layout: 'dashboard',
-  middleware: ['bind-number-checker'],
+  // middleware: ['bind-number-checker'],
   data() {
     return {
       emailPreferenceModel: true,

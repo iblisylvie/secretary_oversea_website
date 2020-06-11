@@ -23,7 +23,7 @@
       ></b-input>
     </b-field>
     <Button text="Submit" @click.native="submit" />
-    <span v-if="success || fail">{{ message }}</span>
+    <span v-if="success">{{ message }}</span>
   </div>
 </template>
 

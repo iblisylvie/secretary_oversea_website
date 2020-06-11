@@ -24,7 +24,7 @@ export default {
   props: {
     position: {
       type: String,
-      default: 'is-bottom-right'
+      default: 'is-top'
     },
     animation: {
       type: String,

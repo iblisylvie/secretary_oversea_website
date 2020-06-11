@@ -99,70 +99,286 @@
         </p>
 
         <div class="bind-number-ISP-desc">
-          <p
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-title"
-          >
-            From Your Mobile Device
-          </p>
-          <ul
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-content"
-          >
-            <li>&nbsp;Enter *72.</li>
-            <li>
-              Enter +1(938) 253-2388 Tap the Call button and wait for
-              confirmation.
-            </li>
-            <li>&nbsp;You should hear a confirmation tone or message.</li>
-            <li>&nbsp;End your call.</li>
-          </ul>
-          <ul
-            v-show="activeISP !== 'Verizion'"
-            class="bind-number-ISP-desc-content"
-          >
-            <li>Enter *72.</li>
-            <li>Enter +1(938) 253-2388</li>
-          </ul>
-          <p
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-title"
-          >
-            From Your Computer
-          </p>
-          <ul
-            v-show="activeISP === 'Verizion'"
-            class="bind-number-ISP-desc-content"
-          >
-            <li>
-              In My Business Account, click the number for which you wish to
-              activate call forwarding. This brings you to the Wireless Number
-              Center page.
-            </li>
-            <li>
-              In the User Information section, click Manage Call Forwarding next
-              to the mobile number.
-            </li>
-            <li>
-              Enter +1(938) 253-2388 in the Forward Mobile Number To field.
-            </li>
-            <li>
-              Select your preferred option in the Options section:
-              <ul>
-                <li>Forward all calls</li>
-                <li>
-                  {{
-                    'Forward calls when my line is busy or there is no answer'
-                  }}
-                </li>
-              </ul>
-            </li>
-            <li>Click Submit.</li>
-          </ul>
-          <p class="bind-number-ISP-desc-note">
-            *Please note that airtime charges may apply to all forwarded calls
-            according to your current calling plan from your service provider
-          </p>
+          <!-- Verizon  -->
+          <template v-if="activeISP === 'Verizon'">
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for busy, no answer and not reachable
+              situation
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>*71-938-253-2388</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message.
+              </li>
+              <li>&nbsp;End your call.</li>
+            </ul>
+            <!-- <p class="bind-number-ISP-desc-title">
+              From Your Computer
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                In My Business Account, click the number for which you wish to
+                activate call forwarding. This brings you to the Wireless Number
+                Center page.
+              </li>
+              <li>
+                In the User Information section, click Manage Call Forwarding
+                next to the mobile number.
+              </li>
+              <li>
+                Enter +1(938) 253-2388 in the Forward Mobile Number To field.
+              </li>
+              <li>Select your preferred option in the Options section:</li>
+              <li>Forward all calls</li>
+              <li>Forward calls when my line is busy or there is no answer</li>
+              <li>Click Submit.</li>
+            </ul> -->
+            <p class="bind-number-ISP-desc-note">
+              Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider.
+              If you have trouble binding, please go to
+              <t-button
+                type="text"
+                @click="
+                  $router.push({
+                    path: '/support'
+                  })
+                "
+              >
+                Support
+              </t-button>
+              for more information.
+            </p>
+          </template>
+
+          <!-- AT&T  -->
+          <template v-if="activeISP === 'AT&T'">
+            <p class="bind-number-ISP-desc-title">
+              You will need to call all of the following numbers to setup.
+            </p>
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for busy situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>*62-938-253-2388</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for no answer situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>*92-938-253-2388</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for non-reachable situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>*94-938-253-2388</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider.
+              If you have trouble binding, please go to
+              <t-button
+                type="text"
+                @click="
+                  $router.push({
+                    path: '/support'
+                  })
+                "
+              >
+                Support
+              </t-button>
+              for more information.
+            </p>
+          </template>
+
+          <!-- Sprint  -->
+          <template v-if="activeISP === 'Sprint'">
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for busy, no answer situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>*28-938-253-2388</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider.
+              If you have trouble binding, please go to
+              <t-button
+                type="text"
+                @click="
+                  $router.push({
+                    path: '/support'
+                  })
+                "
+              >
+                Support
+              </t-button>
+              for more information.
+            </p>
+          </template>
+
+          <!-- T-Mobile  -->
+          <template v-if="activeISP === 'T-Mobile'">
+            <p class="bind-number-ISP-desc-title">
+              You will need to call all of the following numbers to setup.
+            </p>
+
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for busy situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>**67*1-938-253-2388#</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for non-reachable situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>**62*1-938-253-2388#</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-title">
+              Enable call forwarding for no answer situations
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Enter <strong>**61*1-938-253-2388#</strong> (Don't forget the
+                asterisk)
+              </li>
+              <li>
+                Tap the Call button and wait for confirmation. You should hear a
+                confirmation tone or message
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider.
+              If you have trouble binding, please go to
+              <t-button
+                type="text"
+                @click="
+                  $router.push({
+                    path: '/support'
+                  })
+                "
+              >
+                Support
+              </t-button>
+              for more information.
+            </p>
+          </template>
+
+          <!-- Others  -->
+          <template v-if="activeISP === 'Others'">
+            <p class="bind-number-ISP-desc-title">
+              Unfortunately Google Fi is not yet supported. We will work as hard
+              as we can to support this carrier.
+            </p>
+
+            <p class="bind-number-ISP-desc-title">
+              iOS
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Go to Settings ⇒ Phone ⇒ Call Forwarding ⇒ Put in this number:
+                <strong>(938) 253-2388</strong> and wait for a while to save.
+              </li>
+              <li>
+                Make sure you choose conditional call forwarding for “busy”,
+                “unanswered” and “non-reachable” situations.
+              </li>
+              <li>
+                Call your own phone number to see if call forwarding has
+                succeeded.
+              </li>
+              <li>
+                If this goes to voicemail, you will need to disable it to
+                activate HeyTico AI-Assistant.
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-title">
+              Android
+            </p>
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Got to Phone ⇒ Call Forwarding ⇒ Put in this number:
+                <strong>(938) 253-2388</strong> and save changes
+              </li>
+              <li>
+                Make sure you choose conditional call forwarding for “busy”,
+                “unanswered” and “non-reachable” situations.
+              </li>
+              <li>
+                Call your own phone number to see if call forwarding has
+                succeeded.
+              </li>
+              <li>
+                If this goes to voicemail, you will need to disable it to
+                activate HeyTico AI-Assistant.
+              </li>
+            </ul>
+            <p class="bind-number-ISP-desc-note">
+              Please note that airtime charges may apply to all forwarded calls
+              according to your current calling plan from your service provider.
+              If you have trouble binding, please go to
+              <t-button
+                type="text"
+                @click="
+                  $router.push({
+                    path: '/support'
+                  })
+                "
+              >
+                Support
+              </t-button>
+              for more information.
+            </p>
+          </template>
         </div>
         <!-- button groups  -->
         <div class="groups">
@@ -180,7 +396,7 @@
       <template v-if="activeStep === 2">
         <div style="position: relative">
           <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
-          <div style="position: absolute; top: 0; right:0">
+          <div v-if="retryActivate" style="position: absolute; top: 0; right:0">
             <t-button
               type="text"
               @click="
@@ -289,7 +505,7 @@ import { get } from 'lodash-es'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'GetStart',
+  name: 'AccountSettingServicingNumber',
   layout: 'dashboard',
   // middleware: ['bind-number-checker'],
   data: () => ({
@@ -299,9 +515,9 @@ export default {
       { title: 'Test Services' },
       { title: 'All Set!' }
     ],
-    ISPs: ['Verizion', 'AT&T', 'T-Mobile', 'Sprint'],
+    ISPs: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint', 'Others'],
     activeStep: 0,
-    activeISP: 'Verizion',
+    activeISP: 'Verizon',
     phoneModel: '',
     captchaModel: '',
     // activatePolling: false
@@ -312,7 +528,8 @@ export default {
 
     activateMePending: false,
     activateMeCountdown: 30,
-    activateMeText: 'Activate Me'
+    activateMeText: 'Activate Me',
+    retryActivate: false
   }),
   computed: {
     ...mapGetters('relation', ['skipGetStarted']),
@@ -357,6 +574,7 @@ export default {
           if (!get(this, '$store.state.relation.relation.activated')) {
             this.activateMeText = 'Try Again'
             this.activateMeCountdown = 30
+            this.retryActivate = true
           } else {
             this.activeStep++
           }

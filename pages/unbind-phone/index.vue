@@ -48,67 +48,58 @@
               From Your Mobile Device
             </p>
             <ul class="content">
-              <li>Enter *73.</li>
+              <li>Enter <strong>*73</strong> (Don't forget the asterisk)</li>
               <li>
                 Tap the Call button and wait for confirmation. You should hear a
                 confirmation tone or message.
               </li>
               <li>End your call.</li>
             </ul>
-            <p class="title">
-              From Your Computer
-            </p>
-            <ul class="content">
-              <li>
-                In My Business Account, click the number for which you wish to
-                turn off or modify call forwarding. This brings you to the
-                Wireless Number Center page.
-              </li>
-              <li>
-                In the User Information section, click Manage Call Forwarding
-                next to the wireless number.
-              </li>
-              <li>
-                Select your desired option for modifying or cancelling call
-                forwarding:
-              </li>
-              <li>Click Cancel Call Forwarding</li>
-              <li>Enter the new number you’d like your calls forwarded to.</li>
-              <li>Change when you want your calls forwarded.</li>
-              <li>Click Submit.</li>
-            </ul>
           </template>
 
           <!-- AT&T  -->
           <template v-if="activeISP === 'AT&T'">
+            <p class="title">
+              You will need to dial all to unbind.
+            </p>
             <ul class="content">
-              <li>Enter *63 Disable call forwarding for busy situation</li>
-              <li>Enter *93 Disable call forwarding for no answer situation</li>
               <li>
-                Enter *95 Disable call forwarding for not reachable situation
+                Enter <strong>*63</strong> Disable call forwarding for busy
+                situation
+              </li>
+              <li>
+                Enter <strong>*93</strong> Disable call forwarding for no answer
+                situation
+              </li>
+              <li>
+                Enter <strong>*95</strong> Disable call forwarding for not
+                reachable situation
               </li>
             </ul>
           </template>
 
           <!-- Sprint  -->
           <template v-if="activeISP === 'Sprint'">
-            <ul class="content">
-              <li>
-                Enter *38. Disable call forwarding for busy situation and no
-                Answer situation
-              </li>
-            </ul>
+            <p class="title">
+              Enter *38. Disable call forwarding for busy situation and no
+              Answer situation
+            </p>
           </template>
 
           <!-- T-Mobile  -->
           <template v-if="activeISP === 'T-Mobile'">
+            <p class="title">
+              You will need to dial all to unbind.
+            </p>
             <ul class="content">
-              <li>Enter ##67# for busy situation</li>
+              <li>Enter <strong>##67#</strong> for busy situation</li>
               <li>
-                Enter ##61# Disable call forwarding for no answer situation
+                Enter <strong>##61#</strong> Disable call forwarding for no
+                answer situation
               </li>
               <li>
-                Enter ##62# Disable call forwarding for not reachable situation
+                Enter <strong>##62#</strong> Disable call forwarding for not
+                reachable situation
               </li>
             </ul>
           </template>

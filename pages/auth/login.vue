@@ -117,6 +117,7 @@ export default {
             }
           })
           if (verifyRes.err_code !== 0) {
+            await this.fetchCaptcha()
             return
           }
           const res = await this.$accountAxios({

@@ -202,7 +202,7 @@
     font-size: 22px;
     font-weight: bold;"
   >
-    Comming soon
+    Coming soon
   </div>
 </template>
 

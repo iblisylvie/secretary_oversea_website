@@ -21,7 +21,6 @@
           <b-input
             v-show="editingName"
             v-model="nameModel"
-            rounded
             class="input-field"
           />
           <div>
@@ -152,7 +151,7 @@
           </ul>
           <t-button
             class="submit"
-            @click="$message.open('Feature comming soon')"
+            @click="$message.open('Feature coming soon')"
           >
             Upgrade
           </t-button>

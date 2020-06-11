@@ -646,6 +646,17 @@ export default {
     font-weight: bold;
     text-align: left;
 
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
     &:first-child {
       margin-top: 0;
     }

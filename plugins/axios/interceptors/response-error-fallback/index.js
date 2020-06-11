@@ -30,22 +30,6 @@ No error msg matched with ${get(response, 'request.path')}`)
         return response.data
       },
       (err) => {
-        // const status = get(err, 'response.status')
-        // if (codeMessage[status]) {
-        //   Message({
-        //     message: codeMessage[status],
-        //     type: 'error',
-        //     duration: 5 * 1000
-        //   })
-        // }
-        // // Logout under `401`
-        // if (status === 401) {
-        //   store.commit(mutationTypes.USER_PUT_USER, {
-        //     umId: '',
-        //     umName: '',
-        //     authToken: ''
-        //   })
-        // }
         return Promise.reject(get(err, 'response'))
       }
     )

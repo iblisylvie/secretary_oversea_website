@@ -359,7 +359,11 @@
           Test Services
         </p>
         <p class="all-set-sub-title">
-          Please activate your assistant
+          {{
+            retryActivate
+              ? 'Call forwarding failed'
+              : 'Please activate your assistant'
+          }}
         </p>
         <p class="all-set-tip">
           To ensure that you have successfully setup your HeyTico assistant,

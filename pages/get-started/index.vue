@@ -428,8 +428,13 @@
           {{
             retryActivate
               ? 'Call forwarding failed'
-              : 'Please activate your HeyIico AI-assistant to start your service by clicking the button below.'
+              : 'Please activate your assistant'
           }}
+        </p>
+        <p class="all-set-tip">
+          To ensure that you have successfully setup your HeyTico assistant,
+          please call your phone number to test out your assistant. This will
+          take about 1min.
         </p>
         <div class="groups">
           <t-button

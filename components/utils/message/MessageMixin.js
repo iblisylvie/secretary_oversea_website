@@ -17,7 +17,7 @@ export default {
     size: String,
     autoClose: {
       type: Boolean,
-      default: true
+      default: false
     },
     duration: {
       type: Number,

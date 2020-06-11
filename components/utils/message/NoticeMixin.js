@@ -8,7 +8,7 @@ export default {
     duration: Number,
     queue: {
       type: Boolean,
-      default: undefined
+      default: true
     },
     position: {
       type: String,
@@ -107,9 +107,9 @@ export default {
       this.correctParent.insertAdjacentElement('afterbegin', this.$el)
       this.isActive = true
 
-      //   if (!this.indefinite) {
-      //     this.timer = setTimeout(() => this.close(), this.newDuration)
-      //   }
+      if (!this.indefinite) {
+        this.timer = setTimeout(() => this.close(), this.newDuration)
+      }
     },
 
     setupContainer() {

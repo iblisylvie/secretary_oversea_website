@@ -190,11 +190,7 @@
         <t-button
           class="submit"
           style="padding:6px 8px;"
-          @click="
-            $router.push({
-              path: 'account-setting/servicing-number'
-            })
-          "
+          @click="leadToBindNumber"
         >
           <svg-icon icon-class="add"></svg-icon>
         </t-button>
@@ -224,7 +220,7 @@ import dayjs from 'dayjs'
 export default {
   name: 'AccountSettings',
   layout: 'dashboard',
-  middleware: ['bind-number-checker'],
+  // middleware: ['bind-number-checker'],
   data() {
     return {
       emailPreferenceModel: true,
@@ -262,6 +258,15 @@ export default {
         redirect: `${this.redirectDomain}/`
       })
       window.location = `https://passport.mobvoi.com/pages/secretary-oversea/close-account?${params.toString()}`
+    },
+    leadToBindNumber() {
+      let route = '/account-setting/servicing-number'
+      if (!this.phone) {
+        route = '/get-started'
+      }
+      this.$router.push({
+        path: route
+      })
     },
     onUnbindPhone(phone) {
       this.$router.push({

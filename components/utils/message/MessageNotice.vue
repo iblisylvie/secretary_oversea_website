@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      newDuration: this.duration
+      newDuration: this.duration || 2000
     }
   }
 }

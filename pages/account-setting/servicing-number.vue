@@ -178,7 +178,32 @@
 
       <!-- Test Services  -->
       <template v-if="activeStep === 2">
-        <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
+        <div style="position: relative">
+          <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
+          <div style="position: absolute; top: 0; right:0">
+            <t-button
+              type="text"
+              @click="
+                $router.push({
+                  path: '/support'
+                })
+              "
+            >
+              Support
+            </t-button>
+            <t-button
+              type="text"
+              style="margin-left:20px"
+              @click="
+                $router.push({
+                  path: '/contact'
+                })
+              "
+            >
+              Contact Us
+            </t-button>
+          </div>
+        </div>
         <p class="all-set-title">
           Test Services
         </p>
@@ -222,7 +247,28 @@
           your personal AI-assistant, HeyTico.
           <br />
           Go ahead and explore its awesome features, if you have any questions
-          please refer to FAQ or contact us.
+          please refer to
+          <t-button
+            type="text"
+            @click="
+              $router.push({
+                path: '/support'
+              })
+            "
+          >
+            Support
+          </t-button>
+          or
+          <t-button
+            type="text"
+            @click="
+              $router.push({
+                path: '/contact'
+              })
+            "
+          >
+            Contact Us </t-button
+          >.
         </p>
         <div class="groups">
           <t-button
@@ -245,7 +291,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'GetStart',
   layout: 'dashboard',
-  middleware: ['bind-number-checker'],
+  // middleware: ['bind-number-checker'],
   data: () => ({
     steps: [
       { title: 'Account Setup' },
@@ -301,14 +347,19 @@ export default {
     },
     activateMePending(newVal) {
       if (newVal) {
-        const timer = setInterval(() => {
-          if (this.activateMeCountdown === 0) {
-            timer && clearInterval(timer)
-            this.activateMeText = 'Activate Me'
-            this.activateMeCountdown = 30
+        const timer = setInterval(async () => {
+          if (this.activateMeCountdown !== 0) {
+            this.activateMeText = `Sent ${this.activateMeCountdown--}s`
             return
           }
-          this.activateMeText = `Sent ${this.activateMeCountdown--}s`
+          timer && clearInterval(timer)
+          await this.$store.dispatch('relation/FETCH_RELATION')
+          if (!get(this, '$store.state.relation.relation.activated')) {
+            this.activateMeText = 'Try Again'
+            this.activateMeCountdown = 30
+          } else {
+            this.activeStep++
+          }
         }, 1000)
       }
     }
@@ -347,9 +398,7 @@ export default {
         url: `/api/v1/verify/${this.phoneNumber}`
       })
       this.activateMePending = false
-      if (get(response, 'data.code') === 200) {
-        this.activeStep++
-      } else {
+      if (get(response, 'data.code') !== 200) {
         this.$message.open({
           message: get(response, 'data.message'),
           type: 'is-warning'

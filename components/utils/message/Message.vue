@@ -24,7 +24,7 @@ export default {
   props: {
     position: {
       type: String,
-      default: 'is-bottom-right'
+      default: 'is-top'
     },
     animation: {
       type: String,
@@ -36,7 +36,7 @@ export default {
     },
     autoClose: {
       type: Boolean,
-      default: true
+      default: false
     },
     message: {
       type: String,

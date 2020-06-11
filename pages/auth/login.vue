@@ -85,7 +85,11 @@ export default {
           timestamp
         }
       })
-      this.captchaUrl = URL.createObjectURL(data)
+      if (data instanceof Blob) {
+        this.captchaUrl = URL.createObjectURL(data)
+      } else {
+        this.fetchCaptcha()
+      }
     },
     async submit() {
       if (validEmail(this.email) && this.password && this.captcha) {

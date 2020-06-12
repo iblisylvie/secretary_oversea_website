@@ -138,22 +138,24 @@ export default {
               // type: 0
             }
           })
-          this.$store.commit('auth/PUT_AUTH_INFO', {
-            ...get(res, 'base_info', {}),
-            token: get(res, 'token')
-          })
-          // @workaround
-          // Sync login session to server side
-          this.$cookies.set('ww_token', get(res, 'token'), {
-            path: '/',
-            maxAge: 60 * 60 * 1,
-            sameSite: true
-          })
-          this.$message.open({
-            message: 'Success',
-            type: 'is-success'
-          })
-          this.$router.push({ path: '/call-history' })
+          if (get(res, 'err_code') === 0) {
+            this.$message.open({
+              message: 'Success',
+              type: 'is-success'
+            })
+            this.$store.commit('auth/PUT_AUTH_INFO', {
+              ...get(res, 'base_info', {}),
+              token: get(res, 'token')
+            })
+            // @workaround
+            // Sync login session to server side
+            this.$cookies.set('ww_token', get(res, 'token'), {
+              path: '/',
+              maxAge: 60 * 60 * 1,
+              sameSite: true
+            })
+            this.$router.push({ path: '/call-history' })
+          }
         } catch (_) {}
       } else {
         this.$message.open({

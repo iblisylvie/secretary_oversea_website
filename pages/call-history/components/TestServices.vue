@@ -376,7 +376,7 @@
             type="secondary"
             @click="activeStep--"
           >
-            BackBack
+            Back
           </t-button>
           <t-button
             class="acc-setup-nav-btn"

@@ -1,5 +1,5 @@
 <template>
-  <!-- <section class="custom">
+  <section class="custom">
     <h3 class="primary-heading">Choose your voice</h3>
     <div v-for="typeVoice of voicesForOverseas" :key="typeVoice.type">
       <div class="sub-heading">{{ typeVoice.newTag }}</div>
@@ -11,7 +11,7 @@
           @click="onChooseVoice(voice)"
         >
           <span>{{ voice.speaker_name }}</span>
-          <div class="voice" @click="onClickVoice(voice.voice_url)">
+          <div class="voice" @click.stop="onClickVoice(voice.voice_url)">
             <svg-icon icon-class="speak-grey"></svg-icon>
           </div>
         </div>
@@ -192,8 +192,8 @@
         />
       </div>
     </div>
-  </section> -->
-  <div
+  </section>
+  <!-- <div
     style="    width: 100%;
     height: 100%;
     display: flex;
@@ -203,11 +203,13 @@
     font-weight: bold;"
   >
     Comming soon
-  </div>
+  </div> -->
 </template>
 
 <script>
+import { Howl } from 'howler'
 import { get, pick } from 'lodash-es'
+
 export default {
   name: 'Customization',
   layout: 'dashboard',
@@ -233,7 +235,10 @@ export default {
 
       ttsSpeaker: 'en-US-ZiraRUS',
       // ttsText transform under basic voice
-      ttsText: 'Nice to meet you.'
+      ttsText: 'Nice to meet you.',
+
+      // - voiceUrl: { howler}
+      mapVoiceUrlToHowler: {}
     }
   },
   computed: {
@@ -284,8 +289,34 @@ export default {
   },
 
   methods: {
-    onClickVoice(audioUrl) {
-      // console.log(audioUrl)
+    onClickVoice(voiceUrl) {
+      let howler = get(this.mapVoiceUrlToHowler, [voiceUrl, 'howler'])
+      if (!howler) {
+        howler = new Howl({
+          src: [voiceUrl]
+        })
+        this.$set(this.mapVoiceUrlToHowler, voiceUrl, {
+          howler
+        })
+      }
+
+      // pause others
+      const others = Object.keys(get(this, 'mapVoiceUrlToHowler', {})).filter(
+        (key) => key !== voiceUrl
+      )
+      others.forEach((other) => {
+        const otherHowler = get(this.mapVoiceUrlToHowler, [other, 'howler'])
+
+        if (otherHowler && otherHowler.playing()) {
+          otherHowler.stop()
+        }
+      })
+
+      if (howler.playing()) {
+        howler.pause()
+      } else {
+        howler.play()
+      }
     },
     textToSpeech({ speaker = 'en-US-ZiraRUS', text = 'Nice to meet you.' }) {
       return `http://106.75.64.52:8868?${encodeURIComponent(

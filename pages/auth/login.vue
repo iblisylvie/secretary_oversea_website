@@ -16,7 +16,7 @@
         required
         password-reveal
         placeholder="Password"
-        @keyup.enter="() => submit()"
+        @keyup.enter.native="() => submit()"
       >
       </b-input>
     </b-field>
@@ -25,7 +25,7 @@
         v-model="captcha"
         required
         placeholder="Captcha"
-        @keyup.enter="() => submit()"
+        @keyup.enter.native="() => submit()"
       >
       </b-input>
       <div class="control captcha">

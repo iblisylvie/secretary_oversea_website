@@ -223,6 +223,7 @@ export default {
       }
       const sound = (this.fullVoiceHowler = new Howl({
         src: [url],
+        html5: true, // Cause using webaudio will happen CORS error
         onload: () => {
           this.fullVoiceAvailable = true
         },

@@ -28,19 +28,32 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, this is {{ openingForFriendsUserNick
+          >Hi, this is
+          {{ editingOpeningForFriends ? '' : openingForFriendsUserNick
           }}<b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsUserNick"
+            class="underline-input"
           />’s AI
-          {{ openingForFriendsAiNick }}
+          {{ editingOpeningForFriends ? '' : openingForFriendsAiNick }}
           <b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsAiNick"
+            class="underline-input"
           />, what can I help you?</span
         >
 
-        <div class="voice">
+        <div
+          class="voice"
+          @click="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: `Hi, this is ${openingForFriendsUserNick}'s AI ${openingForFriendsAiNick}, what can I help you?`
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -70,18 +83,31 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, this is {{ openingForStrangersUserNick
+          >Hi, this is
+          {{ editingOpeningForStrangers ? '' : openingForStrangersUserNick
           }}<b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersUserNick"
+            class="underline-input"
           />’s AI
-          {{ openingForStrangersAiNick }}
+          {{ editingOpeningForStrangers ? '' : openingForStrangersAiNick }}
           <b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersAiNick"
+            class="underline-input"
           />, what can I help you?</span
         >
-        <div class="voice">
+        <div
+          class="voice"
+          @click.stop="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: `Hi, this is ${openingForStrangersUserNick}'s AI ${openingForStrangersAiNick}, what can I help you?`
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -233,9 +259,9 @@ export default {
       takeOutReplyModel: '',
       deliveryRepleyModel: '',
 
-      ttsSpeaker: 'en-US-ZiraRUS',
+      ChoosedVoiceSpeaker: 'en-US-ZiraRUS',
       // ttsText transform under basic voice
-      ttsText: 'Nice to meet you.',
+      // ttsText: '',
 
       // - voiceUrl: { howler}
       mapVoiceUrlToHowler: {}
@@ -293,7 +319,12 @@ export default {
       let howler = get(this.mapVoiceUrlToHowler, [voiceUrl, 'howler'])
       if (!howler) {
         howler = new Howl({
-          src: [voiceUrl]
+          src: [voiceUrl],
+          html5: true, // Cause using webaudio will happen CORS error
+          format: ['mp3'],
+          onloaderror(_, err) {
+            // console.log(err)
+          }
         })
         this.$set(this.mapVoiceUrlToHowler, voiceUrl, {
           howler
@@ -319,9 +350,9 @@ export default {
       }
     },
     textToSpeech({ speaker = 'en-US-ZiraRUS', text = 'Nice to meet you.' }) {
-      return `http://106.75.64.52:8868?${encodeURIComponent(
+      return `http://106.75.64.52:8868/tts?speaker=${encodeURIComponent(
         speaker
-      )}&${encodeURIComponent(text)}`
+      )}&text=${encodeURIComponent(text)}`
     },
     async onChooseVoice(voice) {
       await this.putCustomSettings({
@@ -399,6 +430,13 @@ export default {
         url: '/overseas/speaker/group/menu'
       })
       this.voices = get(result, 'speaker_group', [])
+      this.voices.find((category) => {
+        ;(category.data || []).find((voice) => {
+          if (voice.checked) {
+            this.ChoosedVoiceSpeaker = voice.speaker
+          }
+        })
+      })
     },
     async fetchReplies() {
       const result = await this.$axios({
@@ -522,6 +560,15 @@ export default {
         color: #ff9a1e;
         background: rgba(255, 154, 30, 0.1);
       }
+    }
+  }
+  .underline-input {
+    /deep/ input {
+      border: none;
+      outline: none;
+      box-shadow: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0;
     }
   }
 }

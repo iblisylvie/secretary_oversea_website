@@ -1,5 +1,5 @@
 <template>
-  <section class="custom">
+  <!-- <section class="custom">
     <h3 class="primary-heading">Choose your voice</h3>
     <div v-for="typeVoice of voicesForOverseas" :key="typeVoice.type">
       <div class="sub-heading">{{ typeVoice.newTag }}</div>
@@ -139,11 +139,25 @@
     <div class="sub-heading">TakeOut</div>
     <div class="voice-wrap opt">
       <div class="voice-box">
-        <span
-          >{{ takeOutReplyModel
-          }}<b-input v-show="editingTakeOut" v-model="takeOutReplyModel"
+        <span :style="{ width: '100%' }"
+          >{{ editingTakeOut ? '' : takeOutReplyModel
+          }}<b-input
+            v-show="editingTakeOut"
+            v-model="takeOutReplyModel"
+            class="underline-input"
+            :style="{ width: '100%' }"
         /></span>
-        <div class="voice">
+        <div
+          class="voice"
+          @click="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: takeOutReplyModel
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -168,11 +182,25 @@
     <div class="sub-heading">Delivery</div>
     <div class="voice-wrap opt">
       <div class="voice-box">
-        <span
-          >{{ deliveryRepleyModel
-          }}<b-input v-show="editingDelivery" v-model="deliveryRepleyModel"
+        <span :style="{ width: '100%' }"
+          >{{ editingDelivery ? '' : deliveryRepleyModel
+          }}<b-input
+            v-show="editingDelivery"
+            v-model="deliveryRepleyModel"
+            class="underline-input"
+            :style="{ width: '100%' }"
         /></span>
-        <div class="voice">
+        <div
+          class="voice"
+          @click="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: takeOutReplyModel
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -218,8 +246,8 @@
         />
       </div>
     </div>
-  </section>
-  <!-- <div
+  </section> -->
+  <div
     style="    width: 100%;
     height: 100%;
     display: flex;
@@ -229,7 +257,7 @@
     font-weight: bold;"
   >
     Comming soon
-  </div> -->
+  </div>
 </template>
 
 <script>
@@ -308,9 +336,11 @@ export default {
     }
   },
   created() {
-    this.fetchVoices()
-    this.fetchReplies()
-    this.fetchRefusalReplies()
+    // this.fetchVoices()
+    // this.fetchReplies()
+    // this.fetchRefusalReplies()
+    // this.fetchSecretaryNicks()
+    // this.fetchOwnerNicks()
     // this.fetchOpeningRemark()
   },
 
@@ -374,6 +404,7 @@ export default {
           wnick_for_contact: this.openingForFriendsAiNick
         }
       })
+      this.editingOpeningForFriends = false
     },
     async onTriggerEditingOpeningForStrangers() {
       if (!this.editingOpeningForStrangers) {
@@ -386,6 +417,7 @@ export default {
           wnick_default: this.openingForStrangersAiNick
         }
       })
+      this.editingOpeningForStrangers = false
     },
     async onTriggerEditingTakeOut() {
       if (!this.editingTakeOut) {
@@ -398,6 +430,7 @@ export default {
           tts: this.takeOutReplyModel
         }
       })
+      this.editingTakeOut = false
     },
     async onTriggerEditingDelivery() {
       if (!this.editingDelivery) {
@@ -410,6 +443,7 @@ export default {
           tts: this.deliveryRepleyModel
         }
       })
+      this.editingDelivery = false
     },
     async onRefuseAll() {
       await this.putCustomSettings({
@@ -458,6 +492,20 @@ export default {
         url: '/overseas/tts/settings',
         data: payload
       })
+    },
+    async fetchSecretaryNicks() {
+      const result = await this.$axios({
+        method: 'GET',
+        url: '/overseas/secretary/nick'
+      })
+      this.openingForFriendsAiNick = get(result, 'secretary_nicks', [])
+    },
+    async fetchOwnerNicks() {
+      const result = await this.$axios({
+        method: 'GET',
+        url: '/overseas/owner/nick'
+      })
+      this.openingForFriendsUserNick = get(result, 'owner_nicks', [])
     }
   }
 }

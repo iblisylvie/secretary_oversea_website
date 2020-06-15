@@ -16,7 +16,7 @@ export default function useFeedStoreAfterRequest(instances, store) {
     ins.interceptors.response.use((response) => {
       const data = get(response, 'data')
       const { err_code: errCode } = data || {}
-      if (isObject(data) && errCode && errCode === 1012) {
+      if (isObject(data) && errCode && [1012, 1014].includes(errCode)) {
         store.dispatch('auth/LOGOUT')
       }
       return response

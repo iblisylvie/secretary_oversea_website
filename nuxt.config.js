@@ -5,7 +5,7 @@ const DEFAULT_APP_KEY = 'secretary-oversea'
 const DEFAULT_APP_SECRET = 'SYw6prGbytiVaIwzyZUvUddQNjb91YZg'
 const DEFAULT_APP_API_BASE_URL = 'http://106.75.81.82:8434/'
 const DEFAULT_APP_ACCOUNT_API_BASE_URL = 'http://106.75.81.82:8891/'
-const DEFAULT_APP_ACTIVATE_VERIFY_API_BASE_URL = 'http://106.75.64.52:8722/'
+const DEFAULT_APP_ACTIVATE_VERIFY_API_BASE_URL = 'http://106.75.64.52:8720/'
 
 const proxyConfig = () => {
   const config = []

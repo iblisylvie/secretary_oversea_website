@@ -11,7 +11,7 @@
           @click="onChooseVoice(voice)"
         >
           <span>{{ voice.speaker_name }}</span>
-          <div class="voice" @click="onClickVoice(voice.voice_url)">
+          <div class="voice" @click.stop="onClickVoice(voice.voice_url)">
             <svg-icon icon-class="speak-grey"></svg-icon>
           </div>
         </div>
@@ -28,19 +28,32 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, this is {{ openingForFriendsUserNick
+          >Hi, this is
+          {{ editingOpeningForFriends ? '' : openingForFriendsUserNick
           }}<b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsUserNick"
+            class="underline-input"
           />’s AI
-          {{ openingForFriendsAiNick }}
+          {{ editingOpeningForFriends ? '' : openingForFriendsAiNick }}
           <b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsAiNick"
+            class="underline-input"
           />, what can I help you?</span
         >
 
-        <div class="voice">
+        <div
+          class="voice"
+          @click="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: `Hi, this is ${openingForFriendsUserNick}'s AI ${openingForFriendsAiNick}, what can I help you?`
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -70,18 +83,31 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, this is {{ openingForStrangersUserNick
+          >Hi, this is
+          {{ editingOpeningForStrangers ? '' : openingForStrangersUserNick
           }}<b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersUserNick"
+            class="underline-input"
           />’s AI
-          {{ openingForStrangersAiNick }}
+          {{ editingOpeningForStrangers ? '' : openingForStrangersAiNick }}
           <b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersAiNick"
+            class="underline-input"
           />, what can I help you?</span
         >
-        <div class="voice">
+        <div
+          class="voice"
+          @click.stop="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: `Hi, this is ${openingForStrangersUserNick}'s AI ${openingForStrangersAiNick}, what can I help you?`
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -113,11 +139,25 @@
     <div class="sub-heading">TakeOut</div>
     <div class="voice-wrap opt">
       <div class="voice-box">
-        <span
-          >{{ takeOutReplyModel
-          }}<b-input v-show="editingTakeOut" v-model="takeOutReplyModel"
+        <span :style="{ width: '100%' }"
+          >{{ editingTakeOut ? '' : takeOutReplyModel
+          }}<b-input
+            v-show="editingTakeOut"
+            v-model="takeOutReplyModel"
+            class="underline-input"
+            :style="{ width: '100%' }"
         /></span>
-        <div class="voice">
+        <div
+          class="voice"
+          @click="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: takeOutReplyModel
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -142,11 +182,25 @@
     <div class="sub-heading">Delivery</div>
     <div class="voice-wrap opt">
       <div class="voice-box">
-        <span
-          >{{ deliveryRepleyModel
-          }}<b-input v-show="editingDelivery" v-model="deliveryRepleyModel"
+        <span :style="{ width: '100%' }"
+          >{{ editingDelivery ? '' : deliveryRepleyModel
+          }}<b-input
+            v-show="editingDelivery"
+            v-model="deliveryRepleyModel"
+            class="underline-input"
+            :style="{ width: '100%' }"
         /></span>
-        <div class="voice">
+        <div
+          class="voice"
+          @click="
+            onClickVoice(
+              textToSpeech({
+                speaker: ChoosedVoiceSpeaker,
+                text: takeOutReplyModel
+              })
+            )
+          "
+        >
           <svg-icon icon-class="speak-grey"></svg-icon>
         </div>
       </div>
@@ -207,7 +261,9 @@
 </template>
 
 <script>
+import { Howl } from 'howler'
 import { get, pick } from 'lodash-es'
+
 export default {
   name: 'Customization',
   layout: 'dashboard',
@@ -231,9 +287,12 @@ export default {
       takeOutReplyModel: '',
       deliveryRepleyModel: '',
 
-      ttsSpeaker: 'en-US-ZiraRUS',
+      ChoosedVoiceSpeaker: 'en-US-ZiraRUS',
       // ttsText transform under basic voice
-      ttsText: 'Nice to meet you.'
+      // ttsText: '',
+
+      // - voiceUrl: { howler}
+      mapVoiceUrlToHowler: {}
     }
   },
   computed: {
@@ -277,20 +336,53 @@ export default {
     }
   },
   created() {
-    this.fetchVoices()
-    this.fetchReplies()
-    this.fetchRefusalReplies()
+    // this.fetchVoices()
+    // this.fetchReplies()
+    // this.fetchRefusalReplies()
+    // this.fetchSecretaryNicks()
+    // this.fetchOwnerNicks()
     // this.fetchOpeningRemark()
   },
 
   methods: {
-    onClickVoice(audioUrl) {
-      // console.log(audioUrl)
+    onClickVoice(voiceUrl) {
+      let howler = get(this.mapVoiceUrlToHowler, [voiceUrl, 'howler'])
+      if (!howler) {
+        howler = new Howl({
+          src: [voiceUrl],
+          html5: true, // Cause using webaudio will happen CORS error
+          format: ['mp3'],
+          onloaderror(_, err) {
+            // console.log(err)
+          }
+        })
+        this.$set(this.mapVoiceUrlToHowler, voiceUrl, {
+          howler
+        })
+      }
+
+      // pause others
+      const others = Object.keys(get(this, 'mapVoiceUrlToHowler', {})).filter(
+        (key) => key !== voiceUrl
+      )
+      others.forEach((other) => {
+        const otherHowler = get(this.mapVoiceUrlToHowler, [other, 'howler'])
+
+        if (otherHowler && otherHowler.playing()) {
+          otherHowler.stop()
+        }
+      })
+
+      if (howler.playing()) {
+        howler.pause()
+      } else {
+        howler.play()
+      }
     },
     textToSpeech({ speaker = 'en-US-ZiraRUS', text = 'Nice to meet you.' }) {
-      return `http://106.75.64.52:8868?${encodeURIComponent(
+      return `http://106.75.64.52:8868/tts?speaker=${encodeURIComponent(
         speaker
-      )}&${encodeURIComponent(text)}`
+      )}&text=${encodeURIComponent(text)}`
     },
     async onChooseVoice(voice) {
       await this.putCustomSettings({
@@ -312,6 +404,7 @@ export default {
           wnick_for_contact: this.openingForFriendsAiNick
         }
       })
+      this.editingOpeningForFriends = false
     },
     async onTriggerEditingOpeningForStrangers() {
       if (!this.editingOpeningForStrangers) {
@@ -324,6 +417,7 @@ export default {
           wnick_default: this.openingForStrangersAiNick
         }
       })
+      this.editingOpeningForStrangers = false
     },
     async onTriggerEditingTakeOut() {
       if (!this.editingTakeOut) {
@@ -336,6 +430,7 @@ export default {
           tts: this.takeOutReplyModel
         }
       })
+      this.editingTakeOut = false
     },
     async onTriggerEditingDelivery() {
       if (!this.editingDelivery) {
@@ -348,6 +443,7 @@ export default {
           tts: this.deliveryRepleyModel
         }
       })
+      this.editingDelivery = false
     },
     async onRefuseAll() {
       await this.putCustomSettings({
@@ -368,6 +464,13 @@ export default {
         url: '/overseas/speaker/group/menu'
       })
       this.voices = get(result, 'speaker_group', [])
+      this.voices.find((category) => {
+        ;(category.data || []).find((voice) => {
+          if (voice.checked) {
+            this.ChoosedVoiceSpeaker = voice.speaker
+          }
+        })
+      })
     },
     async fetchReplies() {
       const result = await this.$axios({
@@ -389,6 +492,20 @@ export default {
         url: '/overseas/tts/settings',
         data: payload
       })
+    },
+    async fetchSecretaryNicks() {
+      const result = await this.$axios({
+        method: 'GET',
+        url: '/overseas/secretary/nick'
+      })
+      this.openingForFriendsAiNick = get(result, 'secretary_nicks', [])
+    },
+    async fetchOwnerNicks() {
+      const result = await this.$axios({
+        method: 'GET',
+        url: '/overseas/owner/nick'
+      })
+      this.openingForFriendsUserNick = get(result, 'owner_nicks', [])
     }
   }
 }
@@ -491,6 +608,15 @@ export default {
         color: #ff9a1e;
         background: rgba(255, 154, 30, 0.1);
       }
+    }
+  }
+  .underline-input {
+    /deep/ input {
+      border: none;
+      outline: none;
+      box-shadow: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0;
     }
   }
 }

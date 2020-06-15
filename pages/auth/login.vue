@@ -16,11 +16,18 @@
         required
         password-reveal
         placeholder="Password"
+        @keyup.enter.native="() => submit()"
       >
       </b-input>
     </b-field>
     <b-field grouped>
-      <b-input v-model="captcha" required placeholder="Captcha"> </b-input>
+      <b-input
+        v-model="captcha"
+        required
+        placeholder="Captcha"
+        @keyup.enter.native="() => submit()"
+      >
+      </b-input>
       <div class="control captcha">
         <img :src="captchaUrl" alt="ReCaptcha" @click="() => fetchCaptcha()" />
       </div>

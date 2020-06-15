@@ -24,7 +24,7 @@
       ></b-step-item>
       <b-step-item
         :clickable="false"
-        label="Test Services"
+        label="Activate Me"
         step="3"
       ></b-step-item>
       <b-step-item :clickable="false" label="All Set!" step="4"></b-step-item>
@@ -392,7 +392,7 @@
         </div>
       </template>
 
-      <!-- Test Services  -->
+      <!-- Activate Me  -->
       <template v-if="activeStep === 2">
         <div style="position: relative">
           <svg-icon icon-class="active-all-set" class-name="all-set-icon" />
@@ -421,19 +421,12 @@
           </div>
         </div>
         <p class="all-set-title">
-          Test Services
+          Activate Me
         </p>
         <p class="all-set-sub-title">
           {{
-            retryActivate
-              ? 'Call forwarding failed'
-              : 'Please activate your assistant'
+            'Please activate your HeyTico AI-assistant to start your service by clicking the button below. '
           }}
-        </p>
-        <p class="all-set-tip">
-          To ensure that you have successfully setup your HeyTico assistant,
-          please call your phone number to test out your assistant. This will
-          take about 1min.
         </p>
         <!-- <p class="all-set-tip">
           To ensure that you have successfully setup your HeyTico assistant,
@@ -464,11 +457,11 @@
           All Set!
         </p>
         <p class="all-set-sub-title">
-          Once you have called you are ready to go.
+          You are ready to go!
         </p>
         <p class="all-set-tip">
-          You have successfully set up your number and it is now equipped with
-          your personal AI-assistant, HeyTico.
+          You have successfully set up your number and it is now equipped with a
+          personal AI-assistant, HeyTico.
           <br />
           Go ahead and explore its awesome features, if you have any questions
           please refer to
@@ -520,7 +513,7 @@ export default {
     steps: [
       { title: 'Account Setup' },
       { title: 'Bind Number' },
-      { title: 'Test Services' },
+      { title: 'Activate Me' },
       { title: 'All Set!' }
     ],
     ISPs: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint', 'Others'],
@@ -536,8 +529,8 @@ export default {
 
     activateMePending: false,
     activateMeCountdown: 30,
-    activateMeText: 'Activate Me',
-    retryActivate: false
+    activateMeText: 'Activate Me'
+    // retryActivate: false
   }),
   computed: {
     ...mapGetters('relation', ['skipGetStarted']),
@@ -582,7 +575,7 @@ export default {
           if (!get(this, '$store.state.relation.relation.activated')) {
             this.activateMeText = 'Try Again'
             this.activateMeCountdown = 30
-            this.retryActivate = true
+            // this.retryActivate = true
           } else {
             this.activeStep++
           }
@@ -626,7 +619,8 @@ export default {
       this.activateMePending = false
       if (get(response, 'data.code') !== 200) {
         this.$message.open({
-          message: get(response, 'data.message'),
+          // message: get(response, 'data.message'),
+          message: 'Call Forwarding Failed',
           type: 'is-warning'
         })
       }

@@ -166,7 +166,6 @@ export default {
        * See https://github.com/goldfire/howler.j
        */
       fullVoiceHowler: null, // Howler instance
-      fullVoiceHowlerId: null, // sound Id return by play()
       playFullVoice: false, // Audio play state
       fullVoiceProgressRate: 0,
       fullVoiceAvailable: false,
@@ -224,15 +223,16 @@ export default {
       }
       const sound = (this.fullVoiceHowler = new Howl({
         src: [url],
+        html5: true, // Cause using webaudio will happen CORS error
         onload: () => {
           this.fullVoiceAvailable = true
         },
         onplay: () => {
           this.playFullVoice = true
-          const duration = sound.duration(this.fullVoiceHowlerId)
+          const duration = sound.duration()
           timer && clearInterval(timer)
           timer = setInterval(() => {
-            const currentTime = sound.seek(this.fullVoiceHowlerId) || 0
+            const currentTime = sound.seek() || 0
             this.fullVoiceProgressRate = parseInt(
               (currentTime / duration) * 100
             )
@@ -265,8 +265,6 @@ export default {
     onCtrlFullViocePlay() {
       if (this.playFullVoice) {
         this.fullVoiceHowler.pause()
-      } else if (this.fullVoiceHowlerId) {
-        this.fullVoiceHowler.play(this.fullVoiceHowlerId)
       } else {
         // First play audio no sound Id exist
         this.fullVoiceHowler.play()

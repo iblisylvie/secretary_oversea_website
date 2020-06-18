@@ -242,7 +242,7 @@
         <b-switch
           v-model="refusalReply.checked"
           type="is-info"
-          @input="onRefuseOneReply(refusalReply.intent)"
+          @input="onRefuseOneReply(refusalReply)"
         />
       </div>
     </div>
@@ -308,20 +308,6 @@ export default {
         }
       })
     },
-    repliesForOverseas() {
-      const pairs = {
-        'secretary.take_out#take': 'takeOutReplyModel',
-        'secretary.express#arrived': 'deliveryRepleyModel'
-      }
-      return this.replies.map((reply) => {
-        if (pairs[reply.domain]) {
-          const tts = get(reply, 'tts_item', []).find(
-            (tts) => tts.item_no === 0
-          )
-          this[pairs[reply.domain]] = get(tts, 'content', '')
-        }
-      })
-    },
     refuseAllModel: {
       get() {
         return get(this, 'refusalReplies', []).every(
@@ -329,9 +315,7 @@ export default {
         )
       },
       set(val) {
-        if (val) {
-          this.onRefuseAll()
-        }
+        this.onRefuseAll(val)
       }
     }
   },
@@ -445,22 +429,35 @@ export default {
       })
       this.editingDelivery = false
     },
-    async onRefuseAll() {
+    async onRefuseAll(checked) {
+      let refusalReplies = []
+      if (checked) {
+        refusalReplies = (this.refusalReplies || []).map(
+          (reply) => reply.intent
+        )
+      }
       await this.putCustomSettings({
         reject_scene: {
-          checked_scene: get(this, 'refusalReplies', []).map(
-            (refusalReply) => refusalReply.intent
-          )
+          checked_scene: refusalReplies
         }
       })
       await this.fetchRefusalReplies()
     },
-    async onRefuseOneReply(intent) {
+    async onRefuseOneReply(refusalReply) {
+      let refusalReplies = (this.refusalReplies || []).map(
+        (replay) => replay.intent
+      )
+      if (!refusalReply.checked) {
+        refusalReplies = refusalReplies.filter(
+          (intent) => intent !== refusalReply.intent
+        )
+      }
       await this.putCustomSettings({
         reject_scene: {
-          checked_scene: [intent]
+          checked_scene: refusalReplies
         }
       })
+      await this.fetchRefusalReplies()
     },
     async fetchVoices() {
       const result = await this.$axios({
@@ -482,6 +479,18 @@ export default {
         url: '/overseas/tts/menu'
       })
       this.replies = get(result, 'reply_tts', [])
+      const pairs = {
+        'secretary.take_out#take': 'takeOutReplyModel',
+        'secretary.express#arrived': 'deliveryRepleyModel'
+      }
+      return this.replies.map((reply) => {
+        if (pairs[reply.domain]) {
+          const tts = get(reply, 'tts_item', []).find(
+            (tts) => tts.item_no === 0
+          )
+          this[pairs[reply.domain]] = get(tts, 'content', '')
+        }
+      })
     },
     async fetchRefusalReplies() {
       const result = await this.$axios({

@@ -98,13 +98,13 @@ export default {
 
 <style lang="scss" scoped>
 $message-is-warning-background: #ffecec;
-$message-is-success-background: #dff2fb;
+$message-is-success-background: #f5fff0;
 $message-is-info-background: #fff1e0;
 $message-is-warning-color: #c53f3f;
-$message-is-success-color: #02aefc;
+$message-is-success-color: #5ad590;
 $message-is-info-color: #9f6e34;
 $message-is-warning-opt: rgba(197, 63, 63, 0.2);
-$message-is-success-opt: #cbebfa;
+$message-is-success-opt: #c6f2b7;
 $message-is-info-opt: #ecd7be;
 $message-opt-hover-color: #fff;
 .message {

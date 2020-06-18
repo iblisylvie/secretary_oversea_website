@@ -1,7 +1,7 @@
 [
   {
     "question": "What should I do if binding fails?",
-    "answer": "<ol><li>Go to Settings ⇒ Find Call Forwarding ⇒ Select “When Busy”. </li><li>Put in this number for call forwarding: +1(938) 253-2388 and save changes.</li><li>Call your own phone number to see if call forwarding has succeeded.</li></ol>"
+    "answer": "<p>For iOS users</p><ol><li>Go to Settings ⇒ Phone ⇒ Call Forwarding ⇒ Put in this number: <strong>(938) 253-2388</strong> and wait for a while to save.</li><li>Make sure you choose conditional call forwarding for “busy”, “unanswered” and “non-reachable” situations.</li><li>Call your own phone number to see if call forwarding has succeeded.</li><li>If this goes to voicemail, you will need to disable it to activate HeyTico AI-Assistant.</li></ol><p>For Android users</p><ol><li>Got to Phone ⇒ Call Forwarding ⇒ Put in this number: <strong>(938) 253-2388</strong> and save changes</li><li>Make sure you choose conditional call forwarding for “busy”, “unanswered” and “non-reachable” situations.</li><li>Call your own phone number to see if call forwarding has succeeded.</li><li>If this goes to voicemail, you will need to disable it to activate HeyTico AI-Assistant.</li></ol>"
   },
   {
     "question": "After I set up my HeyTico AI-assistant, my unanswered calls still go into my voicemail.",

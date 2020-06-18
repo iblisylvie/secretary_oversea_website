@@ -162,6 +162,11 @@ export default {
               sameSite: true
             })
             this.$router.push({ path: '/call-history' })
+          } else if (get(res, 'err_code') === 100) {
+            this.$message.open({
+              message: 'This account does not exist',
+              type: 'is-warning'
+            })
           }
         } catch (_) {}
       } else {

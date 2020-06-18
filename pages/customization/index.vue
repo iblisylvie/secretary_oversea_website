@@ -1,5 +1,5 @@
 <template>
-  <!-- <section class="custom">
+  <section class="custom">
     <h3 class="primary-heading">Choose your voice</h3>
     <div v-for="typeVoice of voicesForOverseas" :key="typeVoice.type">
       <div class="sub-heading">{{ typeVoice.newTag }}</div>
@@ -246,8 +246,8 @@
         />
       </div>
     </div>
-  </section> -->
-  <div
+  </section>
+  <!-- <div
     style="    width: 100%;
     height: 100%;
     display: flex;
@@ -257,7 +257,7 @@
     font-weight: bold;"
   >
     Comming soon
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -336,12 +336,12 @@ export default {
     }
   },
   created() {
-    // this.fetchVoices()
-    // this.fetchReplies()
-    // this.fetchRefusalReplies()
+    this.fetchVoices()
+    this.fetchReplies()
+    this.fetchRefusalReplies()
+    this.fetchNickNames()
     // this.fetchSecretaryNicks()
     // this.fetchOwnerNicks()
-    // this.fetchOpeningRemark()
   },
 
   methods: {
@@ -447,15 +447,19 @@ export default {
     },
     async onRefuseAll() {
       await this.putCustomSettings({
-        reject_scene: get(this, 'refusalReplies', []).map(
-          (refusalReply) => refusalReply.intent
-        )
+        reject_scene: {
+          checked_scene: get(this, 'refusalReplies', []).map(
+            (refusalReply) => refusalReply.intent
+          )
+        }
       })
       await this.fetchRefusalReplies()
     },
     async onRefuseOneReply(intent) {
       await this.putCustomSettings({
-        reject_scene: [intent]
+        reject_scene: {
+          checked_scene: [intent]
+        }
       })
     },
     async fetchVoices() {
@@ -493,20 +497,32 @@ export default {
         data: payload
       })
     },
-    async fetchSecretaryNicks() {
-      const result = await this.$axios({
-        method: 'GET',
-        url: '/overseas/secretary/nick'
-      })
-      this.openingForFriendsAiNick = get(result, 'secretary_nicks', [])
-    },
-    async fetchOwnerNicks() {
-      const result = await this.$axios({
-        method: 'GET',
-        url: '/overseas/owner/nick'
-      })
-      this.openingForFriendsUserNick = get(result, 'owner_nicks', [])
+    async fetchNickNames() {
+      await this.$store.dispatch('relation/FETCH_RELATION')
+      const nickNames = get(
+        this,
+        '$store.state.relation.relation.nicknames',
+        {}
+      )
+      this.openingForFriendsAiNick = get(nickNames, 'wnick_for_contact', '')
+      this.openingForFriendsUserNick = get(nickNames, 'unick_for_contact', '')
+      this.openingForStrangersUserNick = get(nickNames, 'unick_default', '')
+      this.openingForStrangersAiNick = get(nickNames, 'wnick_default', '')
     }
+    // async fetchSecretaryNicks() {
+    //   const result = await this.$axios({
+    //     method: 'GET',
+    //     url: '/overseas/secretary/nick'
+    //   })
+    //   this.openingForFriendsAiNick = get(result, 'secretary_nicks', '')
+    // },
+    // async fetchOwnerNicks() {
+    //   const result = await this.$axios({
+    //     method: 'GET',
+    //     url: '/overseas/owner/nick'
+    //   })
+    //   this.openingForFriendsUserNick = get(result, 'owner_nicks', '')
+    // }
   }
 }
 </script>

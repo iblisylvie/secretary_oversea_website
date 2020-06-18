@@ -45,7 +45,7 @@ const ERROR_CODE_MAP_MSG = {
   '1022': 'Bound not exist.',
   '1023': 'Invalid voice.',
 
-  '-2001': 'Your Mobvoi account is not binded with this account.',
+  // '-2001': 'Your Mobvoi account is not binded with this account.',
   '-2002': 'Call history does not exist or has been deleted.',
   '2003': 'Nickname is limited to 20 characters.',
   '2004': 'Invalid voice.',
@@ -91,9 +91,9 @@ const ERROR_CODE_MAP_MSG = {
 
   '11001': 'Access denied.',
   '2009':
-    'Invalid customized reply, it is limited to 280 characters a-zA-Z0-9 :~,.?!\n"\'',
-  '2014':
-    'Invalid customized reply, it is limited to 280 characters a-zA-Z0-9 :~,.?!\n"\'',
+    'Input should not exceed 60 characters (punctuation, line breaks, numbers, spaces, and letters only)',
+  // '2014':
+  // 'Input should not exceed 60 characters (punctuation, line breaks, numbers, spaces, and letters only)',
   '5010': 'Order does not exist.',
   '5011': 'Order is already paid for.',
   '5012': 'Payment failed.',
@@ -101,7 +101,7 @@ const ERROR_CODE_MAP_MSG = {
   '9001': 'This voice is already purchased.',
 
   // Auth Endpoint
-  '100': 'User not exists',
+  // '100': 'User not exists',
   '101': 'User already exists, please login',
   '102': 'The phone number already exists',
   '103': 'The email already exists',

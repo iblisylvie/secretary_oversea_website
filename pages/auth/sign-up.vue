@@ -5,7 +5,10 @@
       <nuxt-link to="/auth/login">Login</nuxt-link>
     </div>
 
-    <b-field>
+    <b-field
+      :message="emailAvaliable ? '' : 'Invalid email'"
+      :type="emailAvaliable ? '' : 'is-danger'"
+    >
       <b-input v-model="email" type="email" required placeholder="Email">
       </b-input>
     </b-field>
@@ -106,6 +109,12 @@ export default {
   computed: {
     samePassword() {
       return this.password === this.rePassword
+    },
+    emailAvaliable() {
+      if (!this.email) {
+        return true
+      }
+      return validEmail(this.email)
     },
     sendCodeAvaliable() {
       return validEmail(this.email) && this.sendCodeCountdown === 60

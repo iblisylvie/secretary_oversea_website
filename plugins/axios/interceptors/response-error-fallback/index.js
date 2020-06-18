@@ -11,9 +11,9 @@ export default function useFeedStoreAfterRequest(instances) {
     ins.interceptors.response.use(
       (response) => {
         const data = get(response, 'data')
-        const { err_code: errCode, err_msg: errMsg } = data || {}
+        const { err_code: errCode } = data || {}
         if (isObject(data) && errCode && errCode !== 0) {
-          const msg = ERROR_CODE_MAP_MSG[String(errCode)] || errMsg
+          const msg = ERROR_CODE_MAP_MSG[String(errCode)]
           if (msg) {
             if (process.client) {
               Message.open({

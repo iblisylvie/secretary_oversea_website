@@ -528,7 +528,7 @@ export default {
     sendCodeText: 'Send Code',
 
     activateMePending: false,
-    activateMeCountdown: 30,
+    activateMeCountdown: 90,
     activateMeText: 'Activate Me'
     // retryActivate: false
   }),
@@ -546,7 +546,7 @@ export default {
       )
     },
     activateMeAvaliable() {
-      return this.activateMeCountdown === 30
+      return this.activateMeCountdown === 90
     }
   },
   watch: {
@@ -565,20 +565,19 @@ export default {
     },
     activateMePending(newVal) {
       if (newVal) {
-        const timer = setInterval(async () => {
+        const timer = setInterval(() => {
           if (this.activateMeCountdown !== 0) {
             this.activateMeText = `Sent ${this.activateMeCountdown--}s`
+            if (this.activateMeCountdown % 10 === 0) {
+              this.checkActivated()
+            }
             return
           }
           timer && clearInterval(timer)
-          await this.$store.dispatch('relation/FETCH_RELATION')
-          if (!get(this, '$store.state.relation.relation.activated')) {
-            this.activateMeText = 'Try Again'
-            this.activateMeCountdown = 30
-            // this.retryActivate = true
-          } else {
-            this.activeStep++
-          }
+          this.checkActivated()
+          this.activateMeText = 'Try Again'
+          this.activateMeCountdown = 90
+          this.retryActivate = true
         }, 1000)
       }
     }
@@ -638,6 +637,17 @@ export default {
         this.$store.dispatch('phone-attach/FETCH_PHONE_ATTACH', {
           reFetch: true
         })
+        this.activeStep++
+      }
+    },
+    async checkActivated() {
+      if (this.fetchingRelation) {
+        return
+      }
+      this.fetchingRelation = true
+      await this.$store.dispatch('relation/FETCH_RELATION')
+      this.fetchingRelation = false
+      if (get(this, '$store.state.relation.relation.activated')) {
         this.activeStep++
       }
     }

@@ -36,9 +36,11 @@
             :style="{ width: THEAD_COLUMNS[0].flexGrow }"
             >{{
               `${
-                detail.call_phone === '+1' ? 'Unavailable ' : detail.call_phone
+                detail.call_phone === '+1'
+                  ? 'Unavailable '
+                  : detail.call_phone || ''
               }
-              ${detail.location}`
+              ${detail.location || ''}`
             }}</span
           >
           <span

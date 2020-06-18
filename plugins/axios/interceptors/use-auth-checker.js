@@ -1,6 +1,6 @@
-import { get, set, isObject } from 'lodash-es'
+import { get, set } from 'lodash-es'
 
-export default function useFeedStoreAfterRequest(instances, store) {
+export default function useAuthChecker(instances, store) {
   if (!Array.isArray(instances)) {
     instances = [instances]
   }
@@ -13,13 +13,22 @@ export default function useFeedStoreAfterRequest(instances, store) {
       return config
     }, null)
 
-    ins.interceptors.response.use((response) => {
-      const data = get(response, 'data')
-      const { err_code: errCode } = data || {}
-      if (isObject(data) && errCode && [1012, 1014].includes(errCode)) {
-        store.dispatch('auth/LOGOUT')
+    ins.interceptors.response.use(
+      (response) => {
+        const data = get(response, 'data')
+        const { err_code: errCode } = data || {}
+        if ([1012].includes(errCode)) {
+          store.dispatch('auth/LOGOUT')
+        }
+        return response
+      },
+      (err) => {
+        const status = get(err, 'response.status')
+        if (status === 401) {
+          store.dispatch('auth/LOGOUT')
+        }
+        return err
       }
-      return response
-    }, null)
+    )
   })
 }

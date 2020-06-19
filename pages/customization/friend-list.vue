@@ -58,7 +58,9 @@
             </ul>
           </b-collapse>
         </div>
-        <div class="recent-call">{{ `Recent Call: ${recent_call || ''}` }}</div>
+        <div class="recent-call">
+          {{ `Recent Call: ${parseToDate(recent_call1)}` }}
+        </div>
       </div>
     </div>
 
@@ -112,6 +114,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 import { get } from 'lodash-es'
 
 export default {
@@ -199,6 +202,9 @@ export default {
         .substring(0, 12)
         .replace(/\D/g, '')
         .replace(/(\d)(?=((?:\d{4})|(?:\d{7}))$)/g, '$1-')
+    },
+    parseToDate(val) {
+      return val ? dayjs(Number(val)).format('YYYY MMM DD') : ''
     }
     // async fetchReplies() {
     //   const result = await this.$axios({

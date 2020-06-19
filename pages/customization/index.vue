@@ -385,7 +385,9 @@ export default {
       await this.putCustomSettings({
         nicknames: {
           unick_for_contact: this.openingForFriendsUserNick,
-          wnick_for_contact: this.openingForFriendsAiNick
+          wnick_for_contact: this.openingForFriendsAiNick,
+          unick_default: this.openingForStrangersUserNick,
+          wnick_default: this.openingForStrangersAiNick
         }
       })
       this.editingOpeningForFriends = false
@@ -398,7 +400,9 @@ export default {
       await this.putCustomSettings({
         nicknames: {
           unick_default: this.openingForStrangersUserNick,
-          wnick_default: this.openingForStrangersAiNick
+          wnick_default: this.openingForStrangersAiNick,
+          unick_for_contact: this.openingForFriendsUserNick,
+          wnick_for_contact: this.openingForFriendsAiNick
         }
       })
       this.editingOpeningForStrangers = false

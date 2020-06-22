@@ -1,6 +1,12 @@
 <template>
   <section class="custom">
     <h3 class="primary-heading">Choose your voice</h3>
+    <template v-if="firstFetchingVoices"
+      ><b-skeleton width="20%" :animated="true"></b-skeleton>
+      <b-skeleton width="100%" :animated="true"></b-skeleton>
+      <b-skeleton width="100%" :animated="true"></b-skeleton
+    ></template>
+
     <div v-for="typeVoice of voicesForOverseas" :key="typeVoice.type">
       <div class="sub-heading">{{ typeVoice.newTag }}</div>
       <div class="voice-wrap">
@@ -270,6 +276,7 @@ export default {
   middleware: ['bind-number-checker'],
   data() {
     return {
+      firstFetchingVoices: true,
       voices: [],
       replies: [],
       refusalReplies: [],
@@ -320,14 +327,23 @@ export default {
     }
   },
   created() {
-    this.fetchVoices()
+    ;(async () => {
+      this.firstFetchingVoices = true
+      await this.fetchVoices()
+      this.firstFetchingVoices = false
+    })()
     this.fetchReplies()
     this.fetchRefusalReplies()
     this.fetchNickNames()
     // this.fetchSecretaryNicks()
     // this.fetchOwnerNicks()
   },
-
+  beforeDestroy() {
+    Object.keys(get(this, 'mapVoiceUrlToHowler', {})).forEach((other) => {
+      const howler = get(this.mapVoiceUrlToHowler, [other, 'howler'])
+      howler && howler.unload()
+    })
+  },
   methods: {
     onClickVoice(voiceUrl) {
       let howler = get(this.mapVoiceUrlToHowler, [voiceUrl, 'howler'])
@@ -356,12 +372,12 @@ export default {
           otherHowler.stop()
         }
       })
-
-      if (howler.playing()) {
-        howler.pause()
-      } else {
-        howler.play()
-      }
+      howler.play()
+      // if (howler.playing()) {
+      //   howler.pause()
+      // } else {
+      //   howler.play()
+      // }
     },
     textToSpeech({ speaker = 'en-US-ZiraRUS', text = 'Nice to meet you.' }) {
       return `http://106.75.64.52:8868/tts?speaker=${encodeURIComponent(

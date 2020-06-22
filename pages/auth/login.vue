@@ -33,7 +33,15 @@
       </div>
     </b-field>
     <div class="submit">
-      <Button text="Login" @click.native="submit" />
+      <b-button
+        type="is-info"
+        rounded
+        style="padding: 22px 35px; font-weight: bold"
+        :loading="logging"
+        @click.native="submit"
+        >Login</b-button
+      >
+      <!-- <Button text="Login" @click.native="submit" /> -->
       <nuxt-link to="/auth/forget-password">Forget Password</nuxt-link>
     </div>
   </div>
@@ -44,12 +52,12 @@ import CryptoJS from 'crypto-js'
 import { get, random } from 'lodash-es'
 
 import validEmail from '~/components/utils/validEmail'
-import Button from '~/components/utils/Button.vue'
+// import Button from '~/components/utils/Button.vue'
 
 export default {
   name: 'Login',
   layout: 'auth',
-  components: { Button },
+  // components: { Button },
   data() {
     return {
       email: '',
@@ -57,7 +65,8 @@ export default {
       captcha: '',
       captchaUrl: '',
 
-      randomCode: '' // Used for request payload
+      randomCode: '', // Used for request payload
+      logging: false
     }
   },
   mounted() {
@@ -99,13 +108,19 @@ export default {
       }
     },
     async submit() {
-      if (validEmail(this.email) && this.password && this.captcha) {
+      if (
+        validEmail(this.email) &&
+        this.password &&
+        this.captcha &&
+        !this.logging
+      ) {
         // this.$message.open({
         //   message: 'valid form, go login Herry!',
         //   type: 'is-success'
         // })
         const timestamp = Date.now()
         try {
+          this.logging = true
           const verifyRes = await this.$accountAxios({
             method: 'POST',
             url: '/api/captcha/verify',
@@ -123,6 +138,7 @@ export default {
               timestamp
             }
           })
+          this.logging = false
           if (verifyRes.err_code !== 0) {
             await this.fetchCaptcha()
             return

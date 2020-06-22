@@ -73,7 +73,15 @@
     </div>
 
     <div class="submit">
-      <Button text="Sign Up" @click.native="submit" />
+      <b-button
+        type="is-info"
+        rounded
+        style="padding: 22px 35px; font-weight: bold"
+        :loading="signingUp"
+        @click.native="submit"
+        >Sign Up</b-button
+      >
+      <!-- <Button text="Sign Up" @click.native="submit" /> -->
     </div>
   </div>
 </template>
@@ -82,14 +90,14 @@
 import CryptoJS from 'crypto-js'
 
 import validEmail from '~/components/utils/validEmail'
-import Button from '~/components/utils/Button.vue'
+// import Button from '~/components/utils/Button.vue'
 
 // @TODO
 // enum captcha api type
 export default {
   name: 'SignUp',
   layout: 'auth',
-  components: { Button },
+  // components: { Button },
   data() {
     return {
       email: '',
@@ -103,7 +111,8 @@ export default {
       // extract send code component
       sendCodePending: false,
       sendCodeCountdown: 60,
-      sendCodeText: 'Send Code'
+      sendCodeText: 'Send Code',
+      signingUp: false
     }
   },
   computed: {
@@ -174,7 +183,8 @@ export default {
         this.samePassword &&
         // this.captcha &&
         this.verifyCode &&
-        this.agreeItem
+        this.agreeItem &&
+        !this.signingUp
       ) {
         // this.$message.open({
         //   message: 'valid form, go register Herry!',
@@ -198,6 +208,7 @@ export default {
         //     timestamp
         //   }
         // })
+        this.signingUp = true
         await this.$accountAxios({
           method: 'POST',
           url: '/v2/register',
@@ -213,6 +224,7 @@ export default {
             usage: 'register'
           }
         })
+        this.signingUp = false
         this.$message.open({
           message: 'Success',
           type: 'is-success'

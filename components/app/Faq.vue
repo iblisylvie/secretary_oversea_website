@@ -1,11 +1,21 @@
 <template>
-  <article :class="{ 'is-active': active }" @click="toggle">
+  <article :class="{ 'is-active': active || issue.tabs }" @click.self="toggle">
     <div class="content">
       <h4>{{ issue.question }}</h4>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <p v-html="issue.answer"></p>
+      <p v-if="issue.answer" v-html="issue.answer"></p>
+      <b-tabs v-if="issue.tabs" v-model="activeTab">
+        <b-tab-item
+          v-for="(tab, index) in issue.tabs"
+          :key="index"
+          :label="tab.label"
+        >
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div v-html="tab.content"></div>
+        </b-tab-item>
+      </b-tabs>
     </div>
-    <i class="arrow"></i>
+    <i v-if="!issue.tabs" class="arrow"></i>
   </article>
 </template>
 
@@ -24,7 +34,8 @@ export default {
   },
   data() {
     return {
-      active: false
+      active: false,
+      activeTab: 0
     }
   },
   mounted() {

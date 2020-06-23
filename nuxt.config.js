@@ -55,7 +55,28 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }]
+    link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+    // __dangerouslyDisableSanitizersByTagID: {
+    //   GA_ID: ['innerHTML']
+    // },
+    __dangerouslyDisableSanitizers: ['script'],
+    script: [
+      {
+        src: 'https://www.googletagmanager.com/gtag/js?id=UA-170485226-1',
+        async: true,
+        defer: true
+      },
+      {
+        vmid: 'GA_ID',
+        innerHTML: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-170485226-1');`,
+        type: 'text/javascript',
+        charset: 'utf-8'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color

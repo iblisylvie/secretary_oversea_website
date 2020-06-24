@@ -202,7 +202,7 @@
             onClickVoice(
               textToSpeech({
                 speaker: ChoosedVoiceSpeaker,
-                text: takeOutReplyModel
+                text: deliveryRepleyModel
               })
             )
           "
@@ -372,15 +372,16 @@ export default {
           otherHowler.stop()
         }
       })
-      howler.play()
-      // if (howler.playing()) {
-      //   howler.pause()
-      // } else {
-      //   howler.play()
-      // }
+
+      if (howler.playing()) {
+        howler.stop()
+        howler.play()
+      } else {
+        howler.play()
+      }
     },
     textToSpeech({ speaker = 'en-US-ZiraRUS', text = 'Nice to meet you.' }) {
-      return `http://106.75.64.52:8868/tts?speaker=${encodeURIComponent(
+      return `/tts?speaker=${encodeURIComponent(
         speaker
       )}&text=${encodeURIComponent(text)}`
     },

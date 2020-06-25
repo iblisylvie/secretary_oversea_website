@@ -72,8 +72,8 @@
           class="secondary-opt"
           @click="
             () => {
-              openingForFriendsUserNick = ''
-              openingForFriendsAiNick = ''
+              openingForFriendsUserNick = openingForFriendsUserNickPrev
+              openingForFriendsAiNick = openingForFriendsAiNickPrev
               editingOpeningForFriends = false
             }
           "
@@ -129,8 +129,8 @@
           class="secondary-opt"
           @click="
             () => {
-              openingForStrangersUserNick = ''
-              openingForStrangersAiNick = ''
+              openingForStrangersUserNick = openingForStrangersUserNickPrev
+              openingForStrangersAiNick = openingForStrangersAiNickPrev
               editingOpeningForStrangers = false
             }
           "
@@ -281,6 +281,10 @@ export default {
       replies: [],
       refusalReplies: [],
 
+      openingForFriendsUserNickPrev: '',
+      openingForFriendsAiNickPrev: '',
+      openingForStrangersUserNickPrev: '',
+      openingForStrangersAiNickPrev: '',
       openingForFriendsUserNick: '',
       openingForFriendsAiNick: '',
       openingForStrangersUserNick: '',
@@ -291,6 +295,8 @@ export default {
       editingTakeOut: false,
       editingDelivery: false,
 
+      takeOutReplyModelPrev: '',
+      deliveryRepleyModelPrev: '',
       takeOutReplyModel: '',
       deliveryRepleyModel: '',
 
@@ -396,6 +402,8 @@ export default {
     },
     async onTriggerEditingOpeningForFriends() {
       if (!this.editingOpeningForFriends) {
+        this.openingForFriendsUserNickPrev = this.openingForFriendsUserNick
+        this.openingForFriendsAiNickPrev = this.openingForFriendsAiNick
         this.editingOpeningForFriends = true
         return
       }
@@ -411,6 +419,8 @@ export default {
     },
     async onTriggerEditingOpeningForStrangers() {
       if (!this.editingOpeningForStrangers) {
+        this.openingForStrangersUserNickPrev = this.openingForStrangersUserNick
+        this.openingForStrangersAiNickPrev = this.openingForStrangersAiNick
         this.editingOpeningForStrangers = true
         return
       }
@@ -427,6 +437,7 @@ export default {
     async onTriggerEditingTakeOut() {
       if (!this.editingTakeOut) {
         this.editingTakeOut = true
+        this.takeOutReplyModelPrev = this.takeOutReplyModel
         return
       }
       await this.putCustomSettings({
@@ -440,6 +451,7 @@ export default {
     async onTriggerEditingDelivery() {
       if (!this.editingDelivery) {
         this.editingDelivery = true
+        this.deliveryRepleyModelPrev = this.deliveryRepleyModel
         return
       }
       await this.putCustomSettings({

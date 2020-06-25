@@ -5,6 +5,10 @@
       <nuxt-link to="/auth/login">Login</nuxt-link>
     </div>
 
+    <p data-v-5a172b86="" style="font-size: 11px; margin-bottom: 6px;">
+      *If you already have a Mobvoi account, you can Sign In directly without
+      signing up.
+    </p>
     <b-field
       :message="emailAvaliable ? '' : 'Invalid email'"
       :type="emailAvaliable ? '' : 'is-danger'"

@@ -38,8 +38,52 @@
         </p>
 
         <div class="bind-number-ISP-desc">
+          <!-- For iOS users  -->
+          <template v-if="activeISP === 'For iOS users'">
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Go to Settings ⇒ Phone ⇒ Call Forwarding ⇒ Put in this number:
+                <strong>(938) 253-2388</strong> and wait for a while to save.
+              </li>
+              <li>
+                Make sure you choose conditional call forwarding for “busy”,
+                “unanswered” and “non-reachable” situations.
+              </li>
+              <li>
+                Call your own phone number to see if call forwarding has
+                succeeded.
+              </li>
+              <li>
+                If this goes to voicemail, you will need to disable it to
+                activate HeyTico AI-Assistant.
+              </li>
+            </ul>
+          </template>
+
+          <!-- For Android users  -->
+          <template v-if="activeISP === 'For Android users'">
+            <ul class="bind-number-ISP-desc-content">
+              <li>
+                Got to Phone ⇒ Call Forwarding ⇒ Put in this number:
+                <strong>(938) 253-2388</strong> and save changes
+              </li>
+              <li>
+                Make sure you choose conditional call forwarding for “busy”,
+                “unanswered” and “non-reachable” situations.
+              </li>
+              <li>
+                Call your own phone number to see if call forwarding has
+                succeeded.
+              </li>
+              <li>
+                If this goes to voicemail, you will need to disable it to
+                activate HeyTico AI-Assistant.
+              </li>
+            </ul>
+          </template>
+
           <!-- Verizon  -->
-          <template v-if="activeISP === 'Verizon'">
+          <!-- <template v-if="activeISP === 'Verizon'">
             <p class="bind-number-ISP-desc-title">
               Enable call forwarding for busy, no answer and not reachable
               situation
@@ -55,27 +99,7 @@
               </li>
               <li>&nbsp;End your call.</li>
             </ul>
-            <!-- <p class="bind-number-ISP-desc-title">
-              From Your Computer
-            </p>
-            <ul class="bind-number-ISP-desc-content">
-              <li>
-                In My Business Account, click the number for which you wish to
-                activate call forwarding. This brings you to the Wireless Number
-                Center page.
-              </li>
-              <li>
-                In the User Information section, click Manage Call Forwarding
-                next to the mobile number.
-              </li>
-              <li>
-                Enter +1(938) 253-2388 in the Forward Mobile Number To field.
-              </li>
-              <li>Select your preferred option in the Options section:</li>
-              <li>Forward all calls</li>
-              <li>Forward calls when my line is busy or there is no answer</li>
-              <li>Click Submit.</li>
-            </ul> -->
+            </ul> 
             <p class="bind-number-ISP-desc-note">
               Please note that airtime charges may apply to all forwarded calls
               according to your current calling plan from your service provider.
@@ -92,10 +116,10 @@
               </t-button>
               for more information.
             </p>
-          </template>
+          </template> -->
 
           <!-- AT&T  -->
-          <template v-if="activeISP === 'AT&T'">
+          <!-- <template v-if="activeISP === 'AT&T'">
             <p class="bind-number-ISP-desc-title">
               You will need to call all of the following numbers to setup.
             </p>
@@ -154,10 +178,10 @@
               </t-button>
               for more information.
             </p>
-          </template>
+          </template> -->
 
           <!-- Sprint  -->
-          <template v-if="activeISP === 'Sprint'">
+          <!-- <template v-if="activeISP === 'Sprint'">
             <p class="bind-number-ISP-desc-title">
               Enable call forwarding for busy, no answer situations
             </p>
@@ -187,10 +211,10 @@
               </t-button>
               for more information.
             </p>
-          </template>
+          </template> -->
 
           <!-- T-Mobile  -->
-          <template v-if="activeISP === 'T-Mobile'">
+          <!-- <template v-if="activeISP === 'T-Mobile'">
             <p class="bind-number-ISP-desc-title">
               You will need to call all of the following numbers to setup.
             </p>
@@ -250,10 +274,10 @@
               </t-button>
               for more information.
             </p>
-          </template>
+          </template> -->
 
           <!-- Others  -->
-          <template v-if="activeISP === 'Others'">
+          <!-- <template v-if="activeISP === 'Others'">
             <p class="bind-number-ISP-desc-title">
               Unfortunately Google Fi is not yet supported. We will work as hard
               as we can to support this carrier.
@@ -317,7 +341,7 @@
               </t-button>
               for more information.
             </p>
-          </template>
+          </template> -->
         </div>
         <!-- button groups  -->
         <div class="groups">
@@ -446,9 +470,9 @@ export default {
       { title: 'Activate Me' },
       { title: 'All Set!' }
     ],
-    ISPs: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint', 'Others'],
+    ISPs: ['For iOS users', 'For Android users'],
     activeStep: 0,
-    activeISP: 'Verizon',
+    activeISP: 'For iOS users',
     phoneModel: '',
     captchaModel: '',
     // activatePolling: false

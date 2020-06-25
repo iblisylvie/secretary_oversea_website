@@ -4,19 +4,6 @@
     "answer": "Your HeyTico AI-assistant is meant to replace your voicemail and take down messages for you. You will need to disable your voicemail function in order to use HeyTico. If you still experience problems, please contact your service provider and ask for technical support to disable it for you."
   },
   {
-    "question": "What should I do if binding fails?",
-    "tabs": [
-      {
-        "label": "For iOS users",
-        "content": "<ol><li>Go to Settings ⇒ Phone ⇒ Call Forwarding ⇒ Put in this number: <strong>(938) 253-2388</strong> and wait for a while to save.</li><li>Make sure you choose conditional call forwarding for “busy”, “unanswered” and “non-reachable” situations.</li><li>Call your own phone number to see if call forwarding has succeeded.</li><li>If this goes to voicemail, you will need to disable it to activate HeyTico AI-Assistant.</li></ol>"
-      },
-      {
-        "label": "For Android users",
-        "content": "<ol><li>Got to Phone ⇒ Call Forwarding ⇒ Put in this number: <strong>(938) 253-2388</strong> and save changes</li><li>Make sure you choose conditional call forwarding for “busy”, “unanswered” and “non-reachable” situations.</li><li>Call your own phone number to see if call forwarding has succeeded.</li><li>If this goes to voicemail, you will need to disable it to activate HeyTico AI-Assistant.</li></ol>"
-      }
-    ]
-  },
-  {
     "question": "Is my data protected?",
     "answer": "Your data is always protected at HeyTico. All of your data and calling transcripts are encrypted."
   }

@@ -16,8 +16,12 @@
     </header>
     <section>
       <div class="call-record-card">
+        <div class="privacy">
+          <svg-icon icon-class="protect" class-name="shape" />
+          Your privacy is protected.
+        </div>
         <button
-          class="call-record-card-ctrl-btn play"
+          class="call-record-card-ctrl-btn play hidde-in-mobile"
           :disabled="!fullVoiceAvailable"
           @click="onCtrlFullViocePlay"
         >
@@ -26,10 +30,42 @@
             class-name="call-record-card-ctrl-btn-shape play"
           />
         </button>
-        <div class="privacy">
-          <svg-icon icon-class="protect" class-name="shape" />
-          Your privacy is protected.
+
+        <!-- mobile -->
+        <div class="call-card-cell">
+          <div style="display: flex; align-items: center;">
+            <button
+              class="call-record-card-ctrl-btn play"
+              :disabled="!fullVoiceAvailable"
+              @click="onCtrlFullViocePlay"
+            >
+              <svg-icon
+                :icon-class="computedPlaySvgIconClass"
+                class-name="call-record-card-ctrl-btn-shape play"
+              />
+            </button>
+            <span
+              :style="{ width: THEAD_COLUMNS[1].flexGrow, marginLeft: '6px' }"
+            >
+              <div
+                v-for="tag of detail.user_defined_tags"
+                :key="tag"
+                :style="{
+                  color: tagsColorPattern[tag] && tagsColorPattern[tag].color,
+                  backgroundColor:
+                    tagsColorPattern[tag] && tagsColorPattern[tag].bgColor
+                }"
+                class="tag"
+              >
+                {{ tag }}
+              </div>
+            </span>
+          </div>
+          <a style="font-size:27px" :href="`tel:${detail.call_phone}`">
+            <svg-icon icon-class="call-back" class-name="" />
+          </a>
         </div>
+
         <div class="call-record-card-fields">
           <span
             class="call-record-card-field"
@@ -77,6 +113,26 @@
           >
         </div>
         <b-progress type="is-info" :value="fullVoiceProgressRate"></b-progress>
+
+        <!-- mobile files  -->
+        <div style="display: flex; justify-content: space-between">
+          <span class="call-record-card-field">{{
+            `${
+              detail.call_phone === '+1'
+                ? 'Unavailable '
+                : detail.call_phone || ''
+            }
+              ${detail.location || ''}`
+          }}</span>
+          <div>
+            <span class="call-record-card-field">{{
+              detail.timestamp | parseToDate
+            }}</span>
+            <span class="call-record-card-field">{{
+              detail.timestamp | parseToTime
+            }}</span>
+          </div>
+        </div>
       </div>
       <div class="call-record-history">
         <div
@@ -287,6 +343,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/mixins.scss';
+.call-card-cell {
+  display: none;
+}
 .call-record {
   padding: 40px 32px 84px 48px;
   height: auto;
@@ -436,6 +495,42 @@ export default {
   @include secondary-text($font-size: 14px, $font-weight: normal);
   .shape {
     margin-right: 10px;
+  }
+}
+
+@include mobile {
+  .hidde-in-mobile {
+    display: none;
+  }
+  .call-card-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .call-record {
+    padding: 0 16px;
+  }
+  .call-record-thead-cells {
+    display: none;
+  }
+  .call-record-card {
+    padding: 16px;
+  }
+  .call-record-card-ctrl-btn {
+    position: relative;
+    border: none;
+    width: 30px;
+    height: 30px;
+    transform: none;
+  }
+  .call-record-card-ctrl-btn-shape {
+    font-size: 10px;
+  }
+  .call-record-card-fields {
+    display: none;
+  }
+  .call-record-history {
+    padding: 12px 6px;
   }
 }
 </style>

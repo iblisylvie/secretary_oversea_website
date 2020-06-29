@@ -85,7 +85,21 @@
                 <span class="callee">{{ `My number${row.called_no}` }}</span>
               </div>
               <div class="cell">
-                <span>{{ row.tags.toString() }}</span>
+                <span
+                  ><div
+                    v-for="tag of row.tags"
+                    :key="tag"
+                    :style="{
+                      color:
+                        tagsColorPattern[tag] && tagsColorPattern[tag].color,
+                      backgroundColor:
+                        tagsColorPattern[tag] && tagsColorPattern[tag].bgColor
+                    }"
+                    class="tag"
+                  >
+                    {{ tag }}
+                  </div></span
+                >
                 <div class="time">
                   <span>{{ row.timestamp | parseToDate }}</span>
                   <span>{{ row.timestamp | parseToTime }}</span>
@@ -153,10 +167,14 @@
         </span>
       </p>
       <div class="group">
-        <t-button @click="showTestServices = true"
+        <t-button style="float: left;" @click="showTestServices = true"
           >Binding Instructions</t-button
         >
-        <t-button @click="$router.push({ path: '/support' })">Support</t-button>
+        <t-button
+          style="float: right; margin-left: 6px;"
+          @click="$router.push({ path: '/support' })"
+          >Support</t-button
+        >
       </div>
     </div>
 
@@ -444,9 +462,10 @@ export default {
   }
   .group {
     margin-top: 36px;
-    & > * {
-      margin: 0 14px;
-    }
+    overflow: hidden;
+    // & > * {
+    //   margin: 0 14px;
+    // }
   }
 }
 
@@ -460,13 +479,13 @@ export default {
 
 @include mobile {
   .call-history {
-    padding: 28px 14px;
+    padding: 0 14px;
     .call-history-thead-cells {
       display: none;
     }
     .call-history-row-card {
       margin-left: 0;
-      padding: 14px;
+      padding: 6px;
     }
     .call-history-row-card-fields {
       flex-flow: column;
@@ -477,6 +496,11 @@ export default {
     .cell {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      .tag {
+        padding: 4px 6px;
+      }
       .caller {
         @include primary-text($font-size: 14px);
       }
@@ -492,6 +516,7 @@ export default {
       right: 14px;
       left: 14px;
       padding: 20px;
+      background: #fff;
     }
     .call-history-tool-tip-state-icon {
       margin-right: 12px;
@@ -499,9 +524,11 @@ export default {
     .call-history-tool-tip-state-desc {
       margin-right: 28px;
       font-size: 12px;
+      color: $secondary-text-color;
     }
     .call-history-tool-tip-delete {
       font-size: 12px;
+      color: red;
     }
   }
 }

@@ -7,7 +7,8 @@
         <p v-html="issue.answer"></p>
       </template>
       <template v-else>
-        <p><slot></slot></p>
+        <slot name="question"></slot>
+        <p><slot name="answer"></slot></p>
       </template>
     </div>
     <i class="arrow"></i>

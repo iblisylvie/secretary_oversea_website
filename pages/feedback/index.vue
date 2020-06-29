@@ -115,4 +115,14 @@ ${this.feedbackModel}`
     }
   }
 }
+@include mobile {
+  .feedback {
+    padding: 0 16px;
+    .panel {
+      .content {
+        padding: 16px;
+      }
+    }
+  }
+}
 </style>

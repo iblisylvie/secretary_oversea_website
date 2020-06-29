@@ -34,20 +34,21 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, this is
+          >Hi, you've reached my
           {{ editingOpeningForFriends ? '' : openingForFriendsUserNick
           }}<b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsUserNick"
             class="underline-input"
-          />’s AI
+          />’s
           {{ editingOpeningForFriends ? '' : openingForFriendsAiNick }}
           <b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsAiNick"
             class="underline-input"
-          />, what can I help you?</span
-        >
+          />
+          This call will be recorded, please tell me the purpose of the call.
+        </span>
 
         <div
           class="voice"
@@ -89,20 +90,21 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, this is
+          >Hi, you've reached my
           {{ editingOpeningForStrangers ? '' : openingForStrangersUserNick
           }}<b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersUserNick"
             class="underline-input"
-          />’s AI
+          />’s
           {{ editingOpeningForStrangers ? '' : openingForStrangersAiNick }}
           <b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersAiNick"
             class="underline-input"
-          />, what can I help you?</span
-        >
+          />. This call will be recorded, please tell me the purpose of the
+          call.
+        </span>
         <div
           class="voice"
           @click.stop="
@@ -176,7 +178,7 @@
           class="secondary-opt"
           @click="
             () => {
-              takeOutReplyModel = ''
+              takeOutReplyModel = takeOutReplyModelPrev
               editingTakeOut = false
             }
           "
@@ -219,7 +221,7 @@
           class="secondary-opt"
           @click="
             () => {
-              deliveryRepleyModel = ''
+              deliveryRepleyModel = deliveryRepleyModelPrev
               editingDelivery = false
             }
           "
@@ -584,11 +586,12 @@ export default {
   .voice-wrap {
     margin-bottom: 32px;
     display: flex;
+    flex-wrap: wrap;
     &.opt {
       flex-flow: column;
     }
     .voice-box {
-      margin-right: 16px;
+      margin: 0 16px 16px 0;
       padding: 5px 5px 5px 20px;
       display: flex;
       align-items: center;
@@ -609,6 +612,7 @@ export default {
       span {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
       }
       .voice {
         margin-left: 50px;
@@ -656,7 +660,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 26%;
+      // width: 26%;
       padding: 24px;
       border-radius: 6px;
       background: #fff;
@@ -675,6 +679,17 @@ export default {
       box-shadow: none;
       border-bottom: 1px solid #ccc;
       border-radius: 0;
+    }
+  }
+}
+
+@include mobile {
+  .custom {
+    padding: 0 16px;
+    .refusal-wrap {
+      .refusal-box {
+        width: auto;
+      }
     }
   }
 }

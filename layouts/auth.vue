@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="auth-wrap">
     <!-- Nav Bar -->
     <b-navbar spaced transparent wrapper-class="container" class="nav-bar">
       <template slot="brand">
@@ -61,6 +61,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.auth-wrap {
+  height: 100vh;
+  padding-top: 5rem;
+  background-color: $colored-bg;
+}
 .nav-bar {
   position: absolute;
   top: 0;
@@ -78,7 +83,7 @@ export default {
   }
 
   @include touch {
-    background-color: transparent;
+    background-color: $colored-bg;
   }
 
   @include mobile {
@@ -90,15 +95,16 @@ export default {
 
 .main-content {
   background-color: $colored-bg;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
   @include touch {
-    padding: 0 1.75rem;
-    padding-top: 5rem;
+    padding: 0 1.75rem 1.7rem;
+    // padding-top: 5rem;
     align-items: flex-start;
+    // height: auto;
   }
 }
 
@@ -127,6 +133,11 @@ export default {
 }
 
 @include mobile {
+  .auth-wrap {
+    padding-top: 60px;
+    overflow: auto;
+    height: 100vh;
+  }
   /deep/ .navbar-end {
     position: fixed;
     top: 0;

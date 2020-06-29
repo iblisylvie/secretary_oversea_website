@@ -55,6 +55,10 @@ export default {
         color: #79d5ff;
       }
     }
+    @include mobile {
+      padding: 8px;
+      font-size: 12px;
+    }
   }
   .text {
     @include text-button;

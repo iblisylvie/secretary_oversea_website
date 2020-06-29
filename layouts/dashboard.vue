@@ -18,30 +18,31 @@
         <div @click="asideExpanded = false">
           <svg-icon icon-class="close" class-name="close" />
         </div>
-
-        <nuxt-link
-          v-for="(menu, index) in asideMenu"
-          :key="index"
-          :to="menu.path"
-          :class="{
-            active: menu.path === $route.path,
-            disabled: menuDisabled(menu.path)
-          }"
-          class="menu-item"
-        >
-          <svg-icon
-            :icon-class="menu.mapToAsideMenu.icon"
-            class-name="figure"
-          ></svg-icon>
-          <span>{{ menu.mapToAsideMenu.name }}</span>
-        </nuxt-link>
+        <div @click="asideExpanded = false">
+          <nuxt-link
+            v-for="(menu, index) in asideMenu"
+            :key="index"
+            :to="menu.path"
+            :class="{
+              active: menu.path === $route.path,
+              disabled: menuDisabled(menu.path)
+            }"
+            class="menu-item"
+          >
+            <svg-icon
+              :icon-class="menu.mapToAsideMenu.icon"
+              class-name="figure"
+            ></svg-icon>
+            <span>{{ menu.mapToAsideMenu.name }}</span>
+          </nuxt-link>
+        </div>
       </div>
       <!-- Account  -->
       <div
         v-click-outside="onClickAccountOutSide"
         class="account"
         :class="{ expand: accountExpanded }"
-        @click="() => (accountExpanded = true)"
+        @click="() => (accountExpanded = !accountExpanded)"
       >
         <div class="options">
           <div class="option plain">
@@ -364,7 +365,7 @@ export default {
       display: none;
     }
     .close {
-      margin-bottom: 38px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: flex-end;
       font-size: 20px;
@@ -376,7 +377,14 @@ export default {
       right: 0;
       bottom: 0;
       left: auto;
+      z-index: 3;
     }
+  }
+  .aside .account.expand .option.plain {
+    margin-bottom: 12px;
+  }
+  .aside .account.expand .option {
+    margin-bottom: 8px;
   }
   .mask {
     position: fixed;
@@ -384,7 +392,7 @@ export default {
     bottom: 0;
     right: 0;
     left: 0;
-    z-index: 1;
+    z-index: 3;
     background: $model-color;
   }
   .main {

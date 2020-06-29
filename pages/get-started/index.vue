@@ -814,6 +814,9 @@ export default {
 .groups {
   margin-top: 30px;
   overflow: hidden;
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
 }
 .send-code {
   margin-left: 16px;
@@ -936,12 +939,23 @@ export default {
 
 @include mobile {
   .get-start {
-    padding-top: 28px;
+    padding: 8px;
+    /deep/ .b-steps {
+      margin: 1rem auto;
+      .step-content {
+        display: none;
+      }
+    }
   }
-  .get-start-steps {
-    width: auto;
-    /deep/ .step-title {
-      font-size: 12px;
+  .acc-setup-form-phone-wrap:before {
+    top: 0;
+  }
+  .groups {
+    margin-top: 15px;
+
+    /deep/ .wrap.secondary {
+      padding: 12px 24px;
+      font-size: 14px;
     }
   }
 
@@ -967,9 +981,9 @@ export default {
       align-self: flex-start;
       margin-bottom: 6px;
     }
-    .acc-setup-nav-btn {
-      margin-top: 16px;
-    }
+    // .acc-setup-nav-btn {
+    //   margin-top: 16px;
+    // }
 
     // bind number
     .bind-number-ISP-desc {
@@ -979,6 +993,12 @@ export default {
     }
     .bind-number-ISP-desc-title {
       text-align: center;
+    }
+    .bind-number-ISPS-btn {
+      font-size: 11px;
+    }
+    .bind-number-ISP-desc-content {
+      margin-top: 0;
     }
   }
 }

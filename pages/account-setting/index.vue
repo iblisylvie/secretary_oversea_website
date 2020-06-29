@@ -428,4 +428,17 @@ export default {
     }
   }
 }
+
+@include mobile {
+  .acc-settings {
+    padding: 0 16px;
+    .nav {
+      display: none;
+    }
+    .panel {
+      margin-top: 0;
+      padding: 32px 16px;
+    }
+  }
+}
 </style>

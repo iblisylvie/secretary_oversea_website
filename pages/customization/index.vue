@@ -448,6 +448,12 @@ export default {
           tts: this.takeOutReplyModel
         }
       })
+      await this.putCustomSettings({
+        tts_data: {
+          domain: 'secretary.take_out#take',
+          item_no: 0
+        }
+      })
       this.editingTakeOut = false
     },
     async onTriggerEditingDelivery() {
@@ -460,6 +466,12 @@ export default {
         user_defined_ts: {
           domain: 'secretary.express#arrived',
           tts: this.deliveryRepleyModel
+        }
+      })
+      await this.putCustomSettings({
+        tts_data: {
+          domain: 'secretary.express#arrived',
+          item_no: 0
         }
       })
       this.editingDelivery = false

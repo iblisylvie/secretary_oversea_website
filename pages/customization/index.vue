@@ -34,13 +34,13 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, you've reached my
+          >Hi, you've reached
           {{ editingOpeningForFriends ? '' : openingForFriendsUserNick
           }}<b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsUserNick"
             class="underline-input"
-          />’s
+          />'s
           {{ editingOpeningForFriends ? '' : openingForFriendsAiNick }}
           <b-input
             v-show="editingOpeningForFriends"
@@ -56,7 +56,7 @@
             onClickVoice(
               textToSpeech({
                 speaker: ChoosedVoiceSpeaker,
-                text: `Hi, this is ${openingForFriendsUserNick}'s AI ${openingForFriendsAiNick}, what can I help you?`
+                text: `Hi, you've reached ${openingForFriendsUserNick}'s ${openingForFriendsAiNick}, This call will be recorded, please tell me the purpose of the call.`
               })
             )
           "
@@ -90,13 +90,13 @@
     <div class="voice-wrap opt">
       <div class="voice-box">
         <span
-          >Hi, you've reached my
+          >Hi, you've reached
           {{ editingOpeningForStrangers ? '' : openingForStrangersUserNick
           }}<b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersUserNick"
             class="underline-input"
-          />’s
+          />'s
           {{ editingOpeningForStrangers ? '' : openingForStrangersAiNick }}
           <b-input
             v-show="editingOpeningForStrangers"
@@ -111,7 +111,7 @@
             onClickVoice(
               textToSpeech({
                 speaker: ChoosedVoiceSpeaker,
-                text: `Hi, this is ${openingForStrangersUserNick}'s AI ${openingForStrangersAiNick}, what can I help you?`
+                text: `Hi, you've reached ${openingForStrangersUserNick}'s ${openingForStrangersAiNick}, This call will be recorded, please tell me the purpose of the call.`
               })
             )
           "

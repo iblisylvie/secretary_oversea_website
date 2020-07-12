@@ -457,7 +457,7 @@
         </p>
         <p class="all-set-sub-title">
           {{
-            'Please activate your HeyTico AI-assistant to start your service by clicking the button below. '
+            'Please activate your HeyTico AI-assistant to start your service by clicking the button below. You will receive an automated call from us, please DO NOT pick up so that it forwards to your HeyTico AI-assistant to activate. After you hang up, please wait for the page to refresh.'
           }}
         </p>
         <!-- <p class="all-set-tip">
@@ -488,9 +488,9 @@
         <p class="all-set-title">
           All Set!
         </p>
-        <p class="all-set-sub-title">
+        <!-- <p class="all-set-sub-title">
           You are ready to go!
-        </p>
+        </p> -->
         <p class="all-set-tip">
           You have successfully set up your number and it is now equipped with a
           personal AI-assistant, HeyTico.
@@ -645,7 +645,7 @@ export default {
       this.activateMePending = true
       const response = await this.$activateVerifyAxios({
         method: 'GET',
-        url: `/api/v1/verify/${this.phoneNumber}`
+        url: `/api/v1/verify/+1${this.phoneModel.replace(/\D/g, '')}`
       })
       this.activateMePending = false
       if (get(response, 'data.code') !== 200) {

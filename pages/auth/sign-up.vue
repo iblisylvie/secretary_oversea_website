@@ -81,7 +81,7 @@
       <b-button
         type="is-info"
         rounded
-        style="padding: 22px 35px; font-weight: bold"
+        style="padding: 12px 35px; font-weight: bold; height: auto"
         :loading="signingUp"
         @click.native="submit"
         >Sign Up</b-button

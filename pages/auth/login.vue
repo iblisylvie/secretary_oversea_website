@@ -36,7 +36,7 @@
       <b-button
         type="is-info"
         rounded
-        style="padding: 22px 35px; font-weight: bold"
+        style="padding: 12px 35px; font-weight: bold; height: auto"
         :loading="logging"
         @click.native="submit"
         >Login</b-button
@@ -176,6 +176,17 @@ export default {
               path: '/',
               maxAge: 60 * 60 * 1,
               sameSite: true
+            })
+            this.$axios({
+              method: 'POST',
+              url: '/overseas/login',
+              data: {
+                wwid: get(res, 'base_info.wwid', ''),
+                auth_type: 0,
+                auth_id: null,
+                email: this.email,
+                user_agent: get(window, 'navigator.userAgent', '')
+              }
             })
             this.$router.push({ path: '/call-history' })
           } else if (get(res, 'err_code') === 100) {

@@ -8,7 +8,7 @@
     ></template>
 
     <div v-for="typeVoice of voicesForOverseas" :key="typeVoice.type">
-      <div class="sub-heading">{{ typeVoice.newTag }}</div>
+      <!-- <div class="sub-heading">{{ typeVoice.newTag }}</div> -->
       <div class="voice-wrap">
         <div
           v-for="voice of typeVoice.data"
@@ -394,6 +394,7 @@ export default {
       )}&text=${encodeURIComponent(text)}`
     },
     async onChooseVoice(voice) {
+      this.onClickVoice(voice.voice_url)
       await this.putCustomSettings({
         speaker_data: {
           ...pick(voice, ['type', 'speaker']),
@@ -621,11 +622,11 @@ export default {
       & :last-child {
         margin-right: 0px;
       }
-      span {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-      }
+      // span {
+      //   display: flex;
+      //   align-items: center;
+      //   flex-wrap: wrap;
+      // }
       .voice {
         margin-left: 50px;
         display: flex;

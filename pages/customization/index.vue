@@ -18,7 +18,25 @@
         >
           <span>{{ voice.speaker_name }}</span>
           <div class="voice" @click.stop="onClickVoice(voice.voice_url)">
-            <svg-icon icon-class="speak-grey"></svg-icon>
+            <img
+              v-if="getVoiceState(voice.voice_url) === 'loading'"
+              class="state-gif"
+              src="~assets/images/loading.gif"
+              alt="loading"
+            />
+            <img
+              v-if="getVoiceState(voice.voice_url) === 'playing'"
+              class="state-gif"
+              src="~assets/images/playing.gif"
+              alt="playing"
+            />
+            <svg-icon
+              v-if="
+                ['loaded', 'unloaded'].includes(getVoiceState(voice.voice_url))
+              "
+              class-name="intial-state"
+              icon-class="speak-grey"
+            ></svg-icon>
           </div>
         </div>
       </div>
@@ -35,33 +53,59 @@
       <div class="voice-box">
         <span
           >Hi, you've reached
-          {{ editingOpeningForFriends ? '' : openingForFriendsUserNick
-          }}<b-input
+
+          {{ editingOpeningForFriends ? '(' : openingForFriendsUserNick }}
+          <input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsUserNick"
-            class="underline-input"
-          />'s
-          {{ editingOpeningForFriends ? '' : openingForFriendsAiNick }}
-          <b-input
+            class="auto-input"
+            type="text"
+            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+          />
+          {{ editingOpeningForFriends ? ')' : '' }}
+          <!-- <b-input
+            v-show="editingOpeningForFriends"
+            v-model="openingForFriendsUserNick"
+            class="auto-input"
+          /> -->
+          's
+          {{ editingOpeningForFriends ? '(' : openingForFriendsAiNick }}
+          <input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsAiNick"
-            class="underline-input"
+            class="auto-input"
+            type="text"
+            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
           />
-          This call will be recorded, please tell me the purpose of the call.
+          {{ editingOpeningForFriends ? ')' : '' }}
+          <!-- <b-input
+            v-show="editingOpeningForFriends"
+            v-model="openingForFriendsAiNick"
+            class="auto-input"
+          /> -->
+          . This call will be recorded, please tell me the purpose of the call.
         </span>
 
-        <div
-          class="voice"
-          @click="
-            onClickVoice(
-              textToSpeech({
-                speaker: ChoosedVoiceSpeaker,
-                text: `Hi, you've reached ${openingForFriendsUserNick}'s ${openingForFriendsAiNick}, This call will be recorded, please tell me the purpose of the call.`
-              })
-            )
-          "
-        >
-          <svg-icon icon-class="speak-grey"></svg-icon>
+        <div class="voice" @click="onClickVoice(openingForFriend)">
+          <img
+            v-if="getVoiceState(openingForFriend) === 'loading'"
+            class="state-gif"
+            src="~assets/images/loading.gif"
+            alt="loading"
+          />
+          <img
+            v-if="getVoiceState(openingForFriend) === 'playing'"
+            class="state-gif"
+            src="~assets/images/playing.gif"
+            alt="playing"
+          />
+          <svg-icon
+            v-if="
+              ['loaded', 'unloaded'].includes(getVoiceState(openingForFriend))
+            "
+            class-name="intial-state"
+            icon-class="speak-grey"
+          ></svg-icon>
         </div>
       </div>
       <div class="group">
@@ -91,32 +135,59 @@
       <div class="voice-box">
         <span
           >Hi, you've reached
-          {{ editingOpeningForStrangers ? '' : openingForStrangersUserNick
-          }}<b-input
+          {{ editingOpeningForStrangers ? '(' : openingForStrangersUserNick }}
+          <input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersUserNick"
-            class="underline-input"
-          />'s
-          {{ editingOpeningForStrangers ? '' : openingForStrangersAiNick }}
-          <b-input
+            class="auto-input"
+            type="text"
+            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+          />
+          {{ editingOpeningForStrangers ? ')' : '' }}
+          <!-- <b-input
+            v-show="editingOpeningForStrangers"
+            v-model="openingForStrangersUserNick"
+            class="auto-input"
+          /> -->
+          's
+          {{ editingOpeningForStrangers ? '(' : openingForStrangersAiNick }}
+          <input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersAiNick"
-            class="underline-input"
-          />. This call will be recorded, please tell me the purpose of the
-          call.
+            class="auto-input"
+            type="text"
+            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+          />
+          {{ editingOpeningForStrangers ? ')' : '' }}
+          <!-- <b-input
+            v-show="editingOpeningForStrangers"
+            v-model="openingForStrangersAiNick"
+            class="auto-input"
+          /> -->
+          . This call will be recorded, please tell me the purpose of the call.
         </span>
-        <div
-          class="voice"
-          @click.stop="
-            onClickVoice(
-              textToSpeech({
-                speaker: ChoosedVoiceSpeaker,
-                text: `Hi, you've reached ${openingForStrangersUserNick}'s ${openingForStrangersAiNick}, This call will be recorded, please tell me the purpose of the call.`
-              })
-            )
-          "
-        >
-          <svg-icon icon-class="speak-grey"></svg-icon>
+        <div class="voice" @click.stop="onClickVoice(openingForStrangers)">
+          <img
+            v-if="getVoiceState(openingForStrangers) === 'loading'"
+            class="state-gif"
+            src="~assets/images/loading.gif"
+            alt="loading"
+          />
+          <img
+            v-if="getVoiceState(openingForStrangers) === 'playing'"
+            class="state-gif"
+            src="~assets/images/playing.gif"
+            alt="playing"
+          />
+          <svg-icon
+            v-if="
+              ['loaded', 'unloaded'].includes(
+                getVoiceState(openingForStrangers)
+              )
+            "
+            class-name="intial-state"
+            icon-class="speak-grey"
+          ></svg-icon>
         </div>
       </div>
       <div class="group">
@@ -155,18 +226,24 @@
             class="underline-input"
             :style="{ width: '100%' }"
         /></span>
-        <div
-          class="voice"
-          @click="
-            onClickVoice(
-              textToSpeech({
-                speaker: ChoosedVoiceSpeaker,
-                text: takeOutReplyModel
-              })
-            )
-          "
-        >
-          <svg-icon icon-class="speak-grey"></svg-icon>
+        <div class="voice" @click="onClickVoice(takeoutReply)">
+          <img
+            v-if="getVoiceState(takeoutReply) === 'loading'"
+            class="state-gif"
+            src="~assets/images/loading.gif"
+            alt="loading"
+          />
+          <img
+            v-if="getVoiceState(takeoutReply) === 'playing'"
+            class="state-gif"
+            src="~assets/images/playing.gif"
+            alt="playing"
+          />
+          <svg-icon
+            v-if="['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))"
+            class-name="intial-state"
+            icon-class="speak-grey"
+          ></svg-icon>
         </div>
       </div>
       <div class="group">
@@ -198,18 +275,24 @@
             class="underline-input"
             :style="{ width: '100%' }"
         /></span>
-        <div
-          class="voice"
-          @click="
-            onClickVoice(
-              textToSpeech({
-                speaker: ChoosedVoiceSpeaker,
-                text: deliveryRepleyModel
-              })
-            )
-          "
-        >
-          <svg-icon icon-class="speak-grey"></svg-icon>
+        <div class="voice" @click="onClickVoice(deliveryReply)">
+          <img
+            v-if="getVoiceState(deliveryReply) === 'loading'"
+            class="state-gif"
+            src="~assets/images/loading.gif"
+            alt="loading"
+          />
+          <img
+            v-if="getVoiceState(deliveryReply) === 'playing'"
+            class="state-gif"
+            src="~assets/images/playing.gif"
+            alt="playing"
+          />
+          <svg-icon
+            v-if="['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))"
+            class-name="intial-state"
+            icon-class="speak-grey"
+          ></svg-icon>
         </div>
       </div>
       <div class="group">
@@ -331,6 +414,43 @@ export default {
       },
       set(val) {
         this.onRefuseAll(val)
+      }
+    },
+    openingForFriend() {
+      return this.textToSpeech({
+        speaker: this.ChoosedVoiceSpeaker,
+        text: `Hi, you've reached ${this.openingForFriendsUserNick}'s ${this.openingForFriendsAiNick}, This call will be recorded, please tell me the purpose of the call.`
+      })
+    },
+    openingForStrangers() {
+      return this.textToSpeech({
+        speaker: this.ChoosedVoiceSpeaker,
+        text: `Hi, you've reached ${this.openingForStrangersUserNick}'s ${this.openingForStrangersAiNick}, This call will be recorded, please tell me the purpose of the call.`
+      })
+    },
+    takeoutReply() {
+      return this.textToSpeech({
+        speaker: this.ChoosedVoiceSpeaker,
+        text: this.takeOutReplyModel
+      })
+    },
+    deliveryReply() {
+      return this.textToSpeech({
+        speaker: this.ChoosedVoiceSpeaker,
+        text: this.deliveryRepleyModel
+      })
+    },
+    getVoiceState() {
+      const map = this.mapVoiceUrlToHowler
+      return (voiceUrl) => {
+        const howler = get(map, [voiceUrl, 'howler'])
+        if (!howler) {
+          return 'unloaded'
+        }
+        if (howler.playing()) {
+          return 'playing'
+        }
+        return howler.state()
       }
     }
   },
@@ -630,10 +750,17 @@ export default {
       .voice {
         margin-left: 50px;
         display: flex;
-        padding: 14px;
+        padding: 10px;
         background: #ecf1f4;
         border-radius: 6px;
         font-size: 14px;
+        .intial-state {
+          font-size: 20px;
+        }
+        .state-gif {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
   }
@@ -685,6 +812,18 @@ export default {
       }
     }
   }
+  .auto-input {
+    min-width: 20px;
+    border: none;
+    text-align: center;
+    &:active {
+      border: none;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
   .underline-input {
     /deep/ input {
       border: none;

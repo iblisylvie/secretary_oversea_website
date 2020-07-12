@@ -117,7 +117,16 @@
         </div>
       </div>
       <div class="shape-1">
-        <img src="~assets/images/shape.png" alt="shape" />
+        <img
+          src="~assets/images/shape_normal.png"
+          alt="shape"
+          class="shape_normal"
+        />
+        <img
+          src="~assets/images/shape_large.png"
+          alt="shape"
+          class="shape_large"
+        />
       </div>
     </section>
 
@@ -324,6 +333,12 @@ p {
   }
 }
 
+@include fullhd {
+  .video-section {
+    margin-top: 5rem;
+  }
+}
+
 .product-section {
   .product-logo {
     width: 325px;
@@ -386,6 +401,25 @@ p {
   z-index: -2;
   top: -3rem;
   left: 0;
+  width: 100%;
+
+  img {
+    width: 100%;
+
+    @include fullhd {
+      &.shape_normal {
+        display: none;
+      }
+    }
+
+    &.shape_large {
+      display: none;
+
+      @include fullhd {
+        display: block;
+      }
+    }
+  }
 
   @media (max-width: 500px) {
     top: 0;

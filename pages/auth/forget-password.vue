@@ -4,6 +4,9 @@
     <div v-if="!nextStep">
       <div class="type">
         <h3>Find Your Password</h3>
+        <p>
+          Enter your email, and we’ll send you a code to reset your password.
+        </p>
       </div>
 
       <b-field>

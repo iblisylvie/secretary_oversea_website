@@ -67,11 +67,12 @@
 
     <div class="field checkbox">
       <b-checkbox v-model="agreeItem">
-        <span>
-          Agree with the
-          <a href="/privacy-policy" target="_blank">Privacy Policy</a>
-          and
-          <a href="/terms-of-services" target="_blank">Terms of Use</a>
+        <span class="agreement">
+          By signing up, you agree to the
+          <a href="/terms-of-services" target="_blank">Terms of Services</a> and
+          <a href="/privacy-policy" target="_blank">Privacy Policy</a>. You also
+          agree to receive product-related marketing emails from HeyTico, which
+          you can unsubscribe from at any time.
         </span>
       </b-checkbox>
     </div>
@@ -248,6 +249,11 @@ export default {
 <style lang="scss" scoped>
 .checkbox {
   margin-top: 1rem;
+  align-items: flex-start;
+
+  /deep/ .check {
+    margin-top: 4px;
+  }
 }
 
 /deep/ .field.is-grouped {
@@ -256,6 +262,12 @@ export default {
 
   .help.is-danger {
     display: none;
+  }
+}
+
+@include desktop {
+  .agreement {
+    font-size: 14px;
   }
 }
 

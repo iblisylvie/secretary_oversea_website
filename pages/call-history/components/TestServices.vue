@@ -382,7 +382,7 @@
         <p class="all-set-title">
           Activate Me
         </p>
-        <p class="all-set-sub-title">
+        <p class="all-set-tip">
           {{
             'Please activate your HeyTico AI-assistant to start your service by clicking the button below. You will receive an automated call from us, please DO NOT pick up so that it forwards to your HeyTico AI-assistant to activate. After you hang up, please wait for the page to refresh.'
           }}

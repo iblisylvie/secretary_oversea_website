@@ -50,64 +50,73 @@
       >
     </div>
     <div class="voice-wrap opt">
-      <div class="voice-box">
-        <span
-          >Hi, you've reached
-
-          {{ editingOpeningForFriends ? '(' : openingForFriendsUserNick }}
-          <input
-            v-show="editingOpeningForFriends"
-            v-model="openingForFriendsUserNick"
-            class="auto-input"
-            type="text"
-            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-          />
-          {{ editingOpeningForFriends ? ')' : '' }}
-          <!-- <b-input
+      <client-only>
+        <div class="voice-box">
+          <div>
+            <span>Hi, you've reached</span>
+            <span>{{
+              editingOpeningForFriends ? '(' : openingForFriendsUserNick
+            }}</span>
+            <input
+              v-show="editingOpeningForFriends"
+              v-model="openingForFriendsUserNick"
+              class="auto-input"
+              type="text"
+              onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+            />
+            <span>{{ editingOpeningForFriends ? ')' : '' }}</span>
+            <!-- <b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsUserNick"
             class="auto-input"
           /> -->
-          's
-          {{ editingOpeningForFriends ? '(' : openingForFriendsAiNick }}
-          <input
-            v-show="editingOpeningForFriends"
-            v-model="openingForFriendsAiNick"
-            class="auto-input"
-            type="text"
-            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-          />
-          {{ editingOpeningForFriends ? ')' : '' }}
-          <!-- <b-input
+            <span
+              >'s
+              {{
+                editingOpeningForFriends ? '(' : openingForFriendsAiNick
+              }}</span
+            >
+            <input
+              v-show="editingOpeningForFriends"
+              v-model="openingForFriendsAiNick"
+              class="auto-input"
+              type="text"
+              onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+            />
+            {{ editingOpeningForFriends ? ')' : '' }}
+            <!-- <b-input
             v-show="editingOpeningForFriends"
             v-model="openingForFriendsAiNick"
             class="auto-input"
           /> -->
-          . This call will be recorded, please tell me the purpose of the call.
-        </span>
-
-        <div class="voice" @click="onClickVoice(openingForFriend)">
-          <img
-            v-show="getVoiceState(openingForFriend) === 'loading'"
-            class="state-gif"
-            src="~assets/images/loading.gif"
-            alt="loading"
-          />
-          <img
-            v-show="getVoiceState(openingForFriend) === 'playing'"
-            class="state-gif"
-            src="~assets/images/playing.gif"
-            alt="playing"
-          />
-          <svg-icon
-            v-show="
-              ['loaded', 'unloaded'].includes(getVoiceState(openingForFriend))
-            "
-            class-name="intial-state"
-            icon-class="speak-grey"
-          ></svg-icon>
+            <span
+              >. This call will be recorded, please tell me the purpose of the
+              call.</span
+            >
+          </div>
+          <div class="voice" @click="onClickVoice(openingForFriend)">
+            <img
+              v-show="getVoiceState(openingForFriend) === 'loading'"
+              class="state-gif"
+              src="~assets/images/loading.gif"
+              alt="loading"
+            />
+            <img
+              v-show="getVoiceState(openingForFriend) === 'playing'"
+              class="state-gif"
+              src="~assets/images/playing.gif"
+              alt="playing"
+            />
+            <svg-icon
+              v-show="
+                ['loaded', 'unloaded'].includes(getVoiceState(openingForFriend))
+              "
+              class-name="intial-state"
+              icon-class="speak-grey"
+            ></svg-icon>
+          </div>
         </div>
-      </div>
+      </client-only>
       <div class="group">
         <button class="primary-opt" @click="onTriggerEditingOpeningForFriends">
           {{ editingOpeningForFriends ? 'Save' : 'Edit' }}
@@ -132,64 +141,69 @@
       Opening for Strangers
     </div>
     <div class="voice-wrap opt">
-      <div class="voice-box">
-        <span
-          >Hi, you've reached
-          {{ editingOpeningForStrangers ? '(' : openingForStrangersUserNick }}
-          <input
-            v-show="editingOpeningForStrangers"
-            v-model="openingForStrangersUserNick"
-            class="auto-input"
-            type="text"
-            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-          />
-          {{ editingOpeningForStrangers ? ')' : '' }}
-          <!-- <b-input
+      <client-only>
+        <div class="voice-box">
+          <div>
+            <span>Hi, you've reached</span>
+            {{ editingOpeningForStrangers ? '(' : openingForStrangersUserNick }}
+            <input
+              v-show="editingOpeningForStrangers"
+              v-model="openingForStrangersUserNick"
+              class="auto-input"
+              type="text"
+              onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+            />
+            {{ editingOpeningForStrangers ? ')' : '' }}
+            <!-- <b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersUserNick"
             class="auto-input"
           /> -->
-          's
-          {{ editingOpeningForStrangers ? '(' : openingForStrangersAiNick }}
-          <input
-            v-show="editingOpeningForStrangers"
-            v-model="openingForStrangersAiNick"
-            class="auto-input"
-            type="text"
-            onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-          />
-          {{ editingOpeningForStrangers ? ')' : '' }}
-          <!-- <b-input
+            's
+            {{ editingOpeningForStrangers ? '(' : openingForStrangersAiNick }}
+            <input
+              v-show="editingOpeningForStrangers"
+              v-model="openingForStrangersAiNick"
+              class="auto-input"
+              type="text"
+              onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+            />
+            {{ editingOpeningForStrangers ? ')' : '' }}
+            <!-- <b-input
             v-show="editingOpeningForStrangers"
             v-model="openingForStrangersAiNick"
             class="auto-input"
           /> -->
-          . This call will be recorded, please tell me the purpose of the call.
-        </span>
-        <div class="voice" @click.stop="onClickVoice(openingForStrangers)">
-          <img
-            v-show="getVoiceState(openingForStrangers) === 'loading'"
-            class="state-gif"
-            src="~assets/images/loading.gif"
-            alt="loading"
-          />
-          <img
-            v-show="getVoiceState(openingForStrangers) === 'playing'"
-            class="state-gif"
-            src="~assets/images/playing.gif"
-            alt="playing"
-          />
-          <svg-icon
-            v-show="
-              ['loaded', 'unloaded'].includes(
-                getVoiceState(openingForStrangers)
-              )
-            "
-            class-name="intial-state"
-            icon-class="speak-grey"
-          ></svg-icon>
+            <span
+              >. This call will be recorded, please tell me the purpose of the
+              call.d, please tell me the purpose of the call.</span
+            >
+          </div>
+          <div class="voice" @click.stop="onClickVoice(openingForStrangers)">
+            <img
+              v-show="getVoiceState(openingForStrangers) === 'loading'"
+              class="state-gif"
+              src="~assets/images/loading.gif"
+              alt="loading"
+            />
+            <img
+              v-show="getVoiceState(openingForStrangers) === 'playing'"
+              class="state-gif"
+              src="~assets/images/playing.gif"
+              alt="playing"
+            />
+            <svg-icon
+              v-show="
+                ['loaded', 'unloaded'].includes(
+                  getVoiceState(openingForStrangers)
+                )
+              "
+              class-name="intial-state"
+              icon-class="speak-grey"
+            ></svg-icon>
+          </div>
         </div>
-      </div>
+      </client-only>
       <div class="group">
         <button
           class="primary-opt"
@@ -217,37 +231,39 @@
     <h3 class="primary-heading">Set your replies</h3>
     <div class="sub-heading">TakeOut</div>
     <div class="voice-wrap opt">
-      <div class="voice-box">
-        <span :style="{ width: '100%' }"
-          >{{ editingTakeOut ? '' : takeOutReplyModel
-          }}<b-input
-            v-show="editingTakeOut"
-            v-model="takeOutReplyModel"
-            class="underline-input"
-            :style="{ width: '100%' }"
-        /></span>
-        <div class="voice" @click="onClickVoice(takeoutReply)">
-          <img
-            v-show="getVoiceState(takeoutReply) === 'loading'"
-            class="state-gif"
-            src="~assets/images/loading.gif"
-            alt="loading"
-          />
-          <img
-            v-show="getVoiceState(takeoutReply) === 'playing'"
-            class="state-gif"
-            src="~assets/images/playing.gif"
-            alt="playing"
-          />
-          <svg-icon
-            v-show="
-              ['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))
-            "
-            class-name="intial-state"
-            icon-class="speak-grey"
-          ></svg-icon>
+      <client-only>
+        <div class="voice-box">
+          <span :style="{ width: '100%' }"
+            >{{ editingTakeOut ? '' : takeOutReplyModel
+            }}<b-input
+              v-show="editingTakeOut"
+              v-model="takeOutReplyModel"
+              class="underline-input"
+              :style="{ width: '100%' }"
+          /></span>
+          <div class="voice" @click="onClickVoice(takeoutReply)">
+            <img
+              v-show="getVoiceState(takeoutReply) === 'loading'"
+              class="state-gif"
+              src="~assets/images/loading.gif"
+              alt="loading"
+            />
+            <img
+              v-show="getVoiceState(takeoutReply) === 'playing'"
+              class="state-gif"
+              src="~assets/images/playing.gif"
+              alt="playing"
+            />
+            <svg-icon
+              v-show="
+                ['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))
+              "
+              class-name="intial-state"
+              icon-class="speak-grey"
+            ></svg-icon>
+          </div>
         </div>
-      </div>
+      </client-only>
       <div class="group">
         <button class="primary-opt" @click="onTriggerEditingTakeOut">
           {{ editingTakeOut ? 'Save' : 'Edit' }}
@@ -268,37 +284,39 @@
     </div>
     <div class="sub-heading">Delivery</div>
     <div class="voice-wrap opt">
-      <div class="voice-box">
-        <span :style="{ width: '100%' }"
-          >{{ editingDelivery ? '' : deliveryRepleyModel
-          }}<b-input
-            v-show="editingDelivery"
-            v-model="deliveryRepleyModel"
-            class="underline-input"
-            :style="{ width: '100%' }"
-        /></span>
-        <div class="voice" @click="onClickVoice(deliveryReply)">
-          <img
-            v-show="getVoiceState(deliveryReply) === 'loading'"
-            class="state-gif"
-            src="~assets/images/loading.gif"
-            alt="loading"
-          />
-          <img
-            v-show="getVoiceState(deliveryReply) === 'playing'"
-            class="state-gif"
-            src="~assets/images/playing.gif"
-            alt="playing"
-          />
-          <svg-icon
-            v-show="
-              ['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))
-            "
-            class-name="intial-state"
-            icon-class="speak-grey"
-          ></svg-icon>
+      <client-only>
+        <div class="voice-box">
+          <span :style="{ width: '100%' }"
+            >{{ editingDelivery ? '' : deliveryRepleyModel
+            }}<b-input
+              v-show="editingDelivery"
+              v-model="deliveryRepleyModel"
+              class="underline-input"
+              :style="{ width: '100%' }"
+          /></span>
+          <div class="voice" @click="onClickVoice(deliveryReply)">
+            <img
+              v-show="getVoiceState(deliveryReply) === 'loading'"
+              class="state-gif"
+              src="~assets/images/loading.gif"
+              alt="loading"
+            />
+            <img
+              v-show="getVoiceState(deliveryReply) === 'playing'"
+              class="state-gif"
+              src="~assets/images/playing.gif"
+              alt="playing"
+            />
+            <svg-icon
+              v-show="
+                ['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))
+              "
+              class-name="intial-state"
+              icon-class="speak-grey"
+            ></svg-icon>
+          </div>
         </div>
-      </div>
+      </client-only>
       <div class="group">
         <button class="primary-opt" @click="onTriggerEditingDelivery">
           {{ editingDelivery ? 'Save' : 'Edit' }}

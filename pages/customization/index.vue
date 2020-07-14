@@ -19,19 +19,19 @@
           <span>{{ voice.speaker_name }}</span>
           <div class="voice" @click.stop="onClickVoice(voice.voice_url)">
             <img
-              v-if="getVoiceState(voice.voice_url) === 'loading'"
+              v-show="getVoiceState(voice.voice_url) === 'loading'"
               class="state-gif"
               src="~assets/images/loading.gif"
               alt="loading"
             />
             <img
-              v-if="getVoiceState(voice.voice_url) === 'playing'"
+              v-show="getVoiceState(voice.voice_url) === 'playing'"
               class="state-gif"
               src="~assets/images/playing.gif"
               alt="playing"
             />
             <svg-icon
-              v-if="
+              v-show="
                 ['loaded', 'unloaded'].includes(getVoiceState(voice.voice_url))
               "
               class-name="intial-state"
@@ -88,19 +88,19 @@
 
         <div class="voice" @click="onClickVoice(openingForFriend)">
           <img
-            v-if="getVoiceState(openingForFriend) === 'loading'"
+            v-show="getVoiceState(openingForFriend) === 'loading'"
             class="state-gif"
             src="~assets/images/loading.gif"
             alt="loading"
           />
           <img
-            v-if="getVoiceState(openingForFriend) === 'playing'"
+            v-show="getVoiceState(openingForFriend) === 'playing'"
             class="state-gif"
             src="~assets/images/playing.gif"
             alt="playing"
           />
           <svg-icon
-            v-if="
+            v-show="
               ['loaded', 'unloaded'].includes(getVoiceState(openingForFriend))
             "
             class-name="intial-state"
@@ -168,19 +168,19 @@
         </span>
         <div class="voice" @click.stop="onClickVoice(openingForStrangers)">
           <img
-            v-if="getVoiceState(openingForStrangers) === 'loading'"
+            v-show="getVoiceState(openingForStrangers) === 'loading'"
             class="state-gif"
             src="~assets/images/loading.gif"
             alt="loading"
           />
           <img
-            v-if="getVoiceState(openingForStrangers) === 'playing'"
+            v-show="getVoiceState(openingForStrangers) === 'playing'"
             class="state-gif"
             src="~assets/images/playing.gif"
             alt="playing"
           />
           <svg-icon
-            v-if="
+            v-show="
               ['loaded', 'unloaded'].includes(
                 getVoiceState(openingForStrangers)
               )
@@ -228,19 +228,19 @@
         /></span>
         <div class="voice" @click="onClickVoice(takeoutReply)">
           <img
-            v-if="getVoiceState(takeoutReply) === 'loading'"
+            v-show="getVoiceState(takeoutReply) === 'loading'"
             class="state-gif"
             src="~assets/images/loading.gif"
             alt="loading"
           />
           <img
-            v-if="getVoiceState(takeoutReply) === 'playing'"
+            v-show="getVoiceState(takeoutReply) === 'playing'"
             class="state-gif"
             src="~assets/images/playing.gif"
             alt="playing"
           />
           <svg-icon
-            v-if="['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))"
+            v-show="['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))"
             class-name="intial-state"
             icon-class="speak-grey"
           ></svg-icon>
@@ -277,19 +277,19 @@
         /></span>
         <div class="voice" @click="onClickVoice(deliveryReply)">
           <img
-            v-if="getVoiceState(deliveryReply) === 'loading'"
+            v-show="getVoiceState(deliveryReply) === 'loading'"
             class="state-gif"
             src="~assets/images/loading.gif"
             alt="loading"
           />
           <img
-            v-if="getVoiceState(deliveryReply) === 'playing'"
+            v-show="getVoiceState(deliveryReply) === 'playing'"
             class="state-gif"
             src="~assets/images/playing.gif"
             alt="playing"
           />
           <svg-icon
-            v-if="['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))"
+            v-show="['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))"
             class-name="intial-state"
             icon-class="speak-grey"
           ></svg-icon>

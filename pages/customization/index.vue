@@ -240,7 +240,9 @@
             alt="playing"
           />
           <svg-icon
-            v-show="['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))"
+            v-show="
+              ['loaded', 'unloaded'].includes(getVoiceState(takeoutReply))
+            "
             class-name="intial-state"
             icon-class="speak-grey"
           ></svg-icon>
@@ -289,7 +291,9 @@
             alt="playing"
           />
           <svg-icon
-            v-show="['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))"
+            v-show="
+              ['loaded', 'unloaded'].includes(getVoiceState(deliveryReply))
+            "
             class-name="intial-state"
             icon-class="speak-grey"
           ></svg-icon>

@@ -459,6 +459,10 @@ export default {
     }
   },
   created() {
+    // this.fetchSecretaryNicks()
+    // this.fetchOwnerNicks()
+  },
+  mounted() {
     ;(async () => {
       this.firstFetchingVoices = true
       await this.fetchVoices()
@@ -467,8 +471,6 @@ export default {
     this.fetchReplies()
     this.fetchRefusalReplies()
     this.fetchNickNames()
-    // this.fetchSecretaryNicks()
-    // this.fetchOwnerNicks()
   },
   beforeDestroy() {
     Object.keys(get(this, 'mapVoiceUrlToHowler', {})).forEach((other) => {

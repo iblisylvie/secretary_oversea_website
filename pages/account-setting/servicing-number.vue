@@ -107,8 +107,8 @@
         </p>
 
         <div class="bind-number-ISP-desc">
-          <!-- For iOS users  -->
-          <template v-if="activeISP === 'For iOS users'">
+          <!-- For iOS Users  -->
+          <template v-if="activeISP === 'For iOS Users'">
             <ul class="bind-number-ISP-desc-content">
               <li>
                 Go to Settings ⇒ Phone ⇒ Call Forwarding ⇒ Put in this number:
@@ -129,8 +129,8 @@
             </ul>
           </template>
 
-          <!-- For Android users  -->
-          <template v-if="activeISP === 'For Android users'">
+          <!-- For Android Users  -->
+          <template v-if="activeISP === 'For Android Users'">
             <ul class="bind-number-ISP-desc-content">
               <li>
                 Got to Phone ⇒ Call Forwarding ⇒ Put in this number:
@@ -548,9 +548,9 @@ export default {
       { title: 'Activate Me' },
       { title: 'All Set!' }
     ],
-    ISPs: ['For iOS users', 'For Android users'],
+    ISPs: ['For iOS Users', 'For Android Users'],
     activeStep: 0,
-    activeISP: 'For iOS users',
+    activeISP: 'For iOS Users',
     phoneModel: '',
     captchaModel: '',
     // activatePolling: false
@@ -680,7 +680,7 @@ export default {
       await this.$store.dispatch('relation/FETCH_RELATION')
       this.fetchingRelation = false
       if (get(this, '$store.state.relation.relation.activated')) {
-        this.activeStep++
+        this.activeStep = 3
       }
     }
   }

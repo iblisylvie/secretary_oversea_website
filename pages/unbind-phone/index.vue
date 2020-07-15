@@ -155,7 +155,7 @@ export default {
             reFetch: true
           })
         }
-        this.activeStep++
+        this.activeStep = 1
         return
       }
       this.$router.back()

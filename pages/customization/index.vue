@@ -229,7 +229,7 @@
 
     <hr class="seprate" />
     <h3 class="primary-heading">Set your replies</h3>
-    <div class="sub-heading">TakeOut</div>
+    <div class="sub-heading">Food Delivery</div>
     <div class="voice-wrap opt">
       <client-only>
         <div class="voice-box">
@@ -282,7 +282,7 @@
         </button>
       </div>
     </div>
-    <div class="sub-heading">Delivery</div>
+    <div class="sub-heading">Package Delivery</div>
     <div class="voice-wrap opt">
       <client-only>
         <div class="voice-box">
@@ -563,6 +563,7 @@ export default {
         }
       })
       this.editingOpeningForFriends = false
+      this.fetchNickNames()
     },
     async onTriggerEditingOpeningForStrangers() {
       if (!this.editingOpeningForStrangers) {
@@ -580,6 +581,7 @@ export default {
         }
       })
       this.editingOpeningForStrangers = false
+      this.fetchNickNames()
     },
     async onTriggerEditingTakeOut() {
       if (!this.editingTakeOut) {
@@ -600,6 +602,7 @@ export default {
         }
       })
       this.editingTakeOut = false
+      this.fetchReplies()
     },
     async onTriggerEditingDelivery() {
       if (!this.editingDelivery) {
@@ -620,6 +623,7 @@ export default {
         }
       })
       this.editingDelivery = false
+      this.fetchReplies()
     },
     async onRefuseAll(checked) {
       let refusalReplies = []

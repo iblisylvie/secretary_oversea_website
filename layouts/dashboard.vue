@@ -33,7 +33,18 @@
               :icon-class="menu.mapToAsideMenu.icon"
               class-name="figure"
             ></svg-icon>
-            <span>{{ menu.mapToAsideMenu.name }}</span>
+            <span class="text">{{ menu.mapToAsideMenu.name }}</span>
+            <span
+              v-if="menu.meta.beta"
+              :style="{
+                fontSize: '12px',
+                color: 'rgb(2, 174, 252)',
+                position: 'absolute',
+                right: '20px',
+                top: '4px'
+              }"
+              >beta</span
+            >
           </nuxt-link>
         </div>
       </div>
@@ -125,7 +136,8 @@ export default {
           path: '/customization',
           name: 'Customization',
           meta: {
-            title: 'Customization' // Document title
+            title: 'Customization', // Document title
+            beta: true
           },
           mapToAsideMenu: {
             order: 3,
@@ -259,6 +271,7 @@ export default {
     display: none;
   }
   .menu-item {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 16px 32px;
@@ -270,7 +283,7 @@ export default {
     &.active {
       border-radius: 8px;
       background: $aside-menu-active-background;
-      span {
+      span.text {
         @include gradient-text;
       }
     }

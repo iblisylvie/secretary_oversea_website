@@ -176,7 +176,7 @@
           /> -->
             <span
               >. This call will be recorded, please tell me the purpose of the
-              call.d, please tell me the purpose of the call.</span
+              call.</span
             >
           </div>
           <div class="voice" @click.stop="onClickVoice(openingForStrangers)">
@@ -447,7 +447,7 @@ export default {
     openingForStrangers() {
       return this.textToSpeech({
         speaker: this.ChoosedVoiceSpeaker,
-        text: `Hi, you've reached ${this.openingForStrangersUserNick}'s ${this.openingForStrangersAiNick}, This call will be recorded, please tell me the purpose of the call.`
+        text: `Hi, you've reached ${this.openingForStrangersUserNick}'s ${this.openingForStrangersAiNick}, This call will be recorded, please tell me the purpose of the call.   `
       })
     },
     takeoutReply() {
@@ -459,7 +459,7 @@ export default {
     deliveryReply() {
       return this.textToSpeech({
         speaker: this.ChoosedVoiceSpeaker,
-        text: this.deliveryRepleyModel
+        text: `${this.deliveryRepleyModel} `
       })
     },
     getVoiceState() {

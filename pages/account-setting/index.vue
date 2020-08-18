@@ -9,7 +9,7 @@
       </ul>
       <!-- <ul class="secondary">
         <li @click="$router.push({ path: '/feedback' })">Got Any Feedback?</li>
-      </ul> -->
+      </ul>-->
     </nav>
     <main class="panel">
       <!-- Account Settings  -->
@@ -45,17 +45,15 @@
               size="is-small"
               name="name"
               native-value="1"
+              >Male</b-radio
             >
-              Male
-            </b-radio>
             <b-radio
               v-model="genderModel"
               size="is-small"
               name="name"
               native-value="0"
+              >Female</b-radio
             >
-              Female
-            </b-radio>
           </div>
           <div>
             <button class="primary-opt" @click="onTriggerEditingGender">
@@ -75,7 +73,7 @@
           <p>{{ email || 'None' }}</p>
           <!-- <button class="opt">
             Edit
-          </button> -->
+          </button>-->
         </div>
         <div class="label">Email Preference</div>
         <div class="form">
@@ -83,9 +81,8 @@
             v-model="emailPreferenceModel"
             :disabled="true"
             type="is-info"
+            >Receive an email of call summary after each call</b-checkbox
           >
-            Receive an email of call summary after each call
-          </b-checkbox>
         </div>
         <div
           class="label"
@@ -102,13 +99,13 @@
           <b-checkbox :value="emailPreferenceModel" type="is-info">
             Receive cool updates and discount information from HeyTico
           </b-checkbox>
-        </div> -->
+        </div>-->
         <!-- <a
           href="https://passport.mobvoi.com/pages/user-edit?lang=en-us"
           target="_blank"
         >
           <t-button class="submit">Edit</t-button>
-        </a> -->
+        </a>-->
         <!-- <t-button disabled class="submit">Edit</t-button> -->
       </section>
       <hr class="seprate" />
@@ -149,12 +146,9 @@
               </p>
             </li>
           </ul>
-          <t-button
-            class="submit"
-            @click="$message.open('Feature coming soon')"
+          <t-button class="submit" @click="$message.open('Feature coming soon')"
+            >Upgrade</t-button
           >
-            Upgrade
-          </t-button>
         </template>
         <template v-if="isVip">
           <div class="form">
@@ -178,14 +172,13 @@
               class="unbind"
               :disabled="Boolean(number === phone && attachPhones.length)"
               @click="onUnbindPhone(number)"
+              >Unbind</t-button
             >
-              Unbind
-            </t-button>
           </p>
         </div>
         <!-- <div class="form" style="margin-top: 16px">
           <p>(907) 555-0101</p>
-        </div> -->
+        </div>-->
         <t-button
           class="submit"
           style="padding:6px 8px;"
@@ -200,12 +193,12 @@
           This account will no longer be available, and all its data will be
           deleted
         </p>
-        <t-button type="text" @click="leadToDeleteAccount">
-          DELETE ACCOUNT
-        </t-button>
+        <t-button type="text" @click="leadToDeleteAccount"
+          >DELETE ACCOUNT</t-button
+        >
         <!-- <button class="danger" @click="leadToDeleteAccount">
           DELETE ACCOUNT
-        </button> -->
+        </button>-->
       </section>
     </main>
   </section>
@@ -251,12 +244,18 @@ export default {
   },
   methods: {
     leadToDeleteAccount() {
-      const params = new URLSearchParams({
-        email: this.email,
-        token: this.token,
-        redirect: `${this.redirectDomain}/`
+      this.$buefy.dialog.confirm({
+        message:
+          'By clicking confirm, both your HeyTico account and Mobvoi account will be deleted.',
+        onConfirm: () => {
+          const params = new URLSearchParams({
+            email: this.email,
+            token: this.token,
+            redirect: `${this.redirectDomain}/`
+          })
+          window.location = `https://passport.mobvoi.com/pages/secretary-oversea/close-account?${params.toString()}`
+        }
       })
-      window.location = `https://passport.mobvoi.com/pages/secretary-oversea/close-account?${params.toString()}`
     },
     leadToBindNumber() {
       let route = '/account-setting/servicing-number'

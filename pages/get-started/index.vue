@@ -40,25 +40,32 @@
         </p>
         <div class="acc-setup-form-row">
           <span class="acc-setup-form-label">Phone Number</span>
-          <div class="acc-setup-form-group">
-            <div class="acc-setup-form-phone-wrap">
-              <b-input
-                v-model="phoneModel"
-                rounded
-                class="acc-setup-form-input phone"
-                placeholder="123-456-7890"
-                @input="onPhoneInput"
-              ></b-input>
-            </div>
+          <div
+            style="flex: 7; display: flex; flex-direction: column; align-items: flex-start"
+          >
+            <div class="acc-setup-form-group" style="width: 100%">
+              <div class="acc-setup-form-phone-wrap">
+                <b-input
+                  v-model="phoneModel"
+                  rounded
+                  class="acc-setup-form-input phone"
+                  placeholder="123-456-7890"
+                  @input="onPhoneInput"
+                ></b-input>
+              </div>
 
-            <t-button
-              type="secondary"
-              class="send-code"
-              :disabled="!sendCodeAvaliable"
-              @click="sendCode"
+              <t-button
+                type="secondary"
+                class="send-code"
+                :disabled="!sendCodeAvaliable"
+                @click="sendCode"
+              >
+                {{ sendCodeText }}
+              </t-button>
+            </div>
+            <span style="text-align: left;" class="send-code-tip"
+              >Please note, we currently only support US numbers.</span
             >
-              {{ sendCodeText }}
-            </t-button>
           </div>
         </div>
         <div class="acc-setup-form-row">
